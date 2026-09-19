@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 from aircraft     import Aircraft
 from ocean        import Ocean
 from ocean_real   import load_buoy_default, RealOcean
+from ocean_directional import DirectionalOcean, sea_eta_1d
 from env          import FlyingBoatEnv, EnvConfig
 from policy       import ActorCritic
 from vectorized   import VectorizedEnv
@@ -150,7 +151,8 @@ def train_vectorised(scenario: str = "takeoff",
 # ---------------------------------------------------------------------
 def sea_state_sweep(policy, scenario: str = "takeoff",
                     Hs_list=None, Tp_list=None, n_seeds: int = 3,
-                    n_envs: int = 16):
+                    n_envs: int = 16, directional: bool = False,
+                    theta_mean_deg: float = 0.0, spread_s: int = 10):
     """Map takeoff / landing success rate across sea states."""
     if Hs_list is None:
         Hs_list = [0.3, 0.5, 0.8, 1.0, 1.2, 1.5, 1.8, 2.2]
@@ -162,7 +164,9 @@ def sea_state_sweep(policy, scenario: str = "takeoff",
     print("Sea-state sweep:")
     for Hs in Hs_list:
         for Tp in Tp_list:
-            cfg = EnvConfig(scenario=scenario, max_steps=300, dt=0.05, Hs=Hs, Tp=Tp)
+            cfg = EnvConfig(scenario=scenario, max_steps=300, dt=0.05,
+                            Hs=Hs, Tp=Tp, directional=directional,
+                            theta_mean_deg=theta_mean_deg, spread_s=spread_s)
             rewards, successes = [], []
             for start in range(0, n_seeds, n_envs):
                 venv = VectorizedEnv(min(n_envs, n_seeds - start), cfg,
@@ -235,12 +239,16 @@ def plot_history(history: dict, tag: str):
 # ---------------------------------------------------------------------
 def mavlink_sea_sweep(policy, scenario: str = "takeoff",
                       Hs_list=None, Tp_list=None, n_seeds: int = 3,
-                      duration: float = 15.0):
+                      duration: float = 15.0, directional: bool = False,
+                      theta_mean_deg: float = 0.0, spread_s: int = 10):
     """Sweep using MAVLink + damage model for realistic envelope."""
     if Hs_list is None:
         Hs_list = [0.3, 0.5, 0.8, 1.0, 1.3, 1.6, 2.0]
     if Tp_list is None:
         Tp_list = [4.0, 6.0, 8.0]
+    if (n_seeds <= 0 or not np.isfinite(theta_mean_deg)
+            or not isinstance(spread_s, (int, np.integer)) or spread_s < 1):
+        raise ValueError("invalid sweep configuration")
     results = {}
     print("\nMAVLink + damage-model sea-state sweep:")
     n = int(duration / 0.05)
@@ -248,7 +256,12 @@ def mavlink_sea_sweep(policy, scenario: str = "takeoff",
         for Tp in Tp_list:
             succs = []
             for sd in range(n_seeds):
-                sea = Ocean(Hs=Hs, Tp=Tp, seed=sd)
+                if directional:
+                    sea = DirectionalOcean(Hs=Hs, Tp=Tp,
+                                           theta_mean=math.radians(theta_mean_deg),
+                                           s=spread_s, seed=sd)
+                else:
+                    sea = Ocean(Hs=Hs, Tp=Tp, seed=sd)
                 ac = Aircraft()
                 veh = FlyingBoatVehicle(ac, sea)
                 veh.reset()
@@ -278,7 +291,7 @@ def mavlink_sea_sweep(policy, scenario: str = "takeoff",
                     veh.step(action=action)
                     if veh.damage.failed:
                         break
-                    eta = float(sea.eta(np.array([veh.x]), veh.t)[0])
+                    eta = float(sea_eta_1d(sea, np.array([veh.x]), veh.t)[0])
                     if scenario == "takeoff":
                         success = veh.z >= 8.0 and veh.Vx >= 8.5
                         if success:

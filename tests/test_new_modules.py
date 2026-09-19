@@ -144,6 +144,37 @@ class NewModulesTests(unittest.TestCase):
                 self.assertAlmostEqual(e["action_pitch_deg"],
                                        _math.degrees(EnvConfig().pitch_lo))
 
+    def test_directional_sweeps_run(self):
+        import numpy as np
+        from policy import ActorCritic
+        import accelerate
+        pol = ActorCritic(8, 2, np.array([0., -1.]),
+                          np.array([1., 1.]), hidden=4, seed=0)
+        res = accelerate.sea_state_sweep(
+            pol, scenario="takeoff", Hs_list=[0.3], Tp_list=[4.0],
+            n_seeds=1, n_envs=1, directional=True,
+            theta_mean_deg=35.0, spread_s=8)
+        self.assertIn((0.3, 4.0), res)
+        rew, succ = res[(0.3, 4.0)]
+        self.assertTrue(math.isfinite(rew))
+        self.assertTrue(0.0 <= succ <= 1.0)
+        res_m = accelerate.mavlink_sea_sweep(
+            pol, scenario="takeoff", Hs_list=[0.3], Tp_list=[4.0],
+            n_seeds=1, duration=2.0, directional=True,
+            theta_mean_deg=35.0, spread_s=8)
+        self.assertIn((0.3, 4.0), res_m)
+
+    def test_directional_sweep_rejects_bad_spread(self):
+        import numpy as np
+        from policy import ActorCritic
+        import accelerate
+        pol = ActorCritic(8, 2, np.array([0., -1.]),
+                          np.array([1., 1.]), hidden=4, seed=0)
+        with self.assertRaises(ValueError):
+            accelerate.mavlink_sea_sweep(
+                pol, Hs_list=[0.3], Tp_list=[4.0], n_seeds=1,
+                duration=1.0, directional=True, spread_s=0)
+
     def test_vehicle_accepts_directional_sea(self):
         import numpy as np
         from aircraft import Aircraft

@@ -143,8 +143,10 @@ python3 validate.py    # 物理サニティチェック
 `python3 -m unittest discover -s tests -v` で回帰テストのみ実行できます。
 
 `EnvConfig(Hs=..., Tp=...)` で学習環境の海況を指定できます。
+`directional=True`（＋`theta_mean_deg`、`spread_s`）で方向分散付き2D海面の縦断面を使います。
 `sea_state_sweep(..., n_seeds=..., n_envs=...)` は各海況で `n_seeds` 回の試行を行い、
 `n_envs` は一度に処理する環境数です。ベクトル環境は逐次実行であり、並列プロセスではありません。
+`sea_state_sweep` と `mavlink_sea_sweep` は同じ `directional` 引数を受け付けます。
 MAVLink風評価の `step(action=...)` は、そのステップにRL行動を直接適用します。
 
 ## ローカルOllama / phi3.5パイロット
