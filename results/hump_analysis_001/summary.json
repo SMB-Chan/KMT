@@ -1,0 +1,22 @@
+{
+  "study": "scripted-takeoff hump stagnation diagnosis + landing retrain triage",
+  "takeoff_setpoint_fix": "two-stage (trim+full below V_rotate=7, climb law above); +15deg saturation removed",
+  "force_balance_Hs1.5_seed42": {
+    "delivered_thrust_N": 444,
+    "static_thrust_N": 549,
+    "weight_N": 785,
+    "N_water_N": "630-745",
+    "plateau_Vx": 2.6
+  },
+  "finding_takeoff": "damage-free env path lifts off (t=10.35s) with same commands; vehicle path stuck by spray thrust loss (~20%). Physics stands; design envelope is hump-limited at T/W=0.70.",
+  "retrain": {
+    "takeoff_policy.npz": "retrained post-fix, sweep 100% @Hs1.5/Tp6",
+    "landing_policy.npz": "retrained post-fix but 0% (old CL-unlimited model also 0% in current env)"
+  },
+  "finding_landing": "env landing unlearnable as configured: -3deg floor descends too flat (8.2m left at 20s), touchdown bonus +-30 drowns in ~-1300 background, scripted -5deg unreachable in env envelope. Needs reward/envelope redesign, not more episodes (200ep@800steps still 0%).",
+  "hil_fix": "HIL_STATE now reports finite-difference ax/az (zacc specific-force, -9.81 at rest); pitchspeed fixed from Vz (m/s) to 0.0",
+  "deferred": [
+    "multi-point touchdown detection (design)",
+    "RL substepping for impact dt (design)"
+  ]
+}

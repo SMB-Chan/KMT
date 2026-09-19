@@ -82,10 +82,12 @@ class LowLevelController:
     controller cascade.  For the simplified flying-boat dynamics we
     only need a 1-D vertical + 1-D forward controller:
 
-        Takeoff controller:
-            e_alt = target_alt - z ;  desired_climb_rate = Kp*e_alt + Kd*Vz
-            target_pitch = clamp(desired_climb_rate / Vx + pitch_trim)
-            target_throttle = throttle_hover + Kp_e*e_alt
+        Takeoff controller (two stages):
+            Vx < V_rotate : pitch_trim at full throttle (accelerate on step)
+            Vx >= V_rotate: e_alt = target_alt - z ;
+                desired_climb_rate = Kp*e_alt + Kd*Vz
+                target_pitch = clamp(desired_climb_rate / Vx + pitch_trim)
+                target_throttle = throttle_hover + Kp_e*e_alt
 
         Landing controller:
             glide_slope_rad drives descent; as the aircraft nears the
@@ -109,8 +111,16 @@ class LowLevelController:
         self.throttle_min = throttle_min
         self.throttle_max = throttle_max
 
-    def takeoff_setpoint(self, state, target_alt: float, target_speed: float):
+    def takeoff_setpoint(self, state, target_alt: float, target_speed: float,
+                           V_rotate: float = 7.0):
         z, Vx, Vz = state["z"], state["Vx"], state["Vz"]
+        # Stage 1: accelerate on the step at trim pitch and full throttle.
+        # The climb law below saturates to +15 deg at low speed, whose drag
+        # a T/W=0.70 boat cannot overcome (hump stagnation).
+        if Vx < V_rotate:
+            return (float(np.clip(self.pitch_trim, self.pitch_lo, self.pitch_hi)),
+                    self.throttle_max)
+        # Stage 2: rotate and climb.
         e_alt = target_alt - z
         # Cap desired climb rate
         climb_rate = np.clip(self.Kp_alt * e_alt - self.Kd_alt * Vz,
@@ -381,11 +391,12 @@ class FlyingBoatVehicle:
 
         # 3) Emit telemetry
         self._emit_telemetry(eta, T_i, L_i, D_i, wf.N,
-                             T_factor, extra_mass)
+                             T_factor, extra_mass, a_x, a_z)
 
     # ----- telemetry -----
     def _emit_telemetry(self, eta, T, L, D, N_water,
-                        T_factor=1.0, extra_mass=0.0):
+                        T_factor=1.0, extra_mass=0.0,
+                        a_x=0.0, a_z=0.0):
         # Snapshot state at the moment of telemetry emission.
         snap = dict(x=self.x, z=self.z, Vx=self.Vx, Vz=self.Vz,
                     alpha=self.alpha, throttle=self.throttle,
@@ -403,18 +414,19 @@ class FlyingBoatVehicle:
         alt_mm = int(self.z * 1000.0)
         vx = self.Vx
         vz = self.Vz
-        # HIL_STATE
+        # HIL_STATE (longitudinal-only model: no roll/yaw dynamics;
+        # zacc is specific-force style, -9.81 at rest like before)
         hil = MAVLinkMessage(
             self.MSG_HIL_STATE, "HIL_STATE",
             dict(timestamp_us=int(self.t * 1e6),
                  roll=0.0, pitch=self.alpha, yaw=0.0,
-                 rollspeed=0.0, pitchspeed=vz,
+                 rollspeed=0.0, pitchspeed=0.0,
                  yawspeed=0.0,
                  lat=int(lat * 1e7), lon=int(lon * 1e7),
                  alt=alt_mm, vx=vx, vy=0.0, vz=vz,
                  ind_airspeed=vx,
                  true_airspeed=vx,
-                 xacc=0.0, yacc=0.0, zacc=-9.81))
+                 xacc=a_x, yacc=0.0, zacc=a_z - 9.81))
         # GLOBAL_POSITION_INT
         gpi = MAVLinkMessage(
             self.MSG_GLOBAL_POSITION_INT, "GLOBAL_POSITION_INT",

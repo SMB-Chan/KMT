@@ -120,6 +120,32 @@ class RegressionTests(unittest.TestCase):
         self.assertEqual(v.read_telemetry()[2]['T'], 0)
         with self.assertRaises(RuntimeError): v.arm()
 
+    def test_takeoff_setpoint_is_two_stage(self):
+        from mavlink_if import LowLevelController
+        ctl = LowLevelController()
+        pitch, thr = ctl.takeoff_setpoint({"z": 0.3, "Vx": 2.0, "Vz": 0.0},
+                                          10.0, 13.0)
+        self.assertAlmostEqual(pitch, math.radians(4.0))
+        self.assertEqual(thr, 1.0)
+        pitch2, _ = ctl.takeoff_setpoint({"z": 0.3, "Vx": 10.0, "Vz": 0.0},
+                                         10.0, 13.0)
+        self.assertGreater(pitch2, math.radians(4.0))
+        self.assertLessEqual(pitch2, math.radians(15.0))
+
+    def test_hil_state_reports_accelerations(self):
+        v = FlyingBoatVehicle(Aircraft(), Ocean(Hs=0))
+        v.arm()
+        v.send_command(MAV_CMD_NAV_TAKEOFF)
+        v.step()
+        hil, _, _ = v.read_telemetry()
+        # Accelerating forward on step: positive longitudinal accel
+        self.assertGreater(hil.fields["xacc"], 0.0)
+        self.assertEqual(hil.fields["yacc"], 0.0)
+        # Rest vertical accel: specific-force style ~ -9.81
+        self.assertAlmostEqual(hil.fields["zacc"], -9.81, delta=2.0)
+        # No rotational dynamics: angular rates are zero, not velocity
+        self.assertEqual(hil.fields["pitchspeed"], 0.0)
+
     def test_direct_action_and_servo_are_consumed(self):
         v = FlyingBoatVehicle(Aircraft(), Ocean(Hs=0))
         v.arm(); v.send_command(MAV_CMD_NAV_TAKEOFF)
