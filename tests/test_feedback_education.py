@@ -2,7 +2,7 @@ import copy
 import unittest
 from unittest.mock import Mock
 from educate import curriculum
-from feedback_education import experiment, candidates, choose
+from feedback_education import experiment, candidates, choose, parse_args
 from ollama_pilot import Control, OllamaPilot, PilotError
 
 
@@ -20,6 +20,12 @@ class FeedbackTests(unittest.TestCase):
         self.assertIn(0,[r['candidate_id'] for r in offered])
         self.assertEqual(offered[0]['score'],max(r['score'] for r in results))
         self.assertEqual(results[0]['control'],record['control'])
+
+    def test_model_selection(self):
+        args=parse_args([])
+        self.assertEqual(args.model,'phi3.5:latest')
+        args=parse_args(['--model','llama3.2:3b'])
+        self.assertEqual(args.model,'llama3.2:3b')
 
     def test_teacher_choice_is_checked(self):
         pilot=OllamaPilot(); record=next(curriculum())

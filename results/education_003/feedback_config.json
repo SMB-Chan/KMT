@@ -1,0 +1,29 @@
+{
+  "model": {
+    "name": "llama3.2:3b",
+    "model": "llama3.2:3b",
+    "modified_at": "2026-09-20T03:53:05.61869546+09:00",
+    "size": 2019393189,
+    "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "llama",
+      "families": [
+        "llama"
+      ],
+      "parameter_size": "3.2B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 131072,
+      "embedding_length": 3072
+    },
+    "capabilities": [
+      "completion",
+      "tools"
+    ]
+  },
+  "prompt": "You are a teacher for a simulated flying boat.\nChoose exactly one candidate_id from the supplied simulator experiments.\nHigher score is better for the stated mission. Failure is unacceptable when a\nnon-failed alternative exists. Use the measured outcomes to revise the previous\ncontrol; do not repeat a default action when the experiments show it is worse.\nReturn only JSON {\"candidate_id\": integer}. The learner will imitate your choice.\nThese are short-horizon model predictions, not evidence of real flight safety.",
+  "source": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/education_001/teacher.jsonl",
+  "source_sha256": "e44bf371d92634b29416ebb1fabf827dc2a2b02ea66663594bc23caa486d5f8b",
+  "horizon_s": 2
+}

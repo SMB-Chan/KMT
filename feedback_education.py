@@ -126,13 +126,20 @@ def collect(out, source, pilot):
     return dest
 
 
-def main():
+def parse_args(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source',type=Path,default=Path('results/education_001/teacher.jsonl'))
     p.add_argument('--output',type=Path,default=Path('results/education_002'))
-    args=p.parse_args()
+    p.add_argument('--model',default='phi3.5:latest')
+    p.add_argument('--host',default='http://127.0.0.1:11434')
+    p.add_argument('--timeout',type=float,default=60.0)
+    return p.parse_args(argv)
+
+
+def main(argv=None):
+    args=parse_args(argv)
     if (args.output/'student.npz').exists(): raise ValueError('completed cycle exists')
-    teacher=collect(args.output,args.source,OllamaPilot())
+    teacher=collect(args.output,args.source,OllamaPilot(args.model,args.host,args.timeout))
     # New test seeds; first cycle test seeds are no longer unseen.
     report=train_evaluate(args.output,teacher,previous_path='results/education_001/student.npz',test_seeds=(201,202))
     rows=[json.loads(l) for l in teacher.read_text().splitlines()]

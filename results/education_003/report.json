@@ -1,0 +1,1136 @@
+{
+  "train_samples": 24,
+  "validation_samples": 8,
+  "selected": {
+    "seed": 2,
+    "epochs": 4000,
+    "train_mse": 0.028352103316516514,
+    "validation_mse": 0.04869287582555083
+  },
+  "learning": [
+    {
+      "seed": 0,
+      "epochs": 200,
+      "train_mse": 0.07912633072028316,
+      "validation_mse": 0.1306654601329464
+    },
+    {
+      "seed": 0,
+      "epochs": 400,
+      "train_mse": 0.06903834067941898,
+      "validation_mse": 0.11701558956039786
+    },
+    {
+      "seed": 0,
+      "epochs": 600,
+      "train_mse": 0.06230718594301241,
+      "validation_mse": 0.10538920130629591
+    },
+    {
+      "seed": 0,
+      "epochs": 800,
+      "train_mse": 0.056498675509519404,
+      "validation_mse": 0.09574356960565761
+    },
+    {
+      "seed": 0,
+      "epochs": 1000,
+      "train_mse": 0.05094584398258636,
+      "validation_mse": 0.08683430190137498
+    },
+    {
+      "seed": 0,
+      "epochs": 1200,
+      "train_mse": 0.04617435902262649,
+      "validation_mse": 0.07828021038118466
+    },
+    {
+      "seed": 0,
+      "epochs": 1400,
+      "train_mse": 0.04227357985257325,
+      "validation_mse": 0.07124279484364458
+    },
+    {
+      "seed": 0,
+      "epochs": 1600,
+      "train_mse": 0.03901042993545819,
+      "validation_mse": 0.06638132971332728
+    },
+    {
+      "seed": 0,
+      "epochs": 1800,
+      "train_mse": 0.036281467816088195,
+      "validation_mse": 0.06340550558466189
+    },
+    {
+      "seed": 0,
+      "epochs": 2000,
+      "train_mse": 0.03441528916282951,
+      "validation_mse": 0.061534703265605284
+    },
+    {
+      "seed": 0,
+      "epochs": 2200,
+      "train_mse": 0.033172678111888336,
+      "validation_mse": 0.05974817298464923
+    },
+    {
+      "seed": 0,
+      "epochs": 2400,
+      "train_mse": 0.032155689192315436,
+      "validation_mse": 0.058351752672094366
+    },
+    {
+      "seed": 0,
+      "epochs": 2600,
+      "train_mse": 0.031212418171458412,
+      "validation_mse": 0.05720518488804086
+    },
+    {
+      "seed": 0,
+      "epochs": 2800,
+      "train_mse": 0.03042655948967839,
+      "validation_mse": 0.05647845902269926
+    },
+    {
+      "seed": 0,
+      "epochs": 3000,
+      "train_mse": 0.029688577637904796,
+      "validation_mse": 0.05570489885616424
+    },
+    {
+      "seed": 0,
+      "epochs": 3200,
+      "train_mse": 0.029021910231877352,
+      "validation_mse": 0.05503520846755778
+    },
+    {
+      "seed": 0,
+      "epochs": 3400,
+      "train_mse": 0.028409584696227886,
+      "validation_mse": 0.05414584482414794
+    },
+    {
+      "seed": 0,
+      "epochs": 3600,
+      "train_mse": 0.02780574215065329,
+      "validation_mse": 0.05321288887814764
+    },
+    {
+      "seed": 0,
+      "epochs": 3800,
+      "train_mse": 0.027205610733142576,
+      "validation_mse": 0.05230865182591769
+    },
+    {
+      "seed": 0,
+      "epochs": 4000,
+      "train_mse": 0.026597711300009836,
+      "validation_mse": 0.05149036594519542
+    },
+    {
+      "seed": 1,
+      "epochs": 200,
+      "train_mse": 0.07271249725983735,
+      "validation_mse": 0.12242360523749167
+    },
+    {
+      "seed": 1,
+      "epochs": 400,
+      "train_mse": 0.06402031416726428,
+      "validation_mse": 0.1121889560257045
+    },
+    {
+      "seed": 1,
+      "epochs": 600,
+      "train_mse": 0.058694617108715395,
+      "validation_mse": 0.1030109916644141
+    },
+    {
+      "seed": 1,
+      "epochs": 800,
+      "train_mse": 0.05370672068684105,
+      "validation_mse": 0.09419247705156787
+    },
+    {
+      "seed": 1,
+      "epochs": 1000,
+      "train_mse": 0.049262739536708934,
+      "validation_mse": 0.08654016201444059
+    },
+    {
+      "seed": 1,
+      "epochs": 1200,
+      "train_mse": 0.04520648125111392,
+      "validation_mse": 0.07959912515491421
+    },
+    {
+      "seed": 1,
+      "epochs": 1400,
+      "train_mse": 0.04176767744237788,
+      "validation_mse": 0.07452532443404279
+    },
+    {
+      "seed": 1,
+      "epochs": 1600,
+      "train_mse": 0.039105577721159725,
+      "validation_mse": 0.07081936399328635
+    },
+    {
+      "seed": 1,
+      "epochs": 1800,
+      "train_mse": 0.03711159580828236,
+      "validation_mse": 0.06767409329192985
+    },
+    {
+      "seed": 1,
+      "epochs": 2000,
+      "train_mse": 0.03563918113004994,
+      "validation_mse": 0.06532050916973853
+    },
+    {
+      "seed": 1,
+      "epochs": 2200,
+      "train_mse": 0.034536213156359366,
+      "validation_mse": 0.06344519145520477
+    },
+    {
+      "seed": 1,
+      "epochs": 2400,
+      "train_mse": 0.03367315693101652,
+      "validation_mse": 0.0619261977533187
+    },
+    {
+      "seed": 1,
+      "epochs": 2600,
+      "train_mse": 0.032619660167565574,
+      "validation_mse": 0.05987073957062473
+    },
+    {
+      "seed": 1,
+      "epochs": 2800,
+      "train_mse": 0.03179255911378694,
+      "validation_mse": 0.05976139733611567
+    },
+    {
+      "seed": 1,
+      "epochs": 3000,
+      "train_mse": 0.03123175259671292,
+      "validation_mse": 0.05878693716614845
+    },
+    {
+      "seed": 1,
+      "epochs": 3200,
+      "train_mse": 0.030702668780181217,
+      "validation_mse": 0.058086997248820584
+    },
+    {
+      "seed": 1,
+      "epochs": 3400,
+      "train_mse": 0.0301956770869114,
+      "validation_mse": 0.057343012835492035
+    },
+    {
+      "seed": 1,
+      "epochs": 3600,
+      "train_mse": 0.029704435183530848,
+      "validation_mse": 0.056654561348722154
+    },
+    {
+      "seed": 1,
+      "epochs": 3800,
+      "train_mse": 0.029215629728265677,
+      "validation_mse": 0.05590848848225713
+    },
+    {
+      "seed": 1,
+      "epochs": 4000,
+      "train_mse": 0.028751223759376516,
+      "validation_mse": 0.055231788174657064
+    },
+    {
+      "seed": 2,
+      "epochs": 200,
+      "train_mse": 0.07070543247781608,
+      "validation_mse": 0.12303443731577447
+    },
+    {
+      "seed": 2,
+      "epochs": 400,
+      "train_mse": 0.06122020776040385,
+      "validation_mse": 0.10890504958701508
+    },
+    {
+      "seed": 2,
+      "epochs": 600,
+      "train_mse": 0.0543620595086288,
+      "validation_mse": 0.09771529925767881
+    },
+    {
+      "seed": 2,
+      "epochs": 800,
+      "train_mse": 0.048328668662093656,
+      "validation_mse": 0.08728518183115319
+    },
+    {
+      "seed": 2,
+      "epochs": 1000,
+      "train_mse": 0.043540618825040546,
+      "validation_mse": 0.07856672435398246
+    },
+    {
+      "seed": 2,
+      "epochs": 1200,
+      "train_mse": 0.03996162990942339,
+      "validation_mse": 0.07155672122391418
+    },
+    {
+      "seed": 2,
+      "epochs": 1400,
+      "train_mse": 0.03744954236542949,
+      "validation_mse": 0.06644196520961466
+    },
+    {
+      "seed": 2,
+      "epochs": 1600,
+      "train_mse": 0.035575930706604565,
+      "validation_mse": 0.06313981519024571
+    },
+    {
+      "seed": 2,
+      "epochs": 1800,
+      "train_mse": 0.0342784510850735,
+      "validation_mse": 0.06086493477478319
+    },
+    {
+      "seed": 2,
+      "epochs": 2000,
+      "train_mse": 0.033424592182059,
+      "validation_mse": 0.05910656351592999
+    },
+    {
+      "seed": 2,
+      "epochs": 2200,
+      "train_mse": 0.03275154953877701,
+      "validation_mse": 0.05770929714796881
+    },
+    {
+      "seed": 2,
+      "epochs": 2400,
+      "train_mse": 0.03214855674261955,
+      "validation_mse": 0.05643519385405336
+    },
+    {
+      "seed": 2,
+      "epochs": 2600,
+      "train_mse": 0.03161376830663145,
+      "validation_mse": 0.055284654207583724
+    },
+    {
+      "seed": 2,
+      "epochs": 2800,
+      "train_mse": 0.031057914258354025,
+      "validation_mse": 0.053947801359855066
+    },
+    {
+      "seed": 2,
+      "epochs": 3000,
+      "train_mse": 0.03056560404623343,
+      "validation_mse": 0.05308311680459201
+    },
+    {
+      "seed": 2,
+      "epochs": 3200,
+      "train_mse": 0.030113788686014904,
+      "validation_mse": 0.05220935323269911
+    },
+    {
+      "seed": 2,
+      "epochs": 3400,
+      "train_mse": 0.029597631972639912,
+      "validation_mse": 0.05103168719149088
+    },
+    {
+      "seed": 2,
+      "epochs": 3600,
+      "train_mse": 0.02917823347273087,
+      "validation_mse": 0.05045032271571157
+    },
+    {
+      "seed": 2,
+      "epochs": 3800,
+      "train_mse": 0.028770593304381493,
+      "validation_mse": 0.04961898255313321
+    },
+    {
+      "seed": 2,
+      "epochs": 4000,
+      "train_mse": 0.028352103316516514,
+      "validation_mse": 0.04869287582555083
+    }
+  ],
+  "sources": [
+    {
+      "path": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/education_003/train.jsonl",
+      "sha256": "f74cbcee16136f9c29d74c494627ab4544bc32bc0d7299db2a67c828114a88f3",
+      "accepted": 24
+    }
+  ],
+  "previous_checkpoint": "results/education_001/student.npz",
+  "test_seeds": [
+    201,
+    202
+  ],
+  "teacher_sha256": "d539942de01a379dd6fb2e138cbc149dbab6108979ce6c7c2c0b8a4c589a7e3b",
+  "evaluation": {
+    "previous_student": {
+      "runs": [
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 20.10000000000015,
+          "peak_load_weights": 1.0000000000000002,
+          "final": {
+            "t": 20.10000000000015,
+            "x_m": 50.97743561731961,
+            "altitude_m": 0.24770712560722077,
+            "forward_speed_m_s": 2.2517701535354946,
+            "vertical_speed_m_s": -0.004556251118261758,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.052292874392779215,
+            "water_mass_kg": 0.5012390801528822,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 20.10000000000015,
+          "peak_load_weights": 1.0000000000000002,
+          "final": {
+            "t": 20.10000000000015,
+            "x_m": 50.97743561731961,
+            "altitude_m": 0.24770712560722077,
+            "forward_speed_m_s": 2.2517701535354946,
+            "vertical_speed_m_s": -0.004556251118261758,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.052292874392779215,
+            "water_mass_kg": 0.5012390801528822,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 20.15000000000015,
+          "peak_load_weights": 1.1292606958785203,
+          "final": {
+            "t": 20.15000000000015,
+            "x_m": 50.98699802540194,
+            "altitude_m": 0.09716429880985644,
+            "forward_speed_m_s": 2.247298470732173,
+            "vertical_speed_m_s": -0.024886878641108157,
+            "wave_elevation_m": -0.15035373590330336,
+            "wave_rate_m_s": -0.04726978926607783,
+            "keel_clearance_m": -0.05248196528684018,
+            "water_mass_kg": 0.5002279074084247,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 20.05000000000015,
+          "peak_load_weights": 1.014927270825415,
+          "final": {
+            "t": 20.05000000000015,
+            "x_m": 50.772468429671065,
+            "altitude_m": 0.28563135749006613,
+            "forward_speed_m_s": 2.2483735160780154,
+            "vertical_speed_m_s": 0.011024546521614019,
+            "wave_elevation_m": 0.03814478818744791,
+            "wave_rate_m_s": 0.05093075078622153,
+            "keel_clearance_m": -0.05251343069738177,
+            "water_mass_kg": 0.5008745695695841,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 20.500000000000156,
+          "peak_load_weights": 1.4277681485877987,
+          "final": {
+            "t": 20.500000000000156,
+            "x_m": 51.85000584147322,
+            "altitude_m": -0.1522991036283111,
+            "forward_speed_m_s": 2.24370576950783,
+            "vertical_speed_m_s": 0.04660533536828913,
+            "wave_elevation_m": -0.39785318036142414,
+            "wave_rate_m_s": 0.03515861205441673,
+            "keel_clearance_m": -0.05444592326688691,
+            "water_mass_kg": 0.5004715856967058,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 20.05000000000015,
+          "peak_load_weights": 1.0951326570317315,
+          "final": {
+            "t": 20.05000000000015,
+            "x_m": 50.70628359458597,
+            "altitude_m": 0.3512788898869804,
+            "forward_speed_m_s": 2.243389489401731,
+            "vertical_speed_m_s": 0.03768319910077954,
+            "wave_elevation_m": 0.10420293327926825,
+            "wave_rate_m_s": 0.14342853378308457,
+            "keel_clearance_m": -0.05292404339228782,
+            "water_mass_kg": 0.5010293160114135,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 201,
+          "status": "success",
+          "time": 18.70000000000013,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.70000000000013,
+            "x_m": 321.91771045154934,
+            "altitude_m": 0.2566205484274945,
+            "forward_speed_m_s": 17.81419228742865,
+            "vertical_speed_m_s": -1.3423604439573171,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.0433794515725055,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 202,
+          "status": "success",
+          "time": 18.70000000000013,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.70000000000013,
+            "x_m": 321.91771045154934,
+            "altitude_m": 0.2566205484274945,
+            "forward_speed_m_s": 17.81419228742865,
+            "vertical_speed_m_s": -1.3423604439573171,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.0433794515725055,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "success",
+          "time": 18.65000000000013,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.65000000000013,
+            "x_m": 320.92209508697925,
+            "altitude_m": 0.3262662629938715,
+            "forward_speed_m_s": 17.812233320727508,
+            "vertical_speed_m_s": -1.3459055038497636,
+            "wave_elevation_m": 0.06532267408211853,
+            "wave_rate_m_s": -0.08471666755631158,
+            "keel_clearance_m": -0.039056411088247006,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "success",
+          "time": 18.75000000000013,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.75000000000013,
+            "x_m": 322.719788322551,
+            "altitude_m": 0.19565863467542455,
+            "forward_speed_m_s": 17.813880356196673,
+            "vertical_speed_m_s": -1.3424718068887644,
+            "wave_elevation_m": -0.07923125562686503,
+            "wave_rate_m_s": -0.015569077068045,
+            "keel_clearance_m": -0.02511010969771041,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "success",
+          "time": 18.60000000000013,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.60000000000013,
+            "x_m": 319.86190109991486,
+            "altitude_m": 0.40117574905042047,
+            "forward_speed_m_s": 17.807004481154042,
+            "vertical_speed_m_s": -1.36113000249546,
+            "wave_elevation_m": 0.15335397477214485,
+            "wave_rate_m_s": -0.31356886129496997,
+            "keel_clearance_m": -0.05217822572172437,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "success",
+          "time": 18.850000000000133,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 18.850000000000133,
+            "x_m": 324.45685008674735,
+            "altitude_m": 0.0761427616478564,
+            "forward_speed_m_s": 17.814053256797582,
+            "vertical_speed_m_s": -1.347117431162492,
+            "wave_elevation_m": -0.17187007203933038,
+            "wave_rate_m_s": 0.09395231136561932,
+            "keel_clearance_m": -0.05198716631281322,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        }
+      ],
+      "successes": 6,
+      "total": 12
+    },
+    "trained_student": {
+      "runs": [
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 18.800000000000132,
+          "peak_load_weights": 1.0566329298989996,
+          "final": {
+            "t": 18.800000000000132,
+            "x_m": 46.72247460447321,
+            "altitude_m": 0.2432581855353318,
+            "forward_speed_m_s": 2.1688998540338087,
+            "vertical_speed_m_s": 0.01857500623266876,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.056741814464668194,
+            "water_mass_kg": 0.5014272311070447,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 18.800000000000132,
+          "peak_load_weights": 1.0566329298989996,
+          "final": {
+            "t": 18.800000000000132,
+            "x_m": 46.72247460447321,
+            "altitude_m": 0.2432581855353318,
+            "forward_speed_m_s": 2.1688998540338087,
+            "vertical_speed_m_s": 0.01857500623266876,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.056741814464668194,
+            "water_mass_kg": 0.5014272311070447,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 18.850000000000133,
+          "peak_load_weights": 1.1420172904063568,
+          "final": {
+            "t": 18.850000000000133,
+            "x_m": 46.72720675636161,
+            "altitude_m": 0.15978361569820168,
+            "forward_speed_m_s": 2.1628760106071727,
+            "vertical_speed_m_s": -0.10297994754528958,
+            "wave_elevation_m": -0.08549200603144883,
+            "wave_rate_m_s": -0.19828031778068245,
+            "keel_clearance_m": -0.05472437827034948,
+            "water_mass_kg": 0.5005778987123715,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 18.75000000000013,
+          "peak_load_weights": 1.065575899787825,
+          "final": {
+            "t": 18.75000000000013,
+            "x_m": 46.535811751940074,
+            "altitude_m": 0.2569117130689409,
+            "forward_speed_m_s": 2.166137143240536,
+            "vertical_speed_m_s": 0.06395875091124793,
+            "wave_elevation_m": 0.014351396608636977,
+            "wave_rate_m_s": 0.08470146613816093,
+            "keel_clearance_m": -0.05743968353969607,
+            "water_mass_kg": 0.5007290930640691,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 19.200000000000138,
+          "peak_load_weights": 1.4464686570271417,
+          "final": {
+            "t": 19.200000000000138,
+            "x_m": 47.53232701914405,
+            "altitude_m": -0.08109843542332627,
+            "forward_speed_m_s": 2.173629545676974,
+            "vertical_speed_m_s": -0.23331778698134514,
+            "wave_elevation_m": -0.3289851580990616,
+            "wave_rate_m_s": -0.39146897115454937,
+            "keel_clearance_m": -0.052113277324264684,
+            "water_mass_kg": 0.5006851646345296,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 18.75000000000013,
+          "peak_load_weights": 1.1147255475914715,
+          "final": {
+            "t": 18.75000000000013,
+            "x_m": 46.475567630329536,
+            "altitude_m": 0.2823073647995429,
+            "forward_speed_m_s": 2.163059119641833,
+            "vertical_speed_m_s": 0.1402985938099599,
+            "wave_elevation_m": 0.040915600794088625,
+            "wave_rate_m_s": 0.22393169213772574,
+            "keel_clearance_m": -0.05860823599454573,
+            "water_mass_kg": 0.500808011991363,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 201,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 596.9212725609374,
+            "altitude_m": 2.8106582767804085,
+            "forward_speed_m_s": 14.96420296220469,
+            "vertical_speed_m_s": 4.4077039649827636e-05,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": 2.5106582767804086,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 202,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 596.9212725609374,
+            "altitude_m": 2.8106582767804085,
+            "forward_speed_m_s": 14.96420296220469,
+            "vertical_speed_m_s": 4.4077039649827636e-05,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": 2.5106582767804086,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 596.8340489052691,
+            "altitude_m": 3.1273224464225478,
+            "forward_speed_m_s": 15.018070584351818,
+            "vertical_speed_m_s": 0.36478289441513095,
+            "wave_elevation_m": 0.10803899804921827,
+            "wave_rate_m_s": 0.05652705933605784,
+            "keel_clearance_m": 2.7192834483733295,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 596.6550924353487,
+            "altitude_m": 2.5803920900540254,
+            "forward_speed_m_s": 14.995099792336251,
+            "vertical_speed_m_s": -0.08250073497433479,
+            "wave_elevation_m": -0.10982922417768268,
+            "wave_rate_m_s": 0.019439040679219977,
+            "keel_clearance_m": 2.390221314231708,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 597.0881790570238,
+            "altitude_m": 4.856533489277505,
+            "forward_speed_m_s": 14.994991378711072,
+            "vertical_speed_m_s": 2.091470479654878,
+            "wave_elevation_m": 0.2735048651034111,
+            "wave_rate_m_s": 0.17288407851537402,
+            "keel_clearance_m": 4.2830286241740945,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "time_limit",
+          "time": 39.999999999999865,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 39.999999999999865,
+            "x_m": 596.9446190763998,
+            "altitude_m": 2.3924883647464643,
+            "forward_speed_m_s": 15.003563043906446,
+            "vertical_speed_m_s": -0.30572616094806393,
+            "wave_elevation_m": -0.2918392267038341,
+            "wave_rate_m_s": -0.023662976832206084,
+            "keel_clearance_m": 2.3843275914502984,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        }
+      ],
+      "successes": 0,
+      "total": 12
+    },
+    "scripted": {
+      "runs": [
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 27.90000000000026,
+          "peak_load_weights": 1.0000000000000002,
+          "final": {
+            "t": 27.90000000000026,
+            "x_m": 70.98512290577713,
+            "altitude_m": 0.2605192415258005,
+            "forward_speed_m_s": 2.296035162287806,
+            "vertical_speed_m_s": -0.07205012308787247,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.03948075847419946,
+            "water_mass_kg": 0.5008526982903305,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 27.90000000000026,
+          "peak_load_weights": 1.0000000000000002,
+          "final": {
+            "t": 27.90000000000026,
+            "x_m": 70.98512290577713,
+            "altitude_m": 0.2605192415258005,
+            "forward_speed_m_s": 2.296035162287806,
+            "vertical_speed_m_s": -0.07205012308787247,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.03948075847419946,
+            "water_mass_kg": 0.5008526982903305,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 28.000000000000263,
+          "peak_load_weights": 1.127420376888884,
+          "final": {
+            "t": 28.000000000000263,
+            "x_m": 71.10926459128218,
+            "altitude_m": 0.13302824052159035,
+            "forward_speed_m_s": 2.294500412736187,
+            "vertical_speed_m_s": -0.05255032614414566,
+            "wave_elevation_m": -0.1265250850596264,
+            "wave_rate_m_s": 0.06968251789427282,
+            "keel_clearance_m": -0.040446674418783246,
+            "water_mass_kg": 0.5008074464220814,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 27.80000000000026,
+          "peak_load_weights": 1.0142285337044417,
+          "final": {
+            "t": 27.80000000000026,
+            "x_m": 70.62755834943937,
+            "altitude_m": 0.28781033931600625,
+            "forward_speed_m_s": 2.293419369016935,
+            "vertical_speed_m_s": -0.071343185963149,
+            "wave_elevation_m": 0.027031340504912883,
+            "wave_rate_m_s": -0.03473705633869541,
+            "keel_clearance_m": -0.039221001188906625,
+            "water_mass_kg": 0.5001937985497954,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "damage_failure",
+          "time": 28.60000000000027,
+          "peak_load_weights": 1.4245583604742191,
+          "final": {
+            "t": 28.60000000000027,
+            "x_m": 72.69231194529124,
+            "altitude_m": -0.01228367078979232,
+            "forward_speed_m_s": 2.2601742911529152,
+            "vertical_speed_m_s": 0.09639252231219277,
+            "wave_elevation_m": -0.26843322984660745,
+            "wave_rate_m_s": 0.33817470598657917,
+            "keel_clearance_m": -0.043850440943184854,
+            "water_mass_kg": 0.5004081361651465,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "takeoff",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "damage_failure",
+          "time": 27.80000000000026,
+          "peak_load_weights": 1.0921841546975992,
+          "final": {
+            "t": 27.80000000000026,
+            "x_m": 70.53188478088012,
+            "altitude_m": 0.3300597081067124,
+            "forward_speed_m_s": 2.289627332450885,
+            "vertical_speed_m_s": -0.07247725669342456,
+            "wave_elevation_m": 0.0688185850918262,
+            "wave_rate_m_s": -0.09402418354165415,
+            "keel_clearance_m": -0.038758876985113766,
+            "water_mass_kg": 0.5000669800252289,
+            "failed": true
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 201,
+          "status": "success",
+          "time": 26.45000000000024,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 26.45000000000024,
+            "x_m": 385.58826168981943,
+            "altitude_m": 0.2973054822568187,
+            "forward_speed_m_s": 11.759419161432223,
+            "vertical_speed_m_s": -0.0860111044816287,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.0026945177431813017,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0,
+          "seed": 202,
+          "status": "success",
+          "time": 26.45000000000024,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 26.45000000000024,
+            "x_m": 385.58826168981943,
+            "altitude_m": 0.2973054822568187,
+            "forward_speed_m_s": 11.759419161432223,
+            "vertical_speed_m_s": -0.0860111044816287,
+            "wave_elevation_m": 0.0,
+            "wave_rate_m_s": 0.0,
+            "keel_clearance_m": -0.0026945177431813017,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 201,
+          "status": "success",
+          "time": 25.150000000000222,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 25.150000000000222,
+            "x_m": 369.81876888705136,
+            "altitude_m": 0.41017246255214607,
+            "forward_speed_m_s": 12.38084798043716,
+            "vertical_speed_m_s": -0.09002323300626905,
+            "wave_elevation_m": 0.11484159799888106,
+            "wave_rate_m_s": 0.05602929593242989,
+            "keel_clearance_m": -0.004669135446734987,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.3,
+          "seed": 202,
+          "status": "success",
+          "time": 26.150000000000237,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 26.150000000000237,
+            "x_m": 381.8959825271675,
+            "altitude_m": 0.32116446194463666,
+            "forward_speed_m_s": 11.888110108815088,
+            "vertical_speed_m_s": -0.0866277632187669,
+            "wave_elevation_m": 0.02117258762131306,
+            "wave_rate_m_s": -0.12792914045527445,
+            "keel_clearance_m": -8.12567667638972e-06,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 201,
+          "status": "success",
+          "time": 23.900000000000205,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 23.900000000000205,
+            "x_m": 353.79204153544106,
+            "altitude_m": 0.5243488475619263,
+            "forward_speed_m_s": 13.062930431884256,
+            "vertical_speed_m_s": -0.09444985570026694,
+            "wave_elevation_m": 0.24081413304979715,
+            "wave_rate_m_s": -0.6973572564876152,
+            "keel_clearance_m": -0.016465285487870795,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        },
+        {
+          "scenario": "landing",
+          "Hs": 0.8,
+          "seed": 202,
+          "status": "success",
+          "time": 24.650000000000215,
+          "peak_load_weights": 0.0,
+          "final": {
+            "t": 24.650000000000215,
+            "x_m": 363.3071624690859,
+            "altitude_m": 0.4509670100863142,
+            "forward_speed_m_s": 12.617113322422167,
+            "vertical_speed_m_s": -0.09167317479560673,
+            "wave_elevation_m": 0.15258388210816076,
+            "wave_rate_m_s": -0.07797881587225608,
+            "keel_clearance_m": -0.0016168720218465715,
+            "water_mass_kg": 0.0,
+            "failed": false
+          }
+        }
+      ],
+      "successes": 6,
+      "total": 12
+    }
+  },
+  "notes": [
+    "Teacher suggestions are not certified optimal controls.",
+    "Curriculum consists of initialized phase states, not successful flight trajectories.",
+    "Held-out test outcomes were not used for checkpoint selection."
+  ],
+  "feedback": {
+    "changed_controls": 29,
+    "choices_at_best_score": 7,
+    "total": 32,
+    "horizon_s": 2
+  }
+}
