@@ -1,0 +1,24 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "phi3.5:latest",
+  "decisions": 2,
+  "fallback_decisions": 0,
+  "physics_steps": 20,
+  "simulation_seconds": 1.0,
+  "wall_seconds": 13.541811866001808,
+  "final_observation": {
+    "t": 1.0,
+    "x_m": 13.681944335286857,
+    "altitude_m": 23.771931093673036,
+    "forward_speed_m_s": 14.275539397967268,
+    "vertical_speed_m_s": -1.1962342654322151,
+    "wave_elevation_m": 0.028409698469236574,
+    "wave_rate_m_s": -0.030218772350323192,
+    "keel_clearance_m": 23.4435213952038,
+    "water_mass_kg": 0.0,
+    "failed": false
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/ollama_phi35_landing_smoke",
+  "timing": "synchronous: simulation pauses during inference"
+}

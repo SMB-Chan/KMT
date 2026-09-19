@@ -1,0 +1,24 @@
+{
+  "status": "pilot_error",
+  "error": "invalid student observation: non-numeric feature",
+  "model": "phi-student",
+  "decisions": 1,
+  "fallback_decisions": 1,
+  "physics_steps": 1,
+  "simulation_seconds": 0.05,
+  "wall_seconds": 0.0006589300028281286,
+  "final_observation": {
+    "t": 0.05,
+    "x_m": 0.03712622994508185,
+    "altitude_m": 0.2260039283182964,
+    "forward_speed_m_s": 0.742524598901637,
+    "vertical_speed_m_s": 0.020394072430174118,
+    "wave_elevation_m": -0.023499342182914565,
+    "wave_rate_m_s": -0.0661365804169279,
+    "keel_clearance_m": -0.050496729498789014,
+    "water_mass_kg": 0.0013644891693672181,
+    "failed": false
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/phi_student_smoke",
+  "timing": "synchronous: simulation pauses during inference"
+}

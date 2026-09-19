@@ -1,0 +1,827 @@
+{
+  "model": {
+    "name": "phi3.5:latest",
+    "model": "phi3.5:latest",
+    "modified_at": "2026-09-20T02:22:40.845752086+09:00",
+    "size": 2176178843,
+    "digest": "61819fb370a3c1a9be6694869331e5f85f867a079e9271d66cb223acb81d04ba",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "phi3",
+      "families": [
+        "phi3"
+      ],
+      "parameter_size": "3.8B",
+      "quantization_level": "Q4_0",
+      "context_length": 131072,
+      "embedding_length": 3072
+    },
+    "capabilities": [
+      "completion"
+    ]
+  },
+  "teacher_prompt": "You pilot an 80 kg flying boat in a longitudinal simulation.\nReturn ONLY JSON {\"throttle\": number, \"pitch_deg\": number}.\nThrottle: 0..1. Body pitch: -8..15 degrees (positive nose up).\nStall speed is 6.4 m/s. Takeoff: full throttle, about 4 degrees pitch on water;\nclimb after reaching 8.5 m/s, reduce climb as target altitude approaches.\nLanding: low throttle and about -5 degrees pitch to descend; flare gently near\nwater, reduce sink rate below 1.5 m/s. Wave height is not altitude clearance.\nUse the current observation, mission and previous control. No text or code.",
+  "curriculum": [
+    {
+      "id": "10_takeoff_taxi",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "taxi",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.24542043322531126,
+        "forward_speed_m_s": 0.5,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.054579566774688726,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_takeoff_hump",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "hump",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.24542043322531126,
+        "forward_speed_m_s": 3,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.054579566774688726,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_takeoff_rotation",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "rotation",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.24542043322531126,
+        "forward_speed_m_s": 8,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.054579566774688726,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_takeoff_climb",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "climb",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 3,
+        "forward_speed_m_s": 11,
+        "vertical_speed_m_s": 1,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": 2.7,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_takeoff_level",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "level",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 8,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": 7.7,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_landing_approach",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "approach",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 25,
+        "forward_speed_m_s": 13,
+        "vertical_speed_m_s": -1.5,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": 24.7,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_landing_descent",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "descent",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 5,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": -1,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": 4.7,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "10_landing_flare",
+      "split": "train",
+      "seed": 10,
+      "Hs": 0,
+      "stage": "flare",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.5,
+        "forward_speed_m_s": 10,
+        "vertical_speed_m_s": -0.6,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": 0.2,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_takeoff_taxi",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "taxi",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.2552671329912465,
+        "forward_speed_m_s": 0.5,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_takeoff_hump",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "hump",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.2552671329912465,
+        "forward_speed_m_s": 3,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_takeoff_rotation",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "rotation",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.2552671329912465,
+        "forward_speed_m_s": 8,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_takeoff_climb",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "climb",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 3,
+        "forward_speed_m_s": 11,
+        "vertical_speed_m_s": 1,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": 2.690153300234065,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_takeoff_level",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "level",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 8,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": 7.690153300234065,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_landing_approach",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "approach",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 25,
+        "forward_speed_m_s": 13,
+        "vertical_speed_m_s": -1.5,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": 24.690153300234066,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_landing_descent",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "descent",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 5,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": -1,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": 4.690153300234065,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "20_landing_flare",
+      "split": "train",
+      "seed": 20,
+      "Hs": 0.3,
+      "stage": "flare",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.5098466997659352,
+        "forward_speed_m_s": 10,
+        "vertical_speed_m_s": -0.6,
+        "wave_elevation_m": 0.009846699765935194,
+        "wave_rate_m_s": 0.07486474350647268,
+        "keel_clearance_m": 0.20000000000000004,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_takeoff_taxi",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "taxi",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.13777502005302544,
+        "forward_speed_m_s": 0.5,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_takeoff_hump",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "hump",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.13777502005302544,
+        "forward_speed_m_s": 3,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_takeoff_rotation",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "rotation",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.13777502005302544,
+        "forward_speed_m_s": 8,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": -0.0545795667746887,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_takeoff_climb",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "climb",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 3,
+        "forward_speed_m_s": 11,
+        "vertical_speed_m_s": 1,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": 2.807645413172286,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_takeoff_level",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "level",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 8,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": 7.807645413172286,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_landing_approach",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "approach",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 25,
+        "forward_speed_m_s": 13,
+        "vertical_speed_m_s": -1.5,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": 24.807645413172285,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_landing_descent",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "descent",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 5,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": -1,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": 4.807645413172286,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "30_landing_flare",
+      "split": "train",
+      "seed": 30,
+      "Hs": 0.8,
+      "stage": "flare",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.3923545868277142,
+        "forward_speed_m_s": 10,
+        "vertical_speed_m_s": -0.6,
+        "wave_elevation_m": -0.10764541317228585,
+        "wave_rate_m_s": 0.22379522260120577,
+        "keel_clearance_m": 0.20000000000000004,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_takeoff_taxi",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "taxi",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.1727700228982671,
+        "forward_speed_m_s": 0.5,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": -0.05457956677468871,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_takeoff_hump",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "hump",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.1727700228982671,
+        "forward_speed_m_s": 3,
+        "vertical_speed_m_s": 0,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": -0.05457956677468871,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_takeoff_rotation",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "rotation",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.1727700228982671,
+        "forward_speed_m_s": 8,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": -0.05457956677468871,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_takeoff_climb",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "climb",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 3,
+        "forward_speed_m_s": 11,
+        "vertical_speed_m_s": 1,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": 2.7726504103270444,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_takeoff_level",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "level",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 8,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": 0.2,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": 7.772650410327044,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "takeoff",
+        "target_altitude_m": 8,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_landing_approach",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "approach",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 25,
+        "forward_speed_m_s": 13,
+        "vertical_speed_m_s": -1.5,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": 24.772650410327042,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_landing_descent",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "descent",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 5,
+        "forward_speed_m_s": 12,
+        "vertical_speed_m_s": -1,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": 4.772650410327044,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    },
+    {
+      "id": "40_landing_flare",
+      "split": "validation",
+      "seed": 40,
+      "Hs": 0.5,
+      "stage": "flare",
+      "observation": {
+        "t": 0.0,
+        "x_m": 0.0,
+        "altitude_m": 0.42734958967295583,
+        "forward_speed_m_s": 10,
+        "vertical_speed_m_s": -0.6,
+        "wave_elevation_m": -0.07265041032704418,
+        "wave_rate_m_s": 0.5310026553987608,
+        "keel_clearance_m": 0.2,
+        "water_mass_kg": 0.0,
+        "failed": false
+      },
+      "mission": {
+        "scenario": "landing",
+        "target_altitude_m": 0,
+        "target_speed_m_s": 8.5,
+        "decision_interval_s": 0.05
+      }
+    }
+  ]
+}

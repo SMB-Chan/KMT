@@ -1,0 +1,42 @@
+{
+  "config": {
+    "scenario": "takeoff",
+    "model": "phi3.5:latest",
+    "host": "http://127.0.0.1:11434",
+    "duration": 3.0,
+    "interval": 1.0,
+    "timeout": 60,
+    "dt": 0.05,
+    "hs": 0.3,
+    "tp": 6,
+    "seed": 42,
+    "ndbc": false,
+    "target_alt": 8,
+    "target_speed": 8.5,
+    "output": "results/ollama_phi35_smoke",
+    "check": false,
+    "strict": true
+  },
+  "model": {
+    "name": "phi3.5:latest",
+    "model": "phi3.5:latest",
+    "modified_at": "2026-09-20T02:22:40.845752086+09:00",
+    "size": 2176178843,
+    "digest": "61819fb370a3c1a9be6694869331e5f85f867a079e9271d66cb223acb81d04ba",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "phi3",
+      "families": [
+        "phi3"
+      ],
+      "parameter_size": "3.8B",
+      "quantization_level": "Q4_0",
+      "context_length": 131072,
+      "embedding_length": 3072
+    },
+    "capabilities": [
+      "completion"
+    ]
+  }
+}

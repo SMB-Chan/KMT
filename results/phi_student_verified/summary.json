@@ -1,0 +1,24 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "phi-student",
+  "decisions": 60,
+  "fallback_decisions": 0,
+  "physics_steps": 60,
+  "simulation_seconds": 2.9999999999999973,
+  "wall_seconds": 0.016339119989424944,
+  "final_observation": {
+    "t": 2.9999999999999973,
+    "x_m": 7.111322631853544,
+    "altitude_m": 0.215549954870437,
+    "forward_speed_m_s": 2.561251340013538,
+    "vertical_speed_m_s": 0.04134124049654665,
+    "wave_elevation_m": -0.035415974575286335,
+    "wave_rate_m_s": 0.06159202774446634,
+    "keel_clearance_m": -0.049034070554276665,
+    "water_mass_kg": 0.07316551581561889,
+    "failed": false
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/phi_student_verified",
+  "timing": "synchronous: simulation pauses during inference"
+}

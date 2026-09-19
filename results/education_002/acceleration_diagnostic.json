@@ -1,0 +1,153 @@
+{
+  "condition": "full throttle, constant pitch, Hs=0, seed=11, 15 s",
+  "conclusion": "All sampled fixed pitches stall near 2.6 m/s; this is not a proof that every time-varying control fails.",
+  "runs": [
+    {
+      "pitch_deg": -8,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.168680215975172,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 37.7265981433032,
+        "altitude_m": 0.23788137402519005,
+        "forward_speed_m_s": 2.552814737906417,
+        "vertical_speed_m_s": -2.0968912029269557e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.06211862597480994,
+        "water_mass_kg": 0.4640897881241609,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": -4,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0800747225880034,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 38.26004990824449,
+        "altitude_m": 0.2424289322785245,
+        "forward_speed_m_s": 2.5898659520614395,
+        "vertical_speed_m_s": -1.9590463235390856e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.057571067721475494,
+        "water_mass_kg": 0.4305636251484423,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": 0,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0000000000000002,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 38.60310712206391,
+        "altitude_m": 0.24711466135886845,
+        "forward_speed_m_s": 2.613817376927852,
+        "vertical_speed_m_s": -1.815943594345333e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.05288533864113154,
+        "water_mass_kg": 0.396044721573061,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": 4,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0000000000000002,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 38.726273478370196,
+        "altitude_m": 0.2518472619044823,
+        "forward_speed_m_s": 2.622511073801264,
+        "vertical_speed_m_s": -1.669005132680182e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.04815273809551768,
+        "water_mass_kg": 0.3611905104611417,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": 8,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0000000000000002,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 38.61666478669198,
+        "altitude_m": 0.25652333576148306,
+        "forward_speed_m_s": 2.6149968843351084,
+        "vertical_speed_m_s": -1.5202430486576171e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.04347666423851693,
+        "water_mass_kg": 0.326739627599961,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": 12,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0000000000000002,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 38.28297347698067,
+        "altitude_m": 0.2610442764517226,
+        "forward_speed_m_s": 2.5919090849407556,
+        "vertical_speed_m_s": -1.3723572816381964e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.038955723548277366,
+        "water_mass_kg": 0.2933966368945822,
+        "failed": false
+      }
+    },
+    {
+      "pitch_deg": 15,
+      "scenario": "takeoff",
+      "Hs": 0,
+      "seed": 11,
+      "status": "time_limit",
+      "time": 15.000000000000078,
+      "peak_load_weights": 1.0000000000000002,
+      "final": {
+        "t": 15.000000000000078,
+        "x_m": 37.901356214356134,
+        "altitude_m": 0.264284874502981,
+        "forward_speed_m_s": 2.5655211364500743,
+        "vertical_speed_m_s": -1.2638608937396643e-05,
+        "wave_elevation_m": 0.0,
+        "wave_rate_m_s": 0.0,
+        "keel_clearance_m": -0.035715125497018996,
+        "water_mass_kg": 0.26946514674834654,
+        "failed": false
+      }
+    }
+  ]
+}

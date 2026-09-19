@@ -1,0 +1,21 @@
+{
+  "samples": 5,
+  "skipped": 0,
+  "seed": 0,
+  "epochs": 1000,
+  "initial_training_mse": 0.5543272073754794,
+  "final_training_mse": 0.0007927726165574635,
+  "sources": [
+    {
+      "path": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/ollama_phi35_smoke/decisions.jsonl",
+      "sha256": "7a487a4f0206b1237d90765aeee23eea9595273f2885785a1c07d2edaf889dbd",
+      "accepted": 3
+    },
+    {
+      "path": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/ollama_phi35_landing_smoke/decisions.jsonl",
+      "sha256": "d9a4e7e8806c783b769734585c0426ee8d6a0d19ebc21cc7e605604b711a48dd",
+      "accepted": 2
+    }
+  ],
+  "evaluation": "training fit only; no held-out flight performance established"
+}

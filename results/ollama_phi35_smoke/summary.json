@@ -1,0 +1,24 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "phi3.5:latest",
+  "decisions": 3,
+  "fallback_decisions": 0,
+  "physics_steps": 60,
+  "simulation_seconds": 2.9999999999999973,
+  "wall_seconds": 28.061694433999946,
+  "final_observation": {
+    "t": 2.9999999999999973,
+    "x_m": 7.247367008963414,
+    "altitude_m": 0.21520705988004926,
+    "forward_speed_m_s": 2.6153132534499965,
+    "vertical_speed_m_s": 0.040757897880838966,
+    "wave_elevation_m": -0.03599795849953552,
+    "wave_rate_m_s": 0.05476994788351258,
+    "keel_clearance_m": -0.048794981620415206,
+    "water_mass_kg": 0.07290275701638016,
+    "failed": false
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/ollama_phi35_smoke",
+  "timing": "synchronous: simulation pauses during inference"
+}
