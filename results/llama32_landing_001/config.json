@@ -1,0 +1,44 @@
+{
+  "config": {
+    "scenario": "landing",
+    "model": "llama3.2:3b",
+    "student": null,
+    "host": "http://127.0.0.1:11434",
+    "duration": 6.0,
+    "interval": 1,
+    "timeout": 60,
+    "dt": 0.05,
+    "hs": 0.3,
+    "tp": 6,
+    "seed": 20,
+    "ndbc": false,
+    "target_alt": 8,
+    "target_speed": 8.5,
+    "output": "results/llama32_landing_001",
+    "check": false,
+    "strict": false
+  },
+  "model": {
+    "name": "llama3.2:3b",
+    "model": "llama3.2:3b",
+    "modified_at": "2026-09-20T03:53:05.61869546+09:00",
+    "size": 2019393189,
+    "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "llama",
+      "families": [
+        "llama"
+      ],
+      "parameter_size": "3.2B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 131072,
+      "embedding_length": 3072
+    },
+    "capabilities": [
+      "completion",
+      "tools"
+    ]
+  }
+}

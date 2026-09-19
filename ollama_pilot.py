@@ -22,12 +22,13 @@ CONTROL_SCHEMA = {
 }
 SYSTEM_PROMPT = '''You pilot an 80 kg flying boat in a longitudinal simulation.
 Return ONLY JSON {"throttle": number, "pitch_deg": number}.
-Throttle: 0..1. Body pitch: -8..15 degrees (positive nose up).
-Stall speed is 6.4 m/s. Takeoff: full throttle, about 4 degrees pitch on water;
-climb after reaching 8.5 m/s, reduce climb as target altitude approaches.
-Landing: low throttle and about -5 degrees pitch to descend; flare gently near
-water, reduce sink rate below 1.5 m/s. Wave height is not altitude clearance.
-Use the current observation, mission and previous control. No text or code.'''
+Limits: throttle 0..1; body pitch -8..15 degrees (positive nose up).
+Stall speed is 6.4 m/s.
+Takeoff goal: reach 8 m altitude with forward speed above 8.5 m/s.
+Landing goal: touch the water with sink rate below 1.5 m/s.
+Wave height is not altitude clearance.
+Derive throttle and pitch from the current observation, mission and
+previous control; do not repeat a fixed value. No text or code.'''
 
 
 class PilotError(RuntimeError):

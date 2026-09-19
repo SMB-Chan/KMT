@@ -1,0 +1,16 @@
+{
+  "study": "llama3.2:3b as teacher: prompt stereotypy and fix",
+  "finding": "old SYSTEM_PROMPT prescribed constants (4 deg takeoff / -5 deg landing); both phi3.5 and llama3.2 echoed them with zero within-scenario variance",
+  "evidence": {
+    "llama32_takeoff_001": "6/6 valid, 0 fallbacks, all (0.5, 4.0)",
+    "llama32_landing_001": "6/6 valid, 0 fallbacks, all (0.2, -5.0)"
+  },
+  "fix": "removed prescriptive values from ollama_pilot.SYSTEM_PROMPT; require deriving commands from observation",
+  "verification": {
+    "llama32_takeoff_002": "6/6 valid, 0 fallbacks, 4 distinct commands (thr 0.2-0.8)"
+  },
+  "caveats": [
+    "6-decision probes: pilot scale",
+    "adaptive output is not certified good piloting"
+  ]
+}

@@ -15,6 +15,13 @@ from fly_ollama import parser, run
 
 
 class OllamaTests(unittest.TestCase):
+    def test_prompt_prescribes_no_fixed_command(self):
+        from ollama_pilot import SYSTEM_PROMPT
+        for canned in ["about 4 degrees", "about -5 degrees",
+                       "full throttle", "low throttle"]:
+            self.assertNotIn(canned, SYSTEM_PROMPT)
+        self.assertIn("Derive throttle and pitch", SYSTEM_PROMPT)
+
     def test_control_schema_rejects_unusable_outputs(self):
         for text in ['no JSON', '[]', '{"throttle":1}',
                      '{"throttle":true,"pitch_deg":0}',
