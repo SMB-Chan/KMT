@@ -59,7 +59,7 @@ def landing_teacher_action(state, cfg: EnvConfig):
     Vx = float(state[1]) * 15.0
     Vz = float(state[2]) * 15.0
     eta = float(state[3]) * 1.5
-    preview = np.asarray(state[8:], dtype=float) * 1.5
+    preview = np.asarray(state[8:8 + len(cfg.preview_dx_m)], dtype=float) * 1.5
     ctl = LowLevelController(pitch_lo=cfg.pitch_lo, pitch_hi=cfg.pitch_hi)
     pitch, thr = ctl.landing_setpoint(
         {"z": z, "Vx": Vx, "Vz": Vz, "eta": eta, "wave_preview": preview},
@@ -85,9 +85,17 @@ def takeoff_teacher_action(state, cfg: EnvConfig, ac=None):
 
 
 def teacher_action(state, cfg: EnvConfig, ac=None):
-    if cfg.scenario == "landing":
-        return landing_teacher_action(state, cfg)
-    return takeoff_teacher_action(state, cfg, ac)
+    longitudinal = (landing_teacher_action(state, cfg) if cfg.scenario == "landing"
+                    else takeoff_teacher_action(state, cfg, ac))
+    if not cfg.spatial:
+        return longitudinal
+    lateral = state[8 + len(cfg.preview_dx_m):]
+    y, vy = float(lateral[0]) * 10, float(lateral[1]) * 15
+    heading = math.atan2(float(lateral[3]), float(lateral[4]))
+    desired_vy = float(np.clip(-0.55 * y, -5, 5))
+    bank = float(np.clip(0.22 * (desired_vy - vy), -math.pi / 6, math.pi / 6))
+    rudder = float(np.clip(-1.5 * heading - 0.04 * y - 0.10 * vy, -1, 1))
+    return np.concatenate((longitudinal, [bank / math.radians(45), rudder])).astype(np.float32)
 
 
 def _bc_pretrain(policy, env, episodes: int, epochs: int, seed: int):
@@ -105,8 +113,16 @@ def _bc_pretrain(policy, env, episodes: int, epochs: int, seed: int):
         return
     xs = np.array(states, dtype=np.float32)
     ys = np.array(actions, dtype=np.float32)
+    rng = np.random.default_rng(seed)
+    losses = []
     for _ in range(epochs):
-        policy.imitate(xs, ys)
+        order = rng.permutation(len(xs))
+        for start in range(0, len(xs), 128):
+            idx = order[start:start + 128]
+            policy.imitate(xs[idx], ys[idx], lr=0.01, action_space=True)
+        prediction = policy.act_batch(xs, deterministic=True)[0]
+        losses.append(float(np.mean(((prediction - ys) / policy.action_range) ** 2)))
+    return {"samples": len(xs), "epochs": epochs, "normalized_action_mse": losses}
 
 
 def train(env_cfg: EnvConfig, episodes: int = 400, max_updates: int = 8,
@@ -128,12 +144,13 @@ def train(env_cfg: EnvConfig, episodes: int = 400, max_updates: int = 8,
         policy = init_policy
     if bc_episodes < 0 or bc_epochs < 0:
         raise ValueError("bc_episodes and bc_epochs must be nonnegative")
-    if bc_episodes > 0 and env_cfg.spatial:
-        raise ValueError("BC supports longitudinal observations only")
+    bc_report = None
     if bc_episodes > 0:
-        _bc_pretrain(policy, env, bc_episodes, bc_epochs, seed)
+        bc_report = _bc_pretrain(policy, env, bc_episodes, bc_epochs, seed)
+        policy.save(f"{OUT}/{tag}_bc_policy.npz")
 
     history = {
+        "bc_report": bc_report,
         "episode_reward": [], "episode_len": [],
         "success": [], "pol_loss": [], "v_loss": [], "entropy": [],
         "smoothed_reward": [], "smoothed_success": [],
@@ -151,7 +168,7 @@ def train(env_cfg: EnvConfig, episodes: int = 400, max_updates: int = 8,
 
     start_time = time.time()
     for ep in range(episodes):
-        ep_seed = (seed + ep) if seed_per_episode else seed
+        ep_seed = (seed + ep) if (seed_per_episode or env_cfg.randomize_conditions) else seed
         s = env.reset(seed=ep_seed)
 
         states, actions, log_ps, values = [], [], [], []
@@ -301,7 +318,8 @@ def _config_for(scenario: str, args) -> EnvConfig:
     # Landing from 25 m needs ~30 s even at full nose-down authority
     steps = 300 if scenario == "takeoff" else 600
     from atmosphere import AtmosphereConfig
-    return EnvConfig(spatial=getattr(args, "spatial", False),
+    return EnvConfig(randomize_conditions=getattr(args, "randomize_conditions", False),
+                     spatial=getattr(args, "spatial", False),
                      atmosphere=AtmosphereConfig(wind=tuple(getattr(args, "wind", (0, 0, 0))),
                                                   gust_rms=getattr(args, "gust_rms", 0.0)),
                      scenario=scenario, max_steps=steps, dt=0.05,
@@ -322,6 +340,7 @@ def main(argv=None):
     p.add_argument("--seed-per-episode", action="store_true",
                    help="vary wave seed each episode (seed+ep); "
                         "recommended for robust claims")
+    p.add_argument("--randomize-conditions", action="store_true", help="sample reproducible wave and wind conditions per episode")
     p.add_argument("--hs", type=float, default=1.5)
     p.add_argument("--tp", type=float, default=6.0)
     p.add_argument("--directional", action="store_true")

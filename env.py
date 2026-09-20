@@ -35,6 +35,7 @@ from dynamics import HullContact, HullDrag, HULL_HYSTERESIS_M, hull_force
 # ---------------------------------------------------------------------
 @dataclass
 class EnvConfig:
+    randomize_conditions: bool = False  # seeded wave/wind variation per reset
     spatial: bool = False
     atmosphere: AtmosphereConfig = field(default_factory=AtmosphereConfig)
     scenario: str = "takeoff"          # "takeoff" or "landing"
@@ -162,15 +163,30 @@ class FlyingBoatEnv:
     def reset(self, seed: int | None = None):
         if seed is None:
             seed = self.cfg.wave_seed
+        rng = np.random.default_rng(seed)
+        hs, tp, direction = self.cfg.Hs, self.cfg.Tp, self.cfg.theta_mean_deg
+        atmosphere = self.cfg.atmosphere
+        if self.cfg.randomize_conditions:
+            from dataclasses import replace
+            hs *= rng.uniform(0.5, 1.5)
+            tp *= rng.uniform(0.8, 1.2)
+            direction += rng.uniform(-45, 45)
+            if self.cfg.spatial:
+                wind = np.asarray(atmosphere.wind) + np.array([rng.uniform(-3, 3), rng.uniform(-3, 3), 0])
+                atmosphere = replace(atmosphere, wind=tuple(wind),
+                                     gust_rms=atmosphere.gust_rms + rng.uniform(0, 0.8))
+        self.episode_conditions = dict(seed=int(seed), Hs=float(hs), Tp=float(tp),
+                                       theta_mean_deg=float(direction),
+                                       wind=list(atmosphere.wind), gust_rms=float(atmosphere.gust_rms))
         if self.cfg.directional:
-            self._sea = DirectionalOcean(Hs=self.cfg.Hs, Tp=self.cfg.Tp,
-                                         theta_mean=math.radians(self.cfg.theta_mean_deg),
+            self._sea = DirectionalOcean(Hs=hs, Tp=tp,
+                                         theta_mean=math.radians(direction),
                                          s=self.cfg.spread_s, seed=seed)
         else:
-            self._sea = Ocean(Hs=self.cfg.Hs, Tp=self.cfg.Tp, seed=seed)
+            self._sea = Ocean(Hs=hs, Tp=tp, seed=seed)
         self._y = self._Vy = self._bank = self._heading = 0.0
         self._bank_command = self._rudder_command = 0.0
-        self._atmosphere = Atmosphere(self.cfg.atmosphere, seed=seed)
+        self._atmosphere = Atmosphere(atmosphere, seed=seed)
         self._t = 0.0
         if self.cfg.scenario == "takeoff":
             # Place hull at hydrostatic equilibrium on the wave surface

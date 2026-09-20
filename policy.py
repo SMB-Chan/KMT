@@ -283,7 +283,8 @@ class ActorCritic:
                 "entropy":  float(ent),
                 "loss":     float(loss)}
 
-    def imitate(self, states, actions, lr=3e-4, clip_grad: float = 5.0):
+    def imitate(self, states, actions, lr=3e-4, clip_grad: float = 5.0,
+                action_space: bool = False):
         """Behavioural cloning: MSE of actor mean vs teacher actions."""
         states = np.asarray(states, dtype=np.float32)
         actions = np.asarray(actions, dtype=np.float32)
@@ -293,8 +294,14 @@ class ActorCritic:
         raw = np.clip((actions - self.action_mid) / self.action_range,
                       -1.0 + 1e-6, 1.0 - 1e-6)
         u_tgt = np.arctanh(raw).astype(np.float32)
-        err = mean - u_tgt
-        d_mean = (2.0 * err / max(err.size, 1)).astype(np.float32)
+        if action_space:
+            # Bounded targets prevent saturated throttle from dominating pitch/bank.
+            prediction = np.tanh(mean)
+            err = prediction - raw
+            d_mean = (2.0 * err * (1.0 - prediction ** 2) / max(err.size, 1)).astype(np.float32)
+        else:
+            err = mean - u_tgt
+            d_mean = (2.0 * err / max(err.size, 1)).astype(np.float32)
         d_actor_W = h_last.T @ d_mean
         d_actor_b = d_mean.sum(axis=0)
         d_h = d_mean @ self.actor_head_W.T
