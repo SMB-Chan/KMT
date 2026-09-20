@@ -16,7 +16,7 @@ from ocean import Ocean
 class StudentTests(unittest.TestCase):
     def test_fit_save_reload(self):
         p = StudentPilot()
-        x = np.random.default_rng(4).normal(size=(20, 10))
+        x = np.random.default_rng(4).normal(size=(20, 13))
         y = np.tile([.3, -.5], (20, 1))
         before = np.mean((p.predict(x)-y)**2)
         p.fit(x, y, epochs=300)
@@ -34,7 +34,7 @@ class StudentTests(unittest.TestCase):
             path = Path(tmp)/'decisions.jsonl'
             path.write_text('\n'.join(json.dumps(dict(record, source=s)) for s in ('ollama','fallback','student','aborted')))
             x, y, sources, skipped = load_demonstrations([path])
-            self.assertEqual(x.shape, (1,10))
+            self.assertEqual(x.shape, (1,13))
             self.assertEqual(skipped, 3)
 
     def test_offline_flight_steps_without_ollama(self):

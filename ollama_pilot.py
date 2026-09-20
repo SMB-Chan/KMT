@@ -10,6 +10,8 @@ from urllib.error import URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener, ProxyHandler, HTTPRedirectHandler
 
+from ocean_directional import wave_preview
+
 
 CONTROL_SCHEMA = {
     'type': 'object',
@@ -27,6 +29,8 @@ Stall speed is 6.4 m/s.
 Takeoff goal: reach 8 m altitude with forward speed above 8.5 m/s.
 Landing goal: touch the water with sink rate below 1.5 m/s.
 Wave height is not altitude clearance.
+wave_preview_m is encounter-time surface elevation at 5, 15, 30 m ahead;
+use it to time flare with wave phase.
 Derive throttle and pitch from the current observation, mission and
 previous control; do not repeat a fixed value. No text or code.'''
 
@@ -140,9 +144,11 @@ class OllamaPilot:
 def observe(vehicle):
     eta = float(vehicle.sea.eta([vehicle.x], vehicle.t)[0])
     wave_rate = (float(vehicle.sea.eta([vehicle.x], vehicle.t + vehicle.dt)[0]) - eta) / vehicle.dt
+    preview = wave_preview(vehicle.sea, vehicle.x, vehicle.t, vehicle.Vx)
     return dict(t=vehicle.t, x_m=vehicle.x, altitude_m=vehicle.z,
                 forward_speed_m_s=vehicle.Vx, vertical_speed_m_s=vehicle.Vz,
                 wave_elevation_m=eta, wave_rate_m_s=wave_rate,
+                wave_preview_m=[float(v) for v in preview],
                 keel_clearance_m=vehicle.z - vehicle.hull.h_keel - eta,
                 water_mass_kg=vehicle.damage.water_mass, failed=vehicle.damage.failed)
 

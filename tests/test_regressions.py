@@ -15,15 +15,16 @@ from damage import DamageState, SprayModel, IngressModel, update_damage
 from dynamics import HullDrag
 
 
-def policy(seed=0):
-    return ActorCritic(8, 2, np.array([0., -1.]), np.array([1., 1.]), hidden=8, seed=seed)
+def policy(seed=0, state_dim=8):
+    return ActorCritic(state_dim, 2, np.array([0., -1.]), np.array([1., 1.]), hidden=8, seed=seed)
 
 
 class RegressionTests(unittest.TestCase):
     def test_seed_and_single_action(self):
-        a, b = policy(7), policy(7)
+        env = FlyingBoatEnv(Aircraft())
+        a, b = policy(7, env.state_dim), policy(7, env.state_dim)
         np.testing.assert_array_equal(a.body.get_flat(), b.body.get_flat())
-        state = FlyingBoatEnv(Aircraft()).reset()
+        state = env.reset()
         action, lp, value = a.act(state)
         self.assertEqual(action.shape, (2,))
         self.assertIsInstance(lp, float)
@@ -76,7 +77,7 @@ class RegressionTests(unittest.TestCase):
     def test_completed_vector_env_is_frozen(self):
         env = VectorizedEnv(2, EnvConfig(max_steps=3))
         env.envs[0].cfg = EnvConfig(max_steps=1)
-        traj, infos = env.rollout(policy())
+        traj, infos = env.rollout(policy(state_dim=env.envs[1].state_dim))
         self.assertEqual([len(t['rewards']) for t in traj], [1, 3])
         self.assertEqual(env.envs[0]._steps, 1)
         self.assertEqual(infos[0]['t'], .05)
@@ -86,6 +87,28 @@ class RegressionTests(unittest.TestCase):
         env.reset()
         self.assertEqual(env._sea.Tp, 4)
         self.assertEqual(float(env._sea.eta([1], 0)[0]), 0)
+
+    def test_wave_preview_encounter_eta_ahead(self):
+        from ocean import Ocean
+        from ocean_directional import PREVIEW_DX_M, wave_preview
+        sea = Ocean(Hs=1.5, Tp=6.0, seed=7)
+        got = wave_preview(sea, 10.0, 1.2, 8.0, dxs=(15.0,))
+        want = float(sea.eta(np.array([25.0]), 1.2 + 15.0 / 8.0)[0])
+        self.assertAlmostEqual(float(got[0]), want, places=6)
+        parked = wave_preview(sea, 0.0, 0.0, 0.0, dxs=(5.0,))
+        self.assertAlmostEqual(float(parked[0]),
+                               float(sea.eta(np.array([5.0]), 5.0)[0]), places=6)
+        env = FlyingBoatEnv(Aircraft(), EnvConfig(Hs=1.5, Tp=6.0))
+        s = env.reset(seed=42)
+        self.assertEqual(int(s.shape[0]), env.state_dim)
+        self.assertEqual(env.state_dim, 8 + len(PREVIEW_DX_M))
+        np.testing.assert_allclose(
+            s[8:] * env.eta_scale,
+            wave_preview(env._sea, env._x, env._t, env._Vx), atol=1e-6)
+        calm = FlyingBoatEnv(Aircraft(), EnvConfig(Hs=0, Tp=4)).reset()
+        np.testing.assert_array_equal(calm[8:], np.zeros(len(PREVIEW_DX_M)))
+        with self.assertRaises(ValueError):
+            FlyingBoatEnv(Aircraft(), EnvConfig(preview_dx_m=(-1.0,)))
 
     def test_sweep_passes_conditions_and_sample_count(self):
         import accelerate

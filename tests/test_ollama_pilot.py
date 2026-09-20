@@ -120,6 +120,7 @@ class OllamaTests(unittest.TestCase):
         obs = observe(v)
         self.assertAlmostEqual(obs['keel_clearance_m'], v.z - v.hull.h_keel)
         self.assertEqual(obs['wave_elevation_m'], 0)
+        self.assertEqual(obs['wave_preview_m'], [0.0, 0.0, 0.0])
 
 
 if __name__ == '__main__':

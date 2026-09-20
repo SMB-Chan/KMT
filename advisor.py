@@ -199,6 +199,7 @@ class PhiAdvisor:
         eta, Veta = float(state[3]) * 1.5, float(state[4]) * 1.5 / 6.0
         hull_in_water = bool(state[5] > 0.5)
         Vx_ratio = float(state[6])
+        preview = [float(v) * 1.5 for v in state[8:]]
         phase = phase_from_state(state, self.scenario)
 
         if not self.use_phi:
@@ -211,7 +212,8 @@ class PhiAdvisor:
             f"State: altitude z = {z:+.2f} m, forward speed Vx = {Vx:+.2f} m/s, "
             f"vertical speed Vz = {Vz:+.2f} m/s, wave elevation eta = {eta:+.2f} m, "
             f"wave rate Veta = {Veta:+.2f} m/s, hull_in_water = {hull_in_water}, "
-            f"Vx/Vstall = {Vx_ratio:+.2f}. "
+            f"Vx/Vstall = {Vx_ratio:+.2f}, "
+            f"wave preview eta 5/15/30 m ahead = {[round(v, 2) for v in preview]}. "
             "Recommend the next (throttle, pitch_deg) command as JSON "
             "with keys throttle (0..1) and pitch_deg (in degrees). "
             "Reply with only the JSON object."

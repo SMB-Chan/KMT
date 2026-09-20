@@ -10,17 +10,25 @@ import time
 import numpy as np
 from policy import MLP
 from ollama_pilot import Control, PilotError
+from ocean_directional import PREVIEW_DX_M
 
 FEATURES = ('altitude_m', 'forward_speed_m_s', 'vertical_speed_m_s',
             'wave_elevation_m', 'wave_rate_m_s', 'keel_clearance_m', 'water_mass_kg')
-SCALES = np.array([25, 15, 5, 2, 3, 25, .5, 1, 25, 15], dtype=np.float64)
+N_PREVIEW = len(PREVIEW_DX_M)
+FEATURE_DIM = len(FEATURES) + N_PREVIEW + 3
+SCALES = np.array([25, 15, 5, 2, 3, 25, .5] + [2] * N_PREVIEW + [1, 25, 15],
+                  dtype=np.float64)
 
 
 def features(observation, mission):
     if observation.get('failed') or mission.get('scenario') not in ('takeoff', 'landing'):
         raise PilotError('invalid or failed demonstration state')
     try:
-        raw = [observation[k] for k in FEATURES] + [
+        preview = observation['wave_preview_m']
+        if (not isinstance(preview, (list, tuple, np.ndarray))
+                or len(preview) != N_PREVIEW):
+            raise ValueError('invalid preview')
+        raw = [observation[k] for k in FEATURES] + [float(v) for v in preview] + [
             float(mission['scenario'] == 'landing'), mission['target_altitude_m'],
             mission['target_speed_m_s']]
         if any(not isinstance(v, Real) or isinstance(v, (bool, np.bool_)) for v in raw):
@@ -36,7 +44,7 @@ def features(observation, mission):
 class StudentPilot:
     def __init__(self, seed=0):
         rng = np.random.default_rng(seed)
-        self.body = MLP([10, 32, 32], rng)
+        self.body = MLP([FEATURE_DIM, 32, 32], rng)
         self.W = rng.normal(0, .1, (32, 2))
         self.b = np.zeros(2)
 
@@ -78,7 +86,7 @@ class StudentPilot:
 
     def check_model(self):
         return {'name':'phi-student', 'backend':'numpy', 'teacher':'phi3.5',
-                'feature_version':1}
+                'feature_version':2}
 
     def decide(self, observation, mission, previous=None):
         start = time.monotonic()

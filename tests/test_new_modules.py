@@ -148,7 +148,8 @@ class NewModulesTests(unittest.TestCase):
         import numpy as np
         from policy import ActorCritic
         import accelerate
-        pol = ActorCritic(8, 2, np.array([0., -1.]),
+        dim = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff")).state_dim
+        pol = ActorCritic(dim, 2, np.array([0., -1.]),
                           np.array([1., 1.]), hidden=4, seed=0)
         res = accelerate.sea_state_sweep(
             pol, scenario="takeoff", Hs_list=[0.3], Tp_list=[4.0],
@@ -226,7 +227,7 @@ class NewModulesTests(unittest.TestCase):
         from policy import ActorCritic
         from train import train
         env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff"))
-        init = ActorCritic(8, 2, np.array([0., -1.]),
+        init = ActorCritic(env.state_dim, 2, np.array([0., -1.]),
                            np.array([1., 1.]), hidden=8, seed=0)
         before = init.body.get_flat().copy()
         tag = "test_tmp_initpol"

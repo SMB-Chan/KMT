@@ -314,6 +314,29 @@ def sea_eta_1d(sea, x, t):
     return np.atleast_1d(sea.eta(x, t))
 
 
+PREVIEW_DX_M = (5.0, 15.0, 30.0)
+V_PREVIEW_FLOOR = 1.0
+
+
+def wave_preview(sea, x, t, vx, dxs=PREVIEW_DX_M):
+    """Encounter-time eta at distances ahead of the hull.
+
+    For each look-ahead dx, evaluate eta at the point the hull would
+    reach if it kept speed max(|vx|, V_PREVIEW_FLOOR) along the track.
+    """
+    dxs = np.atleast_1d(np.asarray(dxs, dtype=float))
+    vx = float(vx)
+    sign = 1.0 if vx >= 0.0 else -1.0
+    vx_eff = max(abs(vx), V_PREVIEW_FLOOR)
+    x0 = float(x)
+    t0 = float(t)
+    out = np.empty(dxs.shape[0], dtype=np.float64)
+    for i, dx in enumerate(dxs):
+        out[i] = float(sea_eta_1d(sea, np.array([x0 + sign * float(dx)]),
+                                  t0 + float(dx) / vx_eff)[0])
+    return out
+
+
 # ---------------------------------------------------------------------
 if __name__ == "__main__":
     print("=" * 60)

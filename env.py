@@ -8,15 +8,16 @@ The agent issues two continuous actions:
     throttle in [0, 1]
     pitch   in [pitch_lo, pitch_hi]  (radians)
 
-State vector (8 features, all normalised):
+State vector (8 + n_preview features, all normalised):
     0  z      / z_scale
     1  Vx     / V_scale
     2  Vz     / V_scale
     3  eta(x,t) / eta_scale
     4  Veta(x,t) / eta_scale * T_scale
     5  hull_in_water (0 or 1)
-    6  Vx / V_stall  (aircraft in proper units for takeoff) OR (1 - z/z_goal) for landing
+    6  Vx / V_stall  (takeoff) OR (1 - z/z_goal) (landing)
     7  throttle (memory of last action)
+    8+ encounter-time eta at preview_dx_m ahead / eta_scale
 """
 from __future__ import annotations
 
@@ -26,7 +27,7 @@ import numpy as np
 
 from aircraft import Aircraft
 from ocean import Ocean
-from ocean_directional import DirectionalOcean, sea_eta_1d
+from ocean_directional import DirectionalOcean, PREVIEW_DX_M, sea_eta_1d, wave_preview
 from dynamics import HullContact, HullDrag, hull_force
 
 
@@ -48,6 +49,7 @@ class EnvConfig:
     directional: bool = False       # use DirectionalOcean longitudinal slice
     theta_mean_deg: float = 0.0     # mean wave direction (deg, CCW from +x)
     spread_s: int = 10              # cos^{2s} spreading; larger = narrower
+    preview_dx_m: tuple = PREVIEW_DX_M  # upstream encounter-time look-aheads (m)
 
 
 class FlyingBoatEnv:
@@ -58,15 +60,18 @@ class FlyingBoatEnv:
     def __init__(self, ac: Aircraft, cfg: EnvConfig | None = None):
         self.ac = ac
         self.cfg = cfg or EnvConfig()
+        dx = np.asarray(self.cfg.preview_dx_m, dtype=float)
         if (self.cfg.scenario not in ("takeoff", "landing")
                 or not np.isfinite(self.cfg.dt) or self.cfg.dt <= 0
                 or self.cfg.max_steps <= 0 or self.cfg.z_goal <= 0
                 or not np.isfinite(self.cfg.theta_mean_deg)
                 or not isinstance(self.cfg.spread_s, (int, np.integer))
-                or self.cfg.spread_s < 1):
+                or self.cfg.spread_s < 1
+                or dx.ndim != 1 or not np.isfinite(dx).all()
+                or np.any(dx <= 0)):
             raise ValueError("invalid environment configuration")
         self.action_dim = 2
-        self.state_dim = 8
+        self.state_dim = 8 + int(dx.size)
         self._build_state_scales()
         self._sea = None
         self._state = None
@@ -172,16 +177,21 @@ class FlyingBoatEnv:
             speed_metric = self._Vx / self.V_stall
         else:
             speed_metric = max(0.0, 1.0 - self._z / self.cfg.z_goal)
-        s = np.array([
-            self._z / self.z_scale,
-            self._Vx / self.V_scale,
-            self._Vz / self.V_scale,
-            eta / self.eta_scale,
-            Veta / self.eta_scale * self.T_scale,
-            hull_in_water,
-            speed_metric,
-            self._prev_throttle,
-        ], dtype=np.float32)
+        preview = wave_preview(self._sea, self._x, self._t, self._Vx,
+                               dxs=self.cfg.preview_dx_m) / self.eta_scale
+        s = np.concatenate((
+            np.array([
+                self._z / self.z_scale,
+                self._Vx / self.V_scale,
+                self._Vz / self.V_scale,
+                eta / self.eta_scale,
+                Veta / self.eta_scale * self.T_scale,
+                hull_in_water,
+                speed_metric,
+                self._prev_throttle,
+            ], dtype=np.float32),
+            preview.astype(np.float32),
+        ))
         return s
 
     def step(self, action):
