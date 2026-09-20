@@ -1,0 +1,158 @@
+{
+  "study": "航空機設計のパラメトリック最適化 (決定論的コンパス探索, 9設計変数)",
+  "train": {
+    "search": "compass/pattern (first-improvement, deterministic)",
+    "evals": 149,
+    "rounds": 10,
+    "sea": {
+      "Hs": 1.5,
+      "Tp": 6.0,
+      "seed": 42,
+      "spectrum": "PM (JONSWAP gamma=1)"
+    },
+    "weights": {
+      "t_liftoff": 0.3,
+      "x_liftoff": 0.15,
+      "R_hump": 0.2,
+      "P_cruise": 0.25,
+      "N_land_peak": 0.1
+    },
+    "limits": {
+      "TW_static_min": 0.55,
+      "V_stall_max": 13.0,
+      "N_land_peak_max": 3.0,
+      "mass_max": 95.0
+    },
+    "quick": false
+  },
+  "eval": {
+    "J_baseline": 1.0677834295462432,
+    "J_best": 0.643140858633923,
+    "improvement_pct": 39.76860467789549,
+    "metrics_baseline": {
+      "t_liftoff": 4.59,
+      "x_liftoff": 25.308086294002237,
+      "Vx_liftoff": 9.219903631042333,
+      "R_hump": 719.2429164307813,
+      "liftoff": true,
+      "touchdown": true,
+      "N_land_peak": 3.246992077993645,
+      "runout_s": 3.1679999999999993,
+      "Vz_touchdown": 1.1829134501598548,
+      "P_cruise": 1083.8952915155196,
+      "TW_static": 0.6668247255520561,
+      "V_stall": 6.534188476591339,
+      "V_cruise": 11.317546427687281,
+      "mass": 84.0,
+      "S": 22.5,
+      "AR": 10.0
+    },
+    "metrics_best": {
+      "t_liftoff": 1.77,
+      "x_liftoff": 12.104003636224272,
+      "Vx_liftoff": 10.914639410440898,
+      "R_hump": 822.2786525839126,
+      "liftoff": true,
+      "touchdown": true,
+      "N_land_peak": 1.081630819527332,
+      "runout_s": 4.283999999999999,
+      "Vz_touchdown": 1.1962116457449317,
+      "P_cruise": 840.0262321890127,
+      "TW_static": 1.1272408203382835,
+      "V_stall": 6.003764736259826,
+      "V_cruise": 10.398825559892378,
+      "mass": 84.1745792578841,
+      "S": 21.99375,
+      "AR": 13.529411764705884
+    },
+    "final_landing_dt": 0.001,
+    "final_landing": {
+      "baseline": {
+        "N_land_peak": 3.254278316746891,
+        "runout_s": 3.171000000000003,
+        "Vz_touchdown": 1.1915872982444426,
+        "t_touchdown": 24.194,
+        "touchdown": true
+      },
+      "best": {
+        "N_land_peak": 1.1450691622434372,
+        "runout_s": 4.285,
+        "Vz_touchdown": 1.2034540289429434,
+        "t_touchdown": 23.56,
+        "touchdown": true
+      }
+    },
+    "robustness": {
+      "calm_Hs0.3": {
+        "baseline": {
+          "t_liftoff": 25.0,
+          "R_hump": 458.09256663938004,
+          "N_land_peak": 1.806072654742007,
+          "runout_s": 3.056000000000001,
+          "liftoff": false,
+          "touchdown": true
+        },
+        "best": {
+          "t_liftoff": 2.1,
+          "R_hump": 605.3679090930395,
+          "N_land_peak": 1.9239171041725815,
+          "runout_s": 4.065999999999999,
+          "liftoff": true,
+          "touchdown": true
+        }
+      },
+      "rough_Hs2.5": {
+        "baseline": {
+          "t_liftoff": 4.48,
+          "R_hump": 779.5007577072296,
+          "N_land_peak": 4.836031827757559,
+          "runout_s": 3.432000000000002,
+          "liftoff": true,
+          "touchdown": true
+        },
+        "best": {
+          "t_liftoff": 2.29,
+          "R_hump": 1244.8061652039776,
+          "N_land_peak": 4.012207427897368,
+          "runout_s": 4.847999999999999,
+          "liftoff": true,
+          "touchdown": true
+        }
+      }
+    },
+    "sensitivity_top": [
+      {
+        "var": "Bwl_scale",
+        "J_range": 13.468900164848826
+      },
+      {
+        "var": "Lwl_scale",
+        "J_range": 12.339378638498925
+      },
+      {
+        "var": "D_prop",
+        "J_range": 12.024892948070125
+      }
+    ]
+  },
+  "finding": "J を 39.8% 改善 (1.068 -> 0.643, 評価 149 回 / 10 ラウンド)。感度上位は Bwl_scale, Lwl_scale, D_prop。",
+  "artifacts": [
+    "results/design_opt_001/REPORT.md",
+    "results/design_opt_001/summary.json",
+    "results/design_opt_001/best_design.json",
+    "results/design_opt_001/convergence.csv",
+    "results/design_opt_001/sensitivity.csv",
+    "results/design_opt_001/design_optimize.py",
+    "results/design_opt_001/takeoff_profiles.png",
+    "results/design_opt_001/sensitivity.png"
+  ],
+  "caveats": [
+    "縦動のみ (横方向・飛行制御・構造強度は目的関数外)",
+    "尾翼/フロートは幾何スケールのみで縦力に寄与しない",
+    "質量結合はヒューリスティック (翼~S^1.2, 船体~Lwl*Bwl^0.5, プロペラ~D^2)",
+    "動力は 12 kW 固定でプロペラ整合のみを探索",
+    "最適化海象は単一シード (seed=42)。Hs=0.3/2.5 で頑健性を別途確認"
+  ],
+  "git_head": "f1e30ff2169d52b1cefa25b53490a52e232262bc",
+  "runtime_s": 39.3
+}

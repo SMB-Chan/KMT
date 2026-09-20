@@ -1,0 +1,116 @@
+{
+  "design_variables": {
+    "S_scale": 0.85,
+    "b_scale": 1.15,
+    "margin_kg": 0.59375,
+    "CL_max": 1.7,
+    "CD0": 0.025,
+    "D_prop": 0.81,
+    "prop_pitch": 0.25,
+    "Bwl_scale": 0.85,
+    "Lwl_scale": 1.0750000000000002
+  },
+  "bounds": {
+    "S_scale": [
+      0.85,
+      1.2
+    ],
+    "b_scale": [
+      0.9,
+      1.15
+    ],
+    "margin_kg": [
+      -3.5,
+      6.0
+    ],
+    "CL_max": [
+      1.2,
+      1.7
+    ],
+    "CD0": [
+      0.02,
+      0.03
+    ],
+    "D_prop": [
+      0.61,
+      0.81
+    ],
+    "prop_pitch": [
+      0.25,
+      0.4
+    ],
+    "Bwl_scale": [
+      0.85,
+      1.2
+    ],
+    "Lwl_scale": [
+      0.9,
+      1.3
+    ]
+  },
+  "descriptions": {
+    "S_scale": "翼弦長スケール(翼面積 b*c を変更)",
+    "b_scale": "翼幅スケール",
+    "margin_kg": "設計マージン質量の増減 [kg]",
+    "CL_max": "最大揚力係数(フラップ設計)",
+    "CD0": "零揚力抗力係数(表面仕上げ)",
+    "D_prop": "プロペラ直径 [m]",
+    "prop_pitch": "プロペラピッチ [m]",
+    "Bwl_scale": "船体水線幅スケール",
+    "Lwl_scale": "船体水線長スケール"
+  },
+  "weights": {
+    "t_liftoff": 0.3,
+    "x_liftoff": 0.15,
+    "R_hump": 0.2,
+    "P_cruise": 0.25,
+    "N_land_peak": 0.1
+  },
+  "limits": {
+    "TW_static_min": 0.55,
+    "V_stall_max": 13.0,
+    "N_land_peak_max": 3.0,
+    "mass_max": 95.0
+  },
+  "J_baseline": 1.0677834295462432,
+  "J_best": 0.643140858633923,
+  "violations_best": {},
+  "metrics": {
+    "baseline": {
+      "t_liftoff": 4.59,
+      "x_liftoff": 25.308086294002237,
+      "Vx_liftoff": 9.219903631042333,
+      "R_hump": 719.2429164307813,
+      "liftoff": true,
+      "touchdown": true,
+      "N_land_peak": 3.246992077993645,
+      "runout_s": 3.1679999999999993,
+      "Vz_touchdown": 1.1829134501598548,
+      "P_cruise": 1083.8952915155196,
+      "TW_static": 0.6668247255520561,
+      "V_stall": 6.534188476591339,
+      "V_cruise": 11.317546427687281,
+      "mass": 84.0,
+      "S": 22.5,
+      "AR": 10.0
+    },
+    "best": {
+      "t_liftoff": 1.77,
+      "x_liftoff": 12.104003636224272,
+      "Vx_liftoff": 10.914639410440898,
+      "R_hump": 822.2786525839126,
+      "liftoff": true,
+      "touchdown": true,
+      "N_land_peak": 1.081630819527332,
+      "runout_s": 4.283999999999999,
+      "Vz_touchdown": 1.1962116457449317,
+      "P_cruise": 840.0262321890127,
+      "TW_static": 1.1272408203382835,
+      "V_stall": 6.003764736259826,
+      "V_cruise": 10.398825559892378,
+      "mass": 84.1745792578841,
+      "S": 21.99375,
+      "AR": 13.529411764705884
+    }
+  }
+}
