@@ -2,3 +2,8 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
+
+# Local operator-training sessions and frontend products
+var/operator_sessions/
+web/operator/node_modules/
+web/operator/dist/
