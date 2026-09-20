@@ -68,6 +68,19 @@ class ModelFidelityTests(unittest.TestCase):
         self.assertAlmostEqual(ac.prop.thrust(0, 1, rho=2 * RHO), 2 * ac.prop.T_static)
         self.assertLess(ac.prop.thrust(ac.V_cruise, 1), ac.prop.T_static)
 
+    def test_summary_reports_design_point(self):
+        text = Aircraft().summary()
+        self.assertIn("Weight", text)
+        self.assertIn("Cruise speed (design point)", text)
+
+    def test_power_required_includes_propeller_efficiency(self):
+        ac = Aircraft()
+        V = ac.V_cruise
+        T = ac.prop.thrust(V, 0.7, rho=RHO)
+        eta = ac.prop.eta_motor * ac.prop.eta_esc * ac.prop.eta_prop
+        self.assertAlmostEqual(ac.prop.power_required(V, 0.7), T * V / eta)
+        self.assertLess(ac.prop.eta_prop, 1.0)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -122,7 +122,11 @@ class SpatialConnectionTests(unittest.TestCase):
         pilot.model.act.return_value = (np.array([.4, .1, .2, -.1]), 0, 0)
         control, _ = pilot.decide(observe(v), {'scenario':'landing'})
         np.testing.assert_allclose(pilot.model.act.call_args.args[0], expected, atol=1e-7)
-        self.assertEqual(control, SpatialControl(.4, 3, 9, -.1))
+        self.assertEqual((control.throttle, control.bank_deg, control.rudder),
+                         (.4, 9, -.1))
+        # Pitch goes through a radians envelope shared with EnvConfig;
+        # allow the rad->deg roundtrip (≈4e-15 deg).
+        self.assertAlmostEqual(control.pitch_deg, 3.0)
 
     def test_seeded_reset_clears_spatial_state(self):
         v = self.vehicle()
