@@ -25,7 +25,6 @@ def _wing_polygon(span: float, chord: float, alpha: float = 0.0):
     Span is along the local y-axis (left-right), chord along x, lift on z.
     `alpha` (radians) is the pitch angle of the wing around the y-axis.
     """
-    c, s = math.cos(alpha), math.sin(alpha)
     ca, sa = math.cos(alpha), math.sin(alpha)
     # Four corners (x, y, z) in the body frame
     raw = np.array([

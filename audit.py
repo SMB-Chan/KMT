@@ -21,8 +21,15 @@ def main():
         env = dict(os.environ, MPLCONFIGDIR=cache)
         for name, command in [('regressions', ['-m', 'unittest', 'discover', '-s', 'tests', '-v']),
                               ('physics', ['validate.py'])]:
-            result = subprocess.run([sys.executable, *command], cwd=root, env=env,
-                                    capture_output=True, text=True, timeout=120)
+            try:
+                result = subprocess.run([sys.executable, *command], cwd=root, env=env,
+                                        capture_output=True, text=True, timeout=120)
+            except subprocess.TimeoutExpired as exc:
+                out = (exc.stdout or "") + (exc.stderr or "")
+                checks.append(dict(name=name, passed=False,
+                                   output=out + "\ntimeout after 120 s"))
+                print(f"{name}: TIMEOUT")
+                continue
             checks.append(dict(name=name, passed=result.returncode == 0,
                                output=result.stdout + result.stderr))
             print(f"{name}: {'PASS' if result.returncode == 0 else 'FAIL'}")

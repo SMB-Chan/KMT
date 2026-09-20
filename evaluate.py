@@ -98,9 +98,10 @@ def _save_telemetry_csv(veh: FlyingBoatVehicle, filename: str):
                         snap["Vx"], snap["Vz"], 0.0,
                         math.degrees(snap["alpha"]), 0.0,
                         int(snap["z"] * 1000), snap["mode"]])
+        # Comment lines stay parseable: pandas read_csv(comment="#")
+        # skips them while the data rows keep the 12-column header shape.
         w.writerow([])
-        w.writerow(["# summary"])
-        w.writerow(["end_t", veh.t, "final_z", veh.z, "final_x", veh.x])
+        w.writerow(["# summary end_t", veh.t, "final_z", veh.z, "final_x", veh.x])
 
 
 def run_takeoff():

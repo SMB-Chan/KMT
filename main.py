@@ -202,9 +202,10 @@ def write_summary(ac, sea, res_to, res_ld):
         td_Vz  = res_ld.Vz[td]
         N_pk   = res_ld.N_water.max()
         V_end  = res_ld.Vx[-1]
-        stop_idx = int(np.argmax(res_ld.Vx < 0.2))
-        stop_t = res_ld.t[stop_idx]
-        stop_x = res_ld.x[stop_idx]
+        slow = np.where(res_ld.Vx < 0.2)[0]
+        stop_idx = int(slow[0]) if len(slow) > 0 else -1
+        stop_t = res_ld.t[stop_idx] if stop_idx >= 0 else float("nan")
+        stop_x = res_ld.x[stop_idx] if stop_idx >= 0 else float("nan")
     else:
         td_t = td_x = td_Vx = td_Vz = N_pk = V_end = stop_t = stop_x = float("nan")
 

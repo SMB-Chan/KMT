@@ -100,8 +100,7 @@ class Ocean:
 
     def elevation_at(self, x0: float, t: np.ndarray) -> np.ndarray:
         """Time history at fixed x0."""
-        return self.eta(np.array([x0]), float(0)) * np.zeros_like(t) \
-             + (self.amps[:, None] * np.cos(
+        return (self.amps[:, None] * np.cos(
                    self.k[:, None] * x0
                    - np.outer(self.omega, t)
                    + self.phases[:, None])).sum(axis=0)

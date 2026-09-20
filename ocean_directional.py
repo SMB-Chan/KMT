@@ -257,9 +257,10 @@ def from_ndbc(realtime_path="data/ndbc_46012_realtime.txt",
                     mwd_deg = None
                 if mwd_deg is not None and mwd_deg > 0:
                     # MWD is "from" direction (oceanographic convention);
-                    # convert to propagation direction (CCW from +x).
-                    # 0 deg = from North (+y in our convention), 90 = from East (-x)
-                    theta_deg = (270.0 - mwd_deg) % 360.0
+                    # travel bearing is the opposite compass point. Our axes
+                    # are x=north, y=east, so a compass bearing numerically
+                    # equals the math angle CCW from +x.
+                    theta_deg = (mwd_deg + 180.0) % 360.0
                     mwd_raw = mwd_deg
                 break
     # Realtime file columns (see the '#' header):
@@ -286,7 +287,7 @@ def from_ndbc(realtime_path="data/ndbc_46012_realtime.txt",
                     except ValueError:
                         mwd_deg = None
                     if mwd_deg is not None and mwd_deg > 0:
-                        theta_deg = (270.0 - mwd_deg) % 360.0
+                        theta_deg = (mwd_deg + 180.0) % 360.0
                         mwd_raw = mwd_deg
                 break
     theta_mean = math.radians(theta_deg)

@@ -83,6 +83,18 @@ class RegressionTests(unittest.TestCase):
         self.assertEqual(env.envs[0]._steps, 1)
         self.assertEqual(infos[0]['t'], .05)
 
+    def test_vector_env_accepts_spatial_action_dim(self):
+        import numpy as np
+        env = VectorizedEnv(2, EnvConfig(spatial=True, max_steps=3))
+        self.assertEqual(env.action_dim, 4)
+        s = env.reset()
+        self.assertEqual(s.shape, (2, env.envs[0].state_dim))
+        states, _, dones, _ = env.step(np.zeros((2, 4), dtype=np.float32))
+        self.assertEqual(states.shape[0], 2)
+        self.assertFalse(dones.any())
+        with self.assertRaises(ValueError):
+            env.step(np.zeros((2, 2), dtype=np.float32))
+
     def test_wave_configuration(self):
         env = FlyingBoatEnv(Aircraft(), EnvConfig(Hs=0, Tp=4))
         env.reset()
@@ -224,6 +236,26 @@ class RegressionTests(unittest.TestCase):
             accelerate.sea_state_sweep(policy(), Hs_list=[.2, 2], Tp_list=[4], n_seeds=3, n_envs=2)
         self.assertEqual(configs, [(2,.2,4,0),(1,.2,4,2),(2,2,4,0),(1,2,4,2)])
 
+    def test_sweep_horizon_is_scenario_dependent(self):
+        import accelerate
+        steps = []
+        class FakeEnv:
+            def __init__(self, n, cfg, base_seed):
+                steps.append((cfg.scenario, cfg.max_steps)); self.n = n
+            def rollout(self, *args, **kwargs):
+                return ([{'rewards':[1]}] * self.n, [{'success':True}] * self.n)
+        with patch.object(accelerate, 'VectorizedEnv', FakeEnv):
+            accelerate.sea_state_sweep(policy(), scenario="takeoff",
+                                       Hs_list=[.3], Tp_list=[4], n_seeds=1, n_envs=1)
+            accelerate.sea_state_sweep(policy(), scenario="landing",
+                                       Hs_list=[.3], Tp_list=[4], n_seeds=1, n_envs=1)
+            accelerate.sea_state_sweep(policy(), scenario="landing",
+                                       Hs_list=[.3], Tp_list=[4], n_seeds=1, n_envs=1,
+                                       max_steps=100)
+        self.assertEqual(steps, [("takeoff", 300), ("landing", 600), ("landing", 100)])
+        self.assertEqual(accelerate.default_horizon_steps("takeoff"), 300)
+        self.assertEqual(accelerate.default_horizon_steps("landing"), 600)
+
     def test_vehicle_seed_reset(self):
         for sea in (Ocean(), RealOcean()):
             v = FlyingBoatVehicle(Aircraft(), sea)
@@ -322,6 +354,15 @@ class RegressionTests(unittest.TestCase):
         drag = HullDrag()
         self.assertEqual(drag.resistance(0), 0)
         self.assertEqual(drag.resistance(-3), drag.resistance(3))
+
+    def test_hump_planing_blend_has_no_step(self):
+        drag = HullDrag()
+        worst = 0.0
+        V = 2.0
+        while V < 5.0:
+            worst = max(worst, abs(drag.resistance(V + 0.05) - drag.resistance(V)))
+            V += 0.05
+        self.assertLess(worst, 60.0)
 
     def test_buoy_fallback_and_zero_component(self):
         from ocean_real import load_buoy_default

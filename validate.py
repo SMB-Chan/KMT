@@ -32,9 +32,9 @@ def main():
     LD_max  = 0.5 / math.sqrt(ac.aero.CD0 / (math.pi * ac.aero.e * ac.geom.AR))
     assert_close(ac.L_D(CL_star), LD_max, rel=1e-6,
                  msg="L/D max from polar")
-    # Cruise speed
+    # Design cruise point (operating reference, not a polar optimum)
     assert_close(ac.V_cruise, ac.V_stall * math.sqrt(3), rel=1e-6,
-                 msg="V_cruise = V_stall * sqrt(3)")
+                 msg="V_cruise = V_stall * sqrt(3) by definition")
 
     # --- Ocean --------------------------------------------------------
     print("\n[Ocean]")

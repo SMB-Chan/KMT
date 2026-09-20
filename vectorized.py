@@ -33,10 +33,15 @@ class VectorizedEnv:
         self._infos = [{} for _ in range(self.n)]
         return states
 
+    @property
+    def action_dim(self) -> int:
+        return self.envs[0].action_dim
+
     def step(self, actions):
         """actions : (n, action_dim)  returns state, reward, done, infos."""
-        if np.shape(actions) != (self.n, 2):
-            raise ValueError("actions must have shape (n, 2)")
+        if np.shape(actions) != (self.n, self.action_dim):
+            raise ValueError(
+                f"actions must have shape ({self.n}, {self.action_dim})")
         states, rewards, dones = [], [], []
         infos = []
         for i, (env, a) in enumerate(zip(self.envs, actions)):

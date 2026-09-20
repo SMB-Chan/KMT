@@ -90,7 +90,7 @@ class OllamaPhi:
 # ---------------------------------------------------------------------
 #  Action parsing -- Phi is asked to output JSON {"throttle":..,"pitch_deg":..}
 # ---------------------------------------------------------------------
-def parse_action(text: str, pitch_lo_deg: float = -3.0,
+def parse_action(text: str, pitch_lo_deg: float = -8.0,
                  pitch_hi_deg: float = 12.0) -> tuple[float, float]:
     """Extract (throttle, pitch_rad) from Phi free-form text."""
     import re

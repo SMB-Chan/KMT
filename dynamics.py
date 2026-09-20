@@ -32,6 +32,7 @@ from ocean import Ocean
 # ---------------------------------------------------------------------
 #  Hull contact (spring-damper)
 # ---------------------------------------------------------------------
+HULL_HYSTERESIS_M = 0.05  # water-contact band shared by phase flags and env
 @dataclass(frozen=True)
 class HullContact:
     h_keel:    float = 0.30    # keel depth below CG, m
@@ -95,12 +96,16 @@ class HullDrag:
     hump_Cv:    float = 0.18   # peak resistance coeff (R / 0.5 rho V^2 B^2)
     hump_width: float = 0.20   # Gaussian width in Fr
     Cv_planing: float = 0.012  # planing drag coeff (Savitsky beta ~0)
+    planing_lam_lo: float = 1.2  # blend starts (V ~ 2.8 m/s at baseline beam)
+    planing_lam_hi: float = 1.8  # fully planing (V ~ 4.2 m/s at baseline beam)
 
     def resistance(self, V: float) -> float:
         """Total hydrodynamic resistance.
 
         Skin friction + hump drag (Gaussian) + Savitsky planing drag.
-        The hump and planing curves meet smoothly without singularities.
+        The pre-planing coefficient blends into the planing curve with a
+        smoothstep over [planing_lam_lo, planing_lam_hi] so that no step
+        sits in the takeoff hump band.
         """
         V = abs(V)
         Fr = V / math.sqrt(G * self.Lwl)
@@ -109,12 +114,16 @@ class HullDrag:
         # Hump drag (Gaussian in Froude number)
         R_hump = (self.hump_Cv * 0.5 * RHO_W * V ** 2 * self.Bwl ** 2
                   * math.exp(- ((Fr - self.hump_Fr) / self.hump_width) ** 2))
-        # Planing drag (Savitsky, low-deadrise)
+        # Planing drag (Savitsky, low-deadrise), smoothly blended in.
         lam = V / math.sqrt(G * self.Bwl)
-        if lam < 1.4:
+        if lam <= self.planing_lam_lo:
             Cv = self.hump_Cv                  # pre-planing
-        else:
+        elif lam >= self.planing_lam_hi:
             Cv = self.Cv_planing / math.sqrt(lam)
+        else:
+            s = (lam - self.planing_lam_lo) / (self.planing_lam_hi - self.planing_lam_lo)
+            s = s * s * (3.0 - 2.0 * s)        # smoothstep, C1 at both ends
+            Cv = self.hump_Cv * (1.0 - s) + (self.Cv_planing / math.sqrt(lam)) * s
         R_planing = Cv * 0.5 * RHO_W * V ** 2 * self.Bwl ** 2
         return max(R_f, R_f + R_hump + R_planing)
 
@@ -213,7 +222,7 @@ def simulate_takeoff(ac: Aircraft, sea: Ocean,
         D[i + 1]  = D_i
         R_[i + 1] = R_hull + D_i
         Nw[i + 1] = wf.N
-        ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + 0.05 else 0
+        ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + HULL_HYSTERESIS_M else 0
 
     # Set first sample
     T[0]  = ac.prop.thrust(Vx[0], throttle, rho=isa_density(z[0]))
@@ -300,7 +309,7 @@ def simulate_landing(ac: Aircraft, sea: Ocean,
         D[i + 1]  = D_i
         R_[i + 1] = R_hull + D_i
         Nw[i + 1] = wf.N
-        ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + 0.05 else 0
+        ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + HULL_HYSTERESIS_M else 0
 
     # First-sample logging
     T[0] = ac.prop.thrust(Vx[0], throttle, rho=isa_density(z[0]))

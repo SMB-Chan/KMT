@@ -134,7 +134,7 @@ class Aircraft:
 
     @property
     def V_cruise(self) -> float:
-        """Speed for minimum power (L/D max × √3)."""
+        """Design cruise point (operating reference at V_stall × √3)."""
         return self.V_stall * math.sqrt(3.0)
 
     @property
@@ -216,7 +216,7 @@ def scaled_aircraft(scale: float) -> Aircraft:
             f"Weight                          : {a.W:.0f} N",
             f"Stall speed (CL_max={a.aero.CL_max:.2f})        : "
             f"{a.V_stall:.2f} m/s  ({a.V_stall*3.6:.1f} km/h)",
-            f"Cruise speed (L/D max)          : {a.V_cruise:.2f} m/s  "
+            f"Cruise speed (design point)     : {a.V_cruise:.2f} m/s  "
             f"({a.V_cruise*3.6:.1f} km/h)",
             f"Thrust @ cruise, full throttle  : "
             f"{a.prop.thrust(a.V_cruise, 1.0):.0f} N  "

@@ -88,7 +88,14 @@ def flight(pilot, scenario, hs, seed, duration=40):
                 peak_load_weights=peak/v.ac.W,final=observe(v))
 
 
+def _repo_root():
+    return Path(__file__).resolve().parent
+
+
 def train_evaluate(out, teacher_path, previous_path="results/phi_student_v1/student.npz", test_seeds=(101,102)):
+    previous_path = Path(previous_path)
+    if not previous_path.is_absolute():
+        previous_path = _repo_root() / previous_path
     records=[json.loads(line) for line in teacher_path.read_text().splitlines()]
     for split in ('train','validation'):
         (out/f'{split}.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in records if r['split']==split))

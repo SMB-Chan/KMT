@@ -29,7 +29,7 @@ from atmosphere import Atmosphere, AtmosphereConfig, isa_density
 from aircraft import Aircraft
 from ocean import Ocean
 from ocean_directional import DirectionalOcean, PREVIEW_DX_M, sea_eta_1d, wave_preview
-from dynamics import HullContact, HullDrag, hull_force
+from dynamics import HullContact, HullDrag, HULL_HYSTERESIS_M, hull_force
 
 
 # ---------------------------------------------------------------------
@@ -188,7 +188,7 @@ class FlyingBoatEnv:
         eta = self._eta(self._x, self._t)
         eta_next = self._eta(self._x, self._t + self.cfg.dt)
         Veta = (eta_next - eta) / self.cfg.dt
-        hull_in_water = 1.0 if (eta + self.hull.h_keel > self._z) else 0.0
+        hull_in_water = 1.0 if (eta + self.hull.h_keel + HULL_HYSTERESIS_M > self._z) else 0.0
         if self.cfg.scenario == "takeoff":
             speed_metric = self._Vx / self.V_stall
         else:
@@ -328,7 +328,7 @@ class FlyingBoatEnv:
         r = r_descent + r_prox + r_comfort + r_step + r_flare
         done = False
         # touchdown: first sample with hull in water
-        hull_in_water = (eta + self.hull.h_keel) > self._z
+        hull_in_water = (eta + self.hull.h_keel + HULL_HYSTERESIS_M) > self._z
         if hull_in_water:
             # reward soft touchdown (linear in |Vz|)
             r += 100.0 * max(0.0, 1.0 - abs(self._Vz) / 1.5)

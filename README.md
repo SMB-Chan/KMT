@@ -29,6 +29,18 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `flight_jev.py` | 飛行状態に対する Jev 風決定。内側は内蔵セットポイント |
 | `advisor.py` | Phi助言＋短horizon試行によるカリキュラム生成（Ollama不在時は規則スタブ） |
 | `ocean_directional.py` | 方向分散付き2D不規則波（cos^2s、NDBCのMWD対応） |
+| `atmosphere.py` | ISA大気・対数風・シード固定突風 |
+| `spatial_dynamics.py` | 横運動・バンク・フロート復原の空間動力学 |
+| `accelerate.py` | ベクトル化訓練・海況スイープ |
+| `vectorized.py` | 並列環境ロールアウト |
+| `flight_diagnostics.py` | 力収支・ plateau 診断 |
+| `ollama_pilot.py` | ローカルOllama操縦・フォールバック制御 |
+| `fly_ollama.py` | 操縦実行・Jev／方策・教材記録ランナー |
+| `policy_pilot.py` | 学習済み方策の操縦ラッパー |
+| `teacher_student.py` | 教師模倣の生徒学習 |
+| `educate.py` | Phi教材 cycles（カリキュラム・検証） |
+| `feedback_education.py` | フィードバック付き教材 cycles |
+| `docs/` | 運用マニュアル・MAVLink参照・チェックリスト |
 | `tests/` | 学習・評価・故障処理の回帰テスト |
 | `data/` | 取得した NOAA NDBC データ（リアルタイム・スペクトル） |
 | `results/` | 出力グラフ・CSV・テキスト |
@@ -148,7 +160,7 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 `results/spatial_takeoff_001/`、`results/model_fidelity_001/`、
 `results/model_fidelity_002/`、`results/landing_settle_001/`、
 `results/wing_floats_001/`、`results/new_airframe_001/`、
-`results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/envelope_002/`、`results/lateral_001/`、`results/land_phase_001/`、`results/size_001/` を参照。
+`results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/envelope_002/`、`results/lateral_001/`、`results/land_phase_001/`、`results/audit_fixes_001/`、`results/size_001/` を参照。
 
 ## 注意点・限界
 
@@ -159,6 +171,8 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 - pymavlink のPython 3.14互換ビルドが失敗したため、MAVLinkメッセージ
   識別子を使う自前のプロセス内実装（シリアライズ・通信・ACK未実装、実機接続やプロトコル互換性は未検証）
 - 訓練は既定で固定シード。`--seed-per-episode` でエピソード毎に海面シードを変更可能
+- 着水成功は船底が波面に最初に触れた瞬間に確定する（波頂では平均水面より最大約1 m上方でも確定）。進入点の波位が成功率に影響しうる
+- `fly_ollama.py` の合成海面既定は `--hs 0.3` で、env/train の既定 Hs=1.5 と意図的に異なる（軽海況の操縦確認用）
 
 ## 監査と再検証
 

@@ -611,14 +611,6 @@ class FlyingBoatVehicle:
 
 
 # ---------------------------------------------------------------------
-def a_z_safe(pitch, vz):
-    return vz
-
-def V_safe(vx):
-    return vx
-
-
-# ---------------------------------------------------------------------
 if __name__ == "__main__":
     print("MAVLink/PX4-compatible flying-boat vehicle wrapper")
     print("=" * 60)

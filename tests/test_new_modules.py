@@ -33,8 +33,12 @@ class NewModulesTests(unittest.TestCase):
         # First data row: SwH=1.5 SwP=7.1 (dominant), MWD=305
         self.assertAlmostEqual(sea.Hs, 1.5)
         self.assertAlmostEqual(sea.Tp, 7.1)
+        # MWD is a "from" bearing; travel bearing is opposite. Axes are
+        # x=north, y=east, so bearing 125 travels (N-0.57, E+0.82).
         self.assertAlmostEqual(sea.theta_mean,
-                               _math.radians((270.0 - 305.0) % 360.0))
+                               _math.radians((305.0 + 180.0) % 360.0))
+        self.assertLess(_math.cos(sea.theta_mean), 0.0)
+        self.assertGreater(_math.sin(sea.theta_mean), 0.0)
         self.assertIn("305", sea.label)
 
     def test_from_ndbc_missing_mwd_reports_unknown(self):
@@ -56,7 +60,8 @@ class NewModulesTests(unittest.TestCase):
                                spectral_path=os.path.join(d, "absent.txt"))
             self.assertAlmostEqual(sea_rt.Hs, 2.0)
             self.assertAlmostEqual(sea_rt.Tp, 9.0)
-            self.assertAlmostEqual(sea_rt.theta_mean, 0.0)  # (270-270)%360
+            self.assertAlmostEqual(sea_rt.theta_mean,
+                                   math.radians((270.0 + 180.0) % 360.0))
             self.assertIn("270", sea_rt.label)
 
     def test_eta_2d_shapes(self):

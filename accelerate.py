@@ -49,21 +49,35 @@ def gae(rewards, values, dones, gamma=0.99, lam=0.95):
 
 
 # ---------------------------------------------------------------------
+def default_horizon_steps(scenario: str, dt: float = 0.05) -> int:
+    """Episode horizon: 15 s for takeoff, 30 s for landing (cf. train._config_for)."""
+    if scenario == "landing":
+        return int(round(30.0 / dt))
+    if scenario == "takeoff":
+        return int(round(15.0 / dt))
+    raise ValueError("scenario must be 'takeoff' or 'landing'")
+
+
 def train_vectorised(scenario: str = "takeoff",
                      n_envs: int = 8,
                      episodes: int = 200,
                      max_updates: int = 4,
                      dt: float = 0.05,
                      seed: int = 0,
-                     tag: str = "policy"):
+                     tag: str = "policy",
+                     max_steps: int | None = None):
     """Train using N parallel envs (different wave seeds)."""
-    cfg = EnvConfig(scenario=scenario, max_steps=300, dt=dt)
+    steps = max_steps if max_steps is not None else default_horizon_steps(scenario, dt)
+    if steps <= 0:
+        raise ValueError("max_steps must be positive")
+    cfg = EnvConfig(scenario=scenario, max_steps=steps, dt=dt)
     ac = Aircraft()
     venv = VectorizedEnv(n_envs, cfg, base_seed=seed)
     state_dim = venv.envs[0].state_dim
     action_dim = venv.envs[0].action_dim
-    action_low  = np.array([0.0, -1.0], dtype=np.float32)
-    action_high = np.array([1.0,  1.0], dtype=np.float32)
+    # dim 0 is throttle [0, 1]; remaining dims are symmetric [-1, 1].
+    action_low  = np.array([0.0] + [-1.0] * (action_dim - 1), dtype=np.float32)
+    action_high = np.array([1.0] * action_dim, dtype=np.float32)
     policy = ActorCritic(state_dim, action_dim, action_low, action_high,
                          hidden=64, seed=seed)
 
@@ -152,7 +166,8 @@ def train_vectorised(scenario: str = "takeoff",
 def sea_state_sweep(policy, scenario: str = "takeoff",
                     Hs_list=None, Tp_list=None, n_seeds: int = 3,
                     n_envs: int = 16, directional: bool = False,
-                    theta_mean_deg: float = 0.0, spread_s: int = 10):
+                    theta_mean_deg: float = 0.0, spread_s: int = 10,
+                    max_steps: int | None = None):
     """Map takeoff / landing success rate across sea states."""
     if Hs_list is None:
         Hs_list = [0.3, 0.5, 0.8, 1.0, 1.2, 1.5, 1.8, 2.2]
@@ -160,11 +175,14 @@ def sea_state_sweep(policy, scenario: str = "takeoff",
         Tp_list = [4.0, 5.0, 6.0, 8.0]
     if n_seeds <= 0 or n_envs <= 0:
         raise ValueError("n_seeds and n_envs must be positive")
+    steps = max_steps if max_steps is not None else default_horizon_steps(scenario)
+    if steps <= 0:
+        raise ValueError("max_steps must be positive")
     results = {}
     print("Sea-state sweep:")
     for Hs in Hs_list:
         for Tp in Tp_list:
-            cfg = EnvConfig(scenario=scenario, max_steps=300, dt=0.05,
+            cfg = EnvConfig(scenario=scenario, max_steps=steps, dt=0.05,
                             Hs=Hs, Tp=Tp, directional=directional,
                             theta_mean_deg=theta_mean_deg, spread_s=spread_s)
             rewards, successes = [], []
@@ -239,7 +257,7 @@ def plot_history(history: dict, tag: str):
 # ---------------------------------------------------------------------
 def mavlink_sea_sweep(policy, scenario: str = "takeoff",
                       Hs_list=None, Tp_list=None, n_seeds: int = 3,
-                      duration: float = 15.0, directional: bool = False,
+                      duration: float | None = None, directional: bool = False,
                       theta_mean_deg: float = 0.0, spread_s: int = 10):
     """Sweep using MAVLink + damage model for realistic envelope."""
     if Hs_list is None:
@@ -249,6 +267,10 @@ def mavlink_sea_sweep(policy, scenario: str = "takeoff",
     if (n_seeds <= 0 or not np.isfinite(theta_mean_deg)
             or not isinstance(spread_s, (int, np.integer)) or spread_s < 1):
         raise ValueError("invalid sweep configuration")
+    if duration is None:
+        duration = 15.0 if scenario == "takeoff" else 30.0
+    if duration <= 0:
+        raise ValueError("duration must be positive")
     results = {}
     print("\nMAVLink + damage-model sea-state sweep:")
     n = int(duration / 0.05)
