@@ -283,7 +283,7 @@ class NewModulesTests(unittest.TestCase):
                   "--tag", tag])
             self.assertTrue(os.path.exists(path))
         finally:
-            for suffix in ("_policy.npz", "_learning.png"):
+            for suffix in ("_policy.npz", "_bc_policy.npz", "_learning.png"):
                 p = os.path.join("results", f"{tag}{suffix}")
                 if os.path.exists(p):
                     os.remove(p)
