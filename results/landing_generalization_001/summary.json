@@ -1,0 +1,15 @@
+{
+  "study": "landing randomized 1200ep + README results refresh",
+  "training": {
+    "tag": "landing_rand2",
+    "episodes": 1200,
+    "seed_per_episode": true,
+    "tail_succ": "0.0% throughout"
+  },
+  "eval_heldout10": {
+    "landing_rand2": "0%",
+    "landing_rand2_best": "0% (best file exists: rare train-time success, no generalization)"
+  },
+  "finding": "soft touchdown needs wave-phase-precise flare but observation has no upstream wave preview (only local eta/Veta); timing is blind luck. Fix candidates: preview features (state change), BC from scripted flare, longer training unlikely to help (1200ep flat 0%).",
+  "docs": "README experiment table refreshed to post-fix numbers; pitch envelope line corrected to -8..12deg"
+}
