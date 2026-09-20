@@ -83,6 +83,19 @@ class RegressionTests(unittest.TestCase):
         self.assertEqual(env.envs[0]._steps, 1)
         self.assertEqual(infos[0]['t'], .05)
 
+    def test_pitch_envelope_is_single_sourced(self):
+        import math
+        from env import EnvConfig, pitch_from_config, pitch_from_normalized
+        cfg = EnvConfig()
+        self.assertAlmostEqual(pitch_from_config(1.0, cfg), math.radians(12.0))
+        self.assertAlmostEqual(pitch_from_config(-1.0, cfg), math.radians(-8.0))
+        self.assertAlmostEqual(pitch_from_config(0.0, cfg), math.radians(2.0))
+        wide = EnvConfig(pitch_lo=math.radians(-10.0), pitch_hi=math.radians(14.0))
+        self.assertAlmostEqual(pitch_from_config(1.0, wide), math.radians(14.0))
+        self.assertAlmostEqual(
+            pitch_from_normalized(0.5, EnvConfig.pitch_lo, EnvConfig.pitch_hi),
+            math.radians(7.0))
+
     def test_vector_env_accepts_spatial_action_dim(self):
         import numpy as np
         env = VectorizedEnv(2, EnvConfig(spatial=True, max_steps=3))
@@ -265,6 +278,23 @@ class RegressionTests(unittest.TestCase):
             v.step()
             v.reset(seed=9)
             self.assertEqual(v.z, first)
+
+    def test_longitudinal_step_is_substep_consistent(self):
+        from aircraft import Aircraft
+        from ocean import Ocean
+        from mavlink_if import FlyingBoatVehicle
+        def fresh():
+            v = FlyingBoatVehicle(Aircraft(), Ocean(Hs=0))
+            v.z, v.Vx, v.Vz = 10.0, 12.0, -1.0
+            return v
+        one = fresh()
+        one.step(dt=0.05)
+        five = fresh()
+        for _ in range(5):
+            five.step(dt=0.01)
+        for a, b in ((one.x, five.x), (one.z, five.z), (one.Vx, five.Vx),
+                     (one.Vz, five.Vz), (one.t, five.t)):
+            self.assertAlmostEqual(a, b, places=7)
 
     def test_disarmed_and_failed_thrust(self):
         v = FlyingBoatVehicle(Aircraft(), Ocean(Hs=0))

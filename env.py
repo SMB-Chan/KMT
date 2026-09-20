@@ -55,6 +55,23 @@ class EnvConfig:
     preview_dx_m: tuple = PREVIEW_DX_M  # upstream encounter-time look-aheads (m)
 
 
+def pitch_from_normalized(u: float, pitch_lo: float, pitch_hi: float) -> float:
+    """Map a normalized action in [-1, 1] to radians within [pitch_lo, pitch_hi].
+
+    Single locus of the normalized-to-physical pitch formula shared by the
+    training env, the MAVLink vehicle action path, and the policy pilot.
+    """
+    mid = (pitch_hi + pitch_lo) / 2.0
+    half = (pitch_hi - pitch_lo) / 2.0
+    return float(np.clip(mid + half * float(np.clip(u, -1.0, 1.0)),
+                         pitch_lo, pitch_hi))
+
+
+def pitch_from_config(u: float, cfg: EnvConfig) -> float:
+    """Normalized pitch action mapped through an EnvConfig envelope."""
+    return pitch_from_normalized(u, cfg.pitch_lo, cfg.pitch_hi)
+
+
 class FlyingBoatEnv:
     """Gymnasium-like env:  reset() -> state,  step(action) -> (state, r, done, info)."""
 
@@ -234,9 +251,7 @@ class FlyingBoatEnv:
             self._bank_command = float(np.clip(action[2], -1, 1)) * math.radians(45)
             self._rudder_command = float(np.clip(action[3], -1, 1))
         throttle = float(np.clip(action[0], 0.0, 1.0))
-        pitch    = float(action[1]) * (self.cfg.pitch_hi - self.cfg.pitch_lo)/2.0 \
-                 + (self.cfg.pitch_hi + self.cfg.pitch_lo)/2.0
-        pitch = float(np.clip(pitch, self.cfg.pitch_lo, self.cfg.pitch_hi))
+        pitch = pitch_from_config(action[1], self.cfg)
         self._prev_throttle = throttle
 
         xn, zn, Vxn, Vzn, eta, Veta, N_water, T_i, L_i, D_i = \

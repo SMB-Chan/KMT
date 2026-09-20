@@ -5,6 +5,7 @@ import math
 import numpy as np
 from policy import ActorCritic
 from aircraft import Aircraft
+from env import EnvConfig, pitch_from_normalized
 from ollama_pilot import Control, SpatialControl
 
 
@@ -37,7 +38,9 @@ class PolicyPilot:
                       obs['bank_deg'] / 45, math.sin(heading), math.cos(heading),
                       *(v / 15 for v in obs['wind_m_s'])]
         action = self.model.act(np.asarray(state, dtype=np.float32), deterministic=True)[0]
-        values = [float(action[0]), float(2 + 10 * action[1])]
+        values = [float(action[0]),
+                  math.degrees(pitch_from_normalized(action[1], EnvConfig.pitch_lo,
+                                                     EnvConfig.pitch_hi))]
         control = (SpatialControl(*values, float(45 * action[2]), float(action[3]))
                    if self.spatial else Control(*values))
         return control, dict(source='local_rl', normalized_action=action.tolist())
