@@ -39,6 +39,7 @@ from ocean    import Ocean
 from ocean_real import RealOcean
 from ocean_directional import DirectionalOcean, sea_eta_1d, wave_preview
 from dynamics import HullContact, HullDrag, hull_force
+from env import EnvConfig, pitch_from_normalized
 from damage import (SprayModel, IngressModel, DamageState,
                     update_damage, effective_thrust_factor,
                     effective_mass_increase)
@@ -454,8 +455,9 @@ class FlyingBoatVehicle:
                 float(p.get('y', 0.0)), target_heading)
         if action is not None and self._armed:
             self.throttle = float(np.clip(action[0], 0.0, 1.0))
-            # RL action envelope [-8, 12] deg, shared with EnvConfig
-            self.alpha = math.radians(2.0 + 10.0 * float(np.clip(action[1], -1, 1)))
+            # RL action envelope, shared with EnvConfig defaults.
+            self.alpha = pitch_from_normalized(action[1], EnvConfig.pitch_lo,
+                                               EnvConfig.pitch_hi)
             if self.spatial:
                 self.bank_command = float(np.clip(action[2], -1, 1)) * math.radians(45)
                 self.rudder_command = float(np.clip(action[3], -1, 1))
@@ -466,7 +468,6 @@ class FlyingBoatVehicle:
         eta = self.wave_elevation()
         eta_next = self.wave_elevation(t=self.t + dt)
         Veta = (eta_next - eta) / dt
-        V = math.hypot(self.Vx, self.Vz)
 
         # ---- Damage update ----
         self.damage = update_damage(self.damage, dt,
@@ -486,36 +487,43 @@ class FlyingBoatVehicle:
         if self.spatial:
             self._step_spatial(dt, T_factor, extra_mass)
             return
-        rho = isa_density(self.z)
-        T_i = self.ac.prop.thrust(V, self.throttle, rho=rho) * T_factor
-        W_eff = (self.ac.mass.total + extra_mass) * G
-        q = 0.5 * rho * V ** 2
-        gamma = math.atan2(self.Vz, self.Vx)
-        alpha_eff = self.alpha - gamma
-        CL = self.ac.CL(alpha_eff)
-        CD = self.ac.CD(CL, height_m=self.z - eta)
-        L_i = q * self.ac.geom.S * CL
-        D_i = q * self.ac.geom.S * CD
-        wf = hull_force(self.z, self.Vx, self.Vz, eta, self.hull)
-        R_hull = self.hd.resistance(self.Vx) if wf.N > 0 else 0.0
-        cos_a, sin_a = math.cos(self.alpha + self.ac.aero.alpha_T), math.sin(self.alpha + self.ac.aero.alpha_T)
-        cos_g, sin_g = math.cos(gamma), math.sin(gamma)
-        T_x = T_i * cos_a;  T_z = T_i * sin_a
-        L_x = -L_i * sin_g; L_z = +L_i * cos_g
-        D_x = -D_i * cos_g; D_z = -D_i * sin_g
-        Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, self.Vx)
-        Fz = T_z + L_z + D_z + wf.N - W_eff
-        m_total = self.ac.mass.total + extra_mass
-        a_x = Fx / m_total
-        a_z = Fz / m_total
-        self.Vx += a_x * dt
-        self.Vz += a_z * dt
-        self.x  += self.Vx * dt
-        self.z  += self.Vz * dt
-        self.t  += dt
+        # Substepped explicit Euler (h <= 0.01 s) like the RL env and the
+        # spatial integrator; the surface is re-evaluated per substep.
+        n_sub = max(1, math.ceil(dt / 0.01))
+        h = dt / n_sub
+        for _ in range(n_sub):
+            eta_h = self.wave_elevation()
+            V_h = math.hypot(self.Vx, self.Vz)
+            rho = isa_density(self.z)
+            T_i = self.ac.prop.thrust(V_h, self.throttle, rho=rho) * T_factor
+            W_eff = (self.ac.mass.total + extra_mass) * G
+            q = 0.5 * rho * V_h ** 2
+            gamma = math.atan2(self.Vz, self.Vx)
+            alpha_eff = self.alpha - gamma
+            CL = self.ac.CL(alpha_eff)
+            CD = self.ac.CD(CL, height_m=self.z - eta_h)
+            L_i = q * self.ac.geom.S * CL
+            D_i = q * self.ac.geom.S * CD
+            wf = hull_force(self.z, self.Vx, self.Vz, eta_h, self.hull)
+            R_hull = self.hd.resistance(self.Vx) if wf.N > 0 else 0.0
+            cos_a, sin_a = math.cos(self.alpha + self.ac.aero.alpha_T), math.sin(self.alpha + self.ac.aero.alpha_T)
+            cos_g, sin_g = math.cos(gamma), math.sin(gamma)
+            T_x = T_i * cos_a;  T_z = T_i * sin_a
+            L_x = -L_i * sin_g; L_z = +L_i * cos_g
+            D_x = -D_i * cos_g; D_z = -D_i * sin_g
+            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, self.Vx)
+            Fz = T_z + L_z + D_z + wf.N - W_eff
+            m_total = self.ac.mass.total + extra_mass
+            a_x = Fx / m_total
+            a_z = Fz / m_total
+            self.Vx += a_x * h
+            self.Vz += a_z * h
+            self.x  += self.Vx * h
+            self.z  += self.Vz * h
+            self.t  += h
 
         # 3) Emit telemetry
-        self._emit_telemetry(eta, T_i, L_i, D_i, wf.N,
+        self._emit_telemetry(eta_h, T_i, L_i, D_i, wf.N,
                              T_factor, extra_mass, a_x, a_z)
 
     def _step_spatial(self, dt, thrust_factor, extra_mass):

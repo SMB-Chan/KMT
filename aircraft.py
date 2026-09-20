@@ -76,6 +76,7 @@ class Propulsion:
     P_cruise:   float =  3000.0   # total cruise electrical power, W
     eta_motor:  float = 0.90      # motor efficiency
     eta_esc:    float = 0.97      # ESC efficiency
+    eta_prop:   float = 0.70      # propeller efficiency (cruise regime)
     D_prop:     float = 0.71      # propeller diameter, m (28 inch)
     pitch:      float = 0.30      # propeller pitch, m    (12 inch)
     n_rpm:      float = 5500.0    # nominal RPM
@@ -109,11 +110,16 @@ class Propulsion:
         return max(T, 0.0)
 
     def power_required(self, V: float, throttle: float = 1.0, rho: float = RHO) -> float:
-        """Electrical power to deliver thrust(T) at speed V."""
+        """Electrical power to deliver thrust(T) at speed V.
+
+        Cruise-regime estimate (propeller efficiency at cruise). Near
+        static (V -> 0) the T*V model understates momentum-theory shaft
+        power; use it for cruise endurance only.
+        """
         if V < 0.5:
             V = 0.5
         T = self.thrust(V, throttle, rho=rho)
-        eta = self.eta_motor * self.eta_esc
+        eta = self.eta_motor * self.eta_esc * self.eta_prop
         return T * V / eta
 
 # --- Aircraft aggregate ----------------------------------------------
@@ -166,34 +172,6 @@ class Aircraft:
     def L_D(self, CL: float) -> float:
         return CL / self.CD(CL)
 
-
-def scaled_aircraft(scale: float) -> Aircraft:
-    """Geometrically similar airframe. Lengths ×λ, areas ×λ², mass ×λ³, I ×λ⁵.
-
-    Rotor speed scales as λ^{-1/2} so static T/W is unchanged. Aero coefficients stay.
-    """
-    if not math.isfinite(scale) or scale <= 0:
-        raise ValueError('scale must be positive and finite')
-    lam = float(scale)
-    base = Aircraft()
-    mass = {name: value * lam ** 3 for name, value in base.mass.__dict__.items()}
-    return Aircraft(
-        geom=replace(base.geom,
-                     b=base.geom.b * lam, c=base.geom.c * lam, S=base.geom.S * lam ** 2,
-                     Lwl=base.geom.Lwl * lam, Bwl=base.geom.Bwl * lam,
-                     S_t=base.geom.S_t * lam ** 2,
-                     float_y=base.geom.float_y * lam, float_A_wp=base.geom.float_A_wp * lam ** 2,
-                     float_h_keel=base.geom.float_h_keel * lam,
-                     float_Ixx=base.geom.float_Ixx * lam ** 5),
-        mass=MassBreakdown(**mass),
-        aero=base.aero,
-        prop=replace(base.prop,
-                     P_max=base.prop.P_max * lam ** 3.5,
-                     P_cruise=base.prop.P_cruise * lam ** 3.5,
-                     D_prop=base.prop.D_prop * lam,
-                     pitch=base.prop.pitch * lam,
-                     n_rpm=base.prop.n_rpm / math.sqrt(lam)))
-
     def summary(self) -> str:
         m = self.mass
         a = self
@@ -228,6 +206,36 @@ def scaled_aircraft(scale: float) -> Aircraft:
             f"{2 * 22.0 * 22.2 * 3600 / 1e6:.2f} MJ",
         ]
         return "\n".join(lines)
+
+
+
+def scaled_aircraft(scale: float) -> Aircraft:
+    """Geometrically similar airframe. Lengths ×λ, areas ×λ², mass ×λ³, I ×λ⁵.
+
+    Rotor speed scales as λ^{-1/2} so static T/W is unchanged. Aero coefficients stay.
+    """
+    if not math.isfinite(scale) or scale <= 0:
+        raise ValueError('scale must be positive and finite')
+    lam = float(scale)
+    base = Aircraft()
+    mass = {name: value * lam ** 3 for name, value in base.mass.__dict__.items()}
+    return Aircraft(
+        geom=replace(base.geom,
+                     b=base.geom.b * lam, c=base.geom.c * lam, S=base.geom.S * lam ** 2,
+                     Lwl=base.geom.Lwl * lam, Bwl=base.geom.Bwl * lam,
+                     S_t=base.geom.S_t * lam ** 2,
+                     float_y=base.geom.float_y * lam, float_A_wp=base.geom.float_A_wp * lam ** 2,
+                     float_h_keel=base.geom.float_h_keel * lam,
+                     float_Ixx=base.geom.float_Ixx * lam ** 5),
+        mass=MassBreakdown(**mass),
+        aero=base.aero,
+        prop=replace(base.prop,
+                     P_max=base.prop.P_max * lam ** 3.5,
+                     P_cruise=base.prop.P_cruise * lam ** 3.5,
+                     D_prop=base.prop.D_prop * lam,
+                     pitch=base.prop.pitch * lam,
+                     n_rpm=base.prop.n_rpm / math.sqrt(lam)))
+
 
 
 if __name__ == "__main__":
