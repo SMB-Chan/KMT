@@ -40,7 +40,7 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `teacher_student.py` | 教師模倣の生徒学習 |
 | `educate.py` | Phi教材 cycles（カリキュラム・検証） |
 | `feedback_education.py` | フィードバック付き教材 cycles |
-| `operator_training/` | ブラウザ操縦コックピットと MAVLink UDP SITL |
+| `operator_training/` | ブラウザ操縦コックピット・MAVLink UDP SITL・フライトレポート |
 | `web/operator/` | QGC 代替のローカル操縦 UI |
 | `docs/` | 運用マニュアル・MAVLink参照・チェックリスト |
 | `tests/` | 学習・評価・故障処理の回帰テスト |
@@ -427,6 +427,13 @@ Pythonコードを変更した場合はサーバーを再起動してくださ�
 ```bash
 python3 -m unittest discover -s tests -p 'test_operator_*.py'
 node tests/test_operator_cockpit.cjs
+```
+
+記録済みセッションのフライトレポート（離水後の成否・機体性能・操縦特性・損傷・ASCII 高度プロファイル）:
+
+```bash
+python3 -m operator_training report <session_dir> --md report.md --csv series.csv
+python3 -m operator_training report --compare <dir1> <dir2> [dir3 ...]
 ```
 
 カメラの「船上の操作者」は、発進位置付近の船上（眼高3.2 m）から機体を見続ける固定位置の視点です。

@@ -395,5 +395,6 @@ ls -1 results/ | head
 - [ ] `python3 evaluate.py` で MAVLink 経路を実行
 - [ ] `python3 -m operator_training mavlink` を起動し、QGroundControl / MAVProxy から接続確認
 - [ ] `python3 -m operator_training serve --port 8766` でブラウザコックピットを開く
+- [ ] `python3 -m operator_training report var/operator_sessions/<id>` でフライトレポートを確認
 - [ ] Ollama 環境があれば `fly_ollama.py --check` で接続
 - [ ] 同梱 `results/phi_student_v1/student.npz` で学生モデルを試走

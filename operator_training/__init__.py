@@ -69,6 +69,13 @@ from .schemas import (
     wire_size,
 )
 from .replay import ReplayReport, load_config, replay_session
+from .flight_report import (
+    FlightMetrics,
+    compute_metrics,
+    compare_metrics,
+    render_markdown,
+    write_long_csv,
+)
 from .server import (
     OperatorServer,
     ServerConfig,
@@ -104,6 +111,7 @@ __all__ = [
     "EventMessage",
     "FakePad",
     "FixedStepScheduler",
+    "FlightMetrics",
     "GamepadProfile",
     "HelloMessage",
     "HandoverDeclinedReason",
@@ -129,14 +137,18 @@ __all__ = [
     "Watchdog",
     "assert_profile_serialisable",
     "assert_wire_size",
+    "compute_metrics",
+    "compare_metrics",
     "default_approach_gate",
     "default_profile",
     "json_schema",
     "load_config",
     "parse_input_message",
+    "render_markdown",
     "replay_session",
     "to_control_input",
     "wire_size",
+    "write_long_csv",
     "OperatorServer",
     "ServerConfig",
     "ServerError",

@@ -328,6 +328,19 @@ def main(argv: list[str] | None = None) -> int:
     p_replay.add_argument("source", type=Path)
     p_replay.add_argument("target", type=Path)
 
+    p_report = sub.add_parser("report",
+                              help="post-flight analysis for a recorded session")
+    p_report.add_argument("session_dir", nargs="?", type=Path, default=None,
+                          help="session directory (default: --compare is used)")
+    p_report.add_argument("--md", type=Path, default=None,
+                          help="write markdown report to this path")
+    p_report.add_argument("--csv", type=Path, default=None,
+                          help="write long-format time series CSV to this path")
+    p_report.add_argument("--compare", nargs="+", type=Path, default=None,
+                          help="compare several session directories side-by-side")
+    p_report.add_argument("--json", type=Path, default=None,
+                          help="write the FlightMetrics record as JSON")
+
     p_serve = sub.add_parser("serve",
                              help="run the HTTP+WebSocket operator server")
     p_serve.add_argument("--host", default="127.0.0.1",
@@ -400,8 +413,58 @@ def main(argv: list[str] | None = None) -> int:
             ))
         except KeyboardInterrupt:
             return 0
+    if args.cmd == "report":
+        return _report(args)
     parser.error(f"unknown command: {args.cmd}")
     return 1
+
+
+def _report(args) -> int:
+    """Post-flight analysis handler."""
+    import json as _json
+    from .flight_report import (
+        FlightMetrics,
+        compute_metrics,
+        render_markdown,
+        write_long_csv,
+        compare_metrics,
+    )
+
+    if args.compare:
+        if args.session_dir is not None:
+            print("report: --compare ignores <session_dir>", file=sys.stderr)
+        metrics_list = [compute_metrics(Path(d)) for d in args.compare]
+        print(compare_metrics(metrics_list))
+        return 0
+
+    if args.session_dir is None:
+        print("report: provide <session_dir> or use --compare <dirs>",
+              file=sys.stderr)
+        return 2
+
+    sd = Path(args.session_dir)
+    if not sd.exists():
+        print(f"report: session directory not found: {sd}", file=sys.stderr)
+        return 2
+
+    m = compute_metrics(sd)
+    md = render_markdown(m, sd)
+    if args.md:
+        args.md.parent.mkdir(parents=True, exist_ok=True)
+        args.md.write_text(md, encoding="utf-8")
+    else:
+        print(md)
+    if args.csv:
+        n = write_long_csv(sd, args.csv)
+        print(f"\n(csv: {n} rows -> {args.csv})", file=sys.stderr)
+    if args.json:
+        from dataclasses import asdict
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(
+            _json.dumps(asdict(m), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+    return 0
 
 
 if __name__ == "__main__":
