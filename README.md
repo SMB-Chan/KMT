@@ -40,6 +40,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `teacher_student.py` | 教師模倣の生徒学習 |
 | `educate.py` | Phi教材 cycles（カリキュラム・検証） |
 | `feedback_education.py` | フィードバック付き教材 cycles |
+| `operator_training/` | ブラウザ操縦コックピットと MAVLink UDP SITL |
+| `web/operator/` | QGC 代替のローカル操縦 UI |
 | `docs/` | 運用マニュアル・MAVLink参照・チェックリスト |
 | `tests/` | 学習・評価・故障処理の回帰テスト |
 | `data/` | 取得した NOAA NDBC データ（リアルタイム・スペクトル） |
@@ -402,3 +404,90 @@ python3 fly_ollama.py --scenario landing --spatial --lateral-assist --directiona
 離水制御12案は `results/takeoff_control_001/`、取付高さのスイープは
 `results/takeoff_spray_001/`、採用後の再評価は `results/takeoff_mount_001/` を参照してください。
 既定の `prop_z_offset` は 0.90 m です。
+
+## ブラウザでの手動操縦
+
+```bash
+python3 -m operator_training serve --port 8766
+```
+
+`http://127.0.0.1:8766/cockpit/` を開き、`Start Manual` で水上から手動操縦を開始します。
+`Start Takeoff` は自動離陸です。飛行中の `Take Control` は自動操縦の入力値へ合わせ、
+0.5秒の一致を経て手動へ切り替えます。`Pause` で停止し、`Resume` で再開できます。
+
+- W/S: ピッチ、E/D または上下矢印: スロットル
+- A/F または左右矢印: バンク、Q/C: ラダー
+- ゲームパッド接続時は左スティックでピッチ・バンク、右スティック横でラダー、RTでスロットル
+
+通信断からの自動再接続では同じセッションを使用します。ページ再読み込みは新規セッションを作成します。
+Pythonコードを変更した場合はサーバーを再起動してください。
+
+操縦モードの回帰テスト:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_operator_*.py'
+node tests/test_operator_cockpit.cjs
+```
+
+カメラの「船上の操作者」は、発進位置付近の船上（眼高3.2 m）から機体を見続ける固定位置の視点です。
+追従モードは旋回時も水平を維持し、位置と注視点を滑らかに追従します。視野角スライダーで拡大率を調整できます。
+Xboxは手前に倒すと機首上げが既定です。「ピッチ反転」で逆向きに変更できます。
+入力が効かない場合、HUMAN表示、コントローラー名、生入力（LY/LX/RX）、適用値を順に確認してください。
+AUTO中のスティック入力は飛行操作に適用されません。実機コントローラーでの動作確認は別途必要です。
+
+## OSS 地上局（QGroundControl / MAVProxy / Mission Planner）
+
+プロセス内の模擬 API に加え、MAVLink v2 を UDP で話します（pymavlink 不要）。
+
+```bash
+# シミュレータ単体。QGC は既定で UDP 14550 を待ち受ける
+python3 -m operator_training mavlink --port 14551 --gcs 127.0.0.1:14550
+
+# コックピットと同時。セッション開始後に同じ機体のテレメトリが出る
+python3 -m operator_training serve --port 8765 --mavlink-port 14551
+```
+
+QGroundControl: 自動接続（UDP 14550）または Comm Link `udp:127.0.0.1:14551`。
+MAVProxy: `mavproxy.py --master=udp:127.0.0.1:14551 --out=udp:127.0.0.1:14550`
+
+GCS から Arm → Takeoff。ジョイスティックは `MANUAL_CONTROL`（推力・ピッチ・バンク・ラダー）。
+対応コマンド: HEARTBEAT / ATTITUDE / GLOBAL_POSITION_INT / GPS_RAW_INT / VFR_HUD、
+`COMMAND_LONG` の ARM/DISARM (400)、TAKEOFF (22)、LAND (21)、DO_SET_SERVO (183)。
+PX4/ArduPilot 実機・SITL ファームウェアそのものではなく、KMT 動力学への MAVLink 橋です。
+
+## 変動する海況・風況での4軸学習
+
+```bash
+MPLCONFIGDIR=/tmp/kmt-mpl python3 train_robust.py \
+  --scenario takeoff --episodes 40 --bc-episodes 12 --eval-episodes 10 \
+  --output results/robust_spatial_v1
+```
+
+方向分散波と高度による風の変化を持つ空間環境で、教師模倣後に強化学習します。
+教師はピッチ・スロットルに加えて、横ずれと横速度を補正するバンク、方位を補正するラダーを出力します。
+エピソードごとに、基準波高の0.5〜1.5倍、周期の0.8〜1.2倍、波向±45度、
+水平風の各成分±3 m/s、突風RMSの追加0〜0.8 m/sを乱数シードから決定します。
+これは訓練用の条件分布であり、実測した気象分布ではありません。
+
+`report.json` に環境設定、訓練履歴、未学習シードの評価条件・成功率と教師制御の比較を保存します。
+`takeoff_policy.npz`（着水時は `landing_policy.npz`）と学習曲線も同じ出力先に保存します。
+従来のCLIでも `--spatial --directional --randomize-conditions --bc-episodes 12` を利用できます。
+乱数条件の有効化で観測・行動の次元は変わりません。新モデルはコックピットのAUTOへ自動採用しません。
+力学は既存の簡略モデルのままで、実機性能の保証や実測値による校正を行ったものではありません。
+
+### 学習収束とモデル選択（v2）
+
+```bash
+MPLCONFIGDIR=/tmp/kmt-mpl OPENBLAS_NUM_THREADS=1 python3 train_robust.py \
+  --episodes 40 --bc-episodes 12 --bc-epochs 80 \
+  --eval-seed 10040 --validation-seed 20000 --eval-episodes 10 \
+  --output results/robust_spatial_v2
+```
+
+教師模倣は128サンプル単位でシャッフルし、正規化した操作量の誤差で学習します。
+`bc_report.normalized_action_mse` は教師データ上の各エポック終了時の誤差です。
+教師模倣直後（`*_bc_policy.npz`）と強化学習後（`*_policy.npz`）を別保存し、
+検証用シードで成功率、同率なら平均報酬を比較して `*_selected_policy.npz` を選びます。
+比較評価用シードは選択に使いません。訓練・検証・比較評価シードの重複はエラーになります。
+前回と同じ条件で比較する場合は `--eval-seed` と `--eval-episodes` を固定してください。
+強化学習を追加しても必ず性能が向上するとは限らないため、選択済みモデルと評価報告を利用してください。

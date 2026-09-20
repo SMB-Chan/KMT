@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>KMT Operator Cockpit</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif;
+           background: #0c1218; color: #d8e1ea; }
+    header { padding: 0.5rem 1rem; background: #16202b; border-bottom: 1px solid #2a3845;
+             display: flex; gap: 1rem; align-items: baseline; }
+    header h1 { margin: 0; font-size: 1.05rem; letter-spacing: 0.02em; }
+    .badge { font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 0.25rem;
+             background: #243240; color: #c8d4e0; }
+    .badge.AUTO { background: #2b4a36; color: #c4e7cf; }
+    .badge.HUMAN { background: #4a3a2b; color: #e7dcc4; }
+    .badge.OFFER { background: #4a462b; color: #e7e3c4; }
+    main { display: grid; grid-template-columns: 1fr 360px;
+           gap: 0.75rem; padding: 0.75rem; height: calc(100vh - 56px); box-sizing: border-box; }
+    .panel { background: #131c25; border: 1px solid #243140; border-radius: 0.4rem;
+             padding: 0.6rem 0.8rem; overflow: auto; }
+    .panel h2 { font-size: 0.85rem; margin: 0 0 0.4rem 0; color: #93a3b3;
+                text-transform: uppercase; letter-spacing: 0.06em; }
+    #scene-panel {
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    #scene-container {
+      position: absolute;
+      inset: 0;
+      background: #050a10;
+    }
+    #scene-container canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .hud {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.4rem;
+      right: 0.4rem;
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .hud .instrument {
+      background: rgba(10, 18, 25, 0.62);
+      border: 1px solid rgba(36, 49, 64, 0.55);
+      padding: 0.18rem 0.45rem;
+      border-radius: 0.25rem;
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 80px;
+    }
+    .hud .instrument .label {
+      font-size: 0.58rem;
+      color: #6b7d90;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .hud .instrument .value {
+      font-size: 0.95rem;
+      font-variant-numeric: tabular-nums;
+      color: #d8e1ea;
+      line-height: 1.1;
+    }
+    .controls { display: grid; gap: 0.4rem; }
+    button { background: #243240; color: #d8e1ea; border: 1px solid #34465a;
+             border-radius: 0.3rem; padding: 0.5rem 0.8rem; cursor: pointer; }
+    button:hover { background: #2d3e4e; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    button.primary { background: #2a5d4f; border-color: #3a7e6a; }
+    button.danger { background: #5d2a2a; border-color: #7e3a3a; }
+    .status { font-size: 0.8rem; color: #93a3b3; }
+    .status .ok { color: #c4e7cf; }
+    .status .err { color: #e7c4c4; }
+    .events { font-family: ui-monospace, monospace; font-size: 0.78rem;
+              max-height: 240px; overflow: auto; background: #0a1219;
+              padding: 0.4rem; border-radius: 0.25rem; }
+    .events .row { display: flex; gap: 0.5rem; }
+    .events .sim_t { color: #6b7d90; }
+    .events .kind { color: #a4b8cc; }
+    .calibration { font-size: 0.8rem; }
+    .calibration input[type=range] { width: 100%; }
+    .hint { font-size: 0.72rem; color: #7b8c9c; line-height: 1.35; margin: 0.35rem 0 0.2rem; }
+    .sticks { display: grid; gap: 0.28rem; font-size: 0.75rem; margin-top: 0.3rem; }
+    .stick-row { display: grid; grid-template-columns: 72px 1fr 48px; gap: 0.35rem; align-items: center; }
+    .bar { height: 8px; background: #0a1219; border-radius: 3px; overflow: hidden; position: relative; }
+    .bar > span { display: block; height: 100%; background: #3a7e6a; width: 0%; }
+    .bar.target { position: absolute; top: 0; width: 2px; height: 100%; background: #e7dcc4; }
+    .match { color: #c4e7cf; }
+    .nomatch { color: #e7c4c4; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KMT Operator Cockpit</h1>
+    <span class="badge" id="lifecycle">SETUP</span>
+    <span class="badge" id="authority">AUTO</span>
+    <span class="badge" id="phase">SETUP</span>
+    <span class="badge" id="pending">NONE</span>
+    <span class="status" id="status">disconnected</span>
+  </header>
+  <main>
+    <section class="panel" id="scene-panel">
+      <div id="scene-container">
+        <canvas id="scene"></canvas>
+      </div>
+      <div class="hud">
+        <div class="instrument"><div class="label">Altitude (m)</div><div class="value" id="i_alt">0.00</div></div>
+        <div class="instrument"><div class="label">Airspeed (m/s)</div><div class="value" id="i_vx">0.00</div></div>
+        <div class="instrument"><div class="label">Vertical (m/s)</div><div class="value" id="i_vz">0.00</div></div>
+        <div class="instrument"><div class="label">Bank (deg)</div><div class="value" id="i_bank">0.0</div></div>
+        <div class="instrument"><div class="label">Heading (deg)</div><div class="value" id="i_heading">0.0</div></div>
+        <div class="instrument"><div class="label">Keel clearance (m)</div><div class="value" id="i_keel">0.00</div></div>
+        <div class="instrument"><div class="label">Sim time (s)</div><div class="value" id="i_simt">0.00</div></div>
+        <div class="instrument"><div class="label">Tick</div><div class="value" id="i_tick">0</div></div>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Camera</h2>
+      <label>視点 <select id="camera_mode">
+        <option value="chase">追従</option>
+        <option value="observer">船上の操作者（発進位置に固定）</option>
+      </select></label>
+      <label style="display:block">視野角（小さいほど拡大）
+        <input id="camera_zoom" type="range" min="20" max="80" value="60" aria-label="カメラ視野角">
+      </label>
+      <h2 style="margin-top:1rem">Controls</h2>
+      <div class="controls">
+        <button id="btn_start" class="primary">Start Takeoff</button>
+        <button id="btn_manual">Start Manual</button>
+        <button id="btn_take">Take Control</button>
+        <button id="btn_land">Request Auto Land</button>
+        <button id="btn_pause">Pause</button>
+        <button id="btn_resume">Resume</button>
+        <button id="btn_abort" class="danger">Abort</button>
+      </div>
+      <h2 style="margin-top:1rem;">Controller</h2>
+      <label>入力元 <select id="input_source"><option value="auto">Xbox / ゲームパッド優先</option><option value="keyboard">キーボード</option></select></label>
+      <div class="hint" id="pad_status">未接続 — コントローラーのボタンを押してください</div>
+      <div class="hint" id="pad_raw"></div>
+      <label><input id="pitch_invert" type="checkbox">ピッチ反転（既定: 手前に倒すと機首上げ）</label>
+      <h2 style="margin-top:1rem;">Pad calibration</h2>
+      <div class="calibration">
+        <div>Deadzone <span id="dz_val">5%</span>
+          <input id="dz" type="range" min="0" max="30" value="5"></div>
+        <div>Bank response curve
+          <select id="curve">
+            <option value="linear" selected>linear</option>
+            <option value="gentle">gentle</option>
+            <option value="aggressive">aggressive</option>
+          </select></div>
+      </div>
+      <div class="hint" id="help">
+        キーボード: W/S ピッチ · E/D または ↑↓ スロットル · A/F または ←→ バンク · Q/C ラダー<br>
+        Xbox: 左スティック ピッチ/バンク、右スティック横 ラダー、RT スロットル<br>
+        Take Control は自動値にスティックを合わせて 0.5 秒保持（ボタンで自動合わせ）
+      </div>
+      <div class="sticks" id="sticks">
+        <div class="stick-row"><span>Throttle</span><div class="bar" id="b_thr"><span></span></div><span id="v_thr">0.00</span></div>
+        <div class="stick-row"><span>Pitch</span><div class="bar" id="b_pit"><span></span></div><span id="v_pit">0.0</span></div>
+        <div class="stick-row"><span>Bank</span><div class="bar" id="b_ban"><span></span></div><span id="v_ban">0.0</span></div>
+        <div class="stick-row"><span>Rudder</span><div class="bar" id="b_rud"><span></span></div><span id="v_rud">0.00</span></div>
+      </div>
+      <div class="hint" id="match_status"></div>
+      <div class="hint" id="applied_values"></div>
+      <h2 style="margin-top:1rem;">Events</h2>
+      <div class="events" id="events"></div>
+    </section>
+  </main>
+  <script src="./cockpit.js" type="module"></script>
+</body>
+</html>

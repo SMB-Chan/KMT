@@ -37,6 +37,13 @@ cat results/audit.json | head -50
 | `README.md` | 利用者向け説明 |
 | `results/audit.json` | 直近の監査出力（自動再生成） |
 
+操縦モード（コックピット／QGC SITL）は次の回帰テストで守られています：
+
+```bash
+python3 -m unittest discover -s tests -p 'test_operator_*.py'
+node tests/test_operator_cockpit.cjs
+```
+
 ---
 
 ## 2. 標準作業フロー
@@ -78,7 +85,34 @@ python3 evaluate.py
 
 **12 秒／30 秒のシナリオでは目標未達で終了します。** これは既設計上で、MAVLink 経路の性能限界を表します。
 
-### 2.3 物理サニティ
+### 2.3 OSS 地上局（QGroundControl / MAVProxy）からの SITL 操縦
+
+```bash
+# SITL 単体（既定で QGC のオートコネクト UDP 14550 へ送出）
+python3 -m operator_training mavlink --port 14551 --gcs 127.0.0.1:14550
+
+# ブラウザコックピットと同じセッションを MAVLink で配信
+python3 -m operator_training serve --port 8765 --mavlink-port 14551
+```
+
+- QGroundControl は `Application Settings → Comm Links` で `UDP Listen on 14550` を追加するか、起動時に 14550 でオートコネクト
+- MAVProxy: `mavproxy.py --master=udp:127.0.0.1:14551 --out=udp:127.0.0.1:14550`
+- GCS から Arm → Takeoff / Land。ジョイスティックは `MANUAL_CONTROL`
+- 1 GCS 接続でも機体側スレッドは 50 ms 周期でテレメトリを送出
+
+### 2.4 ブラウザコックピット
+
+```bash
+python3 -m operator_training serve --port 8766
+# → http://127.0.0.1:8766/cockpit/
+```
+
+- `Start Manual` / `Start Takeoff` / `Take Control` / `Pause` / `Resume` ボタン
+- W/S: ピッチ、E/D・↑/↓: スロットル、A/F・←/→: バンク、Q/C: ラダー
+- ゲームパッド: 左スティック＝ピッチ・バンク、右スティック横＝ラダー、RT＝スロットル
+- 通信断からの自動再接続は同じセッションを再利用します
+
+### 2.5 物理サニティ
 
 ```bash
 python3 validate.py
@@ -356,8 +390,10 @@ ls -1 results/ | head
 
 - [ ] 本文書と `MANUAL.md` を通読
 - [ ] `AUDIT.md` で監査内容と残る制約を確認
-- [ ] `audit.py` を実行して通過を確認（52 件テスト・物理検証）
+- [ ] `audit.py` を実行して通過を確認（regressions + physics）
 - [ ] `python3 main.py` で基本出力を生成
 - [ ] `python3 evaluate.py` で MAVLink 経路を実行
+- [ ] `python3 -m operator_training mavlink` を起動し、QGroundControl / MAVProxy から接続確認
+- [ ] `python3 -m operator_training serve --port 8766` でブラウザコックピットを開く
 - [ ] Ollama 環境があれば `fly_ollama.py --check` で接続
 - [ ] 同梱 `results/phi_student_v1/student.npz` で学生モデルを試走

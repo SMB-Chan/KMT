@@ -3,9 +3,9 @@
 **適用範囲：** `mavlink_if.py`（プロセス内 API）
 **対象読者：** 機体制御ソフトウェア担当・オートパイロット実装担当
 
-> **注意：** 本実装は PX4/ArduPilot とのワイヤ互換性を持ちません。
-> バイト列シリアライズ・ACK・実機接続・完全な意味論的互換は未実装です。
-> 本リファレンスはシミュレーション上でのプロトコルを確認するための資料です。
+> **注意：** `mavlink_if.py` はプロセス内 API です。UDP ワイヤは
+> `operator_training/mavlink_wire.py` + `mavlink_udp.py`（MAVLink v2、pymavlink なし）。
+> QGroundControl / MAVProxy が接続できます。PX4/ArduPilot ファームウェアそのものではありません。
 
 ---
 
@@ -335,13 +335,14 @@ veh.send_command(MAV_CMD_DO_SET_SERVO, {"servo": 2, "pwm": 1700})
 - [ ] 故障判定 `veh.damage.failed` を監視しているか
 - [ ] 浸水・スリング閾値（0.20 kg / 0.50 kg / 2 回）を踏まえた運用か
 - [ ] 物理ステップ `dt` を RL／物理サニティと整合させているか
-- [ ] ワイヤ互換が必要なら `pymavlink` 経由に切り替える（本実装では不可）
+- [ ] OSS 地上局は `python3 -m operator_training mavlink`（UDP 14551 → GCS 14550）
 
 ---
 
 ## 11. 参照
 
-- `mavlink_if.py` — 本インターフェースの実装
+- `mavlink_if.py` — プロセス内インターフェース
+- `operator_training/mavlink_udp.py` — QGC/MAVProxy 向け UDP SITL
 - `dynamics.py` — 縦運動シミュレータ・HullContact/HullDrag
 - `damage.py` — 損傷モデル
 - `evaluate.py` — 統合評価スクリプト

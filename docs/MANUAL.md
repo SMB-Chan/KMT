@@ -19,7 +19,7 @@
 | 1D 海面 | 時間×距離の縦断面のみの不規則波モデル |
 | 方向分散海面 | cos²s 型の指向性を持つ 2D 不規則波（縦断面は y=0 スライス） |
 | オートパイロット | 上記シミュレータ上のスクリプト／RL 制御器 |
-| MAVLink 風 | プロセス内模擬 API。ワイヤシリアライズ・ACK・実機接続なし |
+| MAVLink 風 | プロセス内模擬 API（`mavlink_if.py`）。ワイヤは `operator_training/mavlink_wire.py`（MAVLink v1/v2、pymavlink 不使用）で、QGroundControl / MAVProxy / Mission Planner が接続可 |
 | NDBC | NOAA 国立データブイセンター。本文書では同梱スナップショットのみ参照 |
 | 学生モデル | `teacher_student.py` で蒸留された小型 NumPy ネットワーク |
 
@@ -334,15 +334,37 @@ Pierson–Moskowitz スペクトルに基づく不規則波の縦断面モデル
 
 ### 6.5 既知の制約
 
-- プロセス内 API。**ワイヤ形式（バイト列）・ACK・実機接続は未実装**
-- PX4/ArduPilot との電気的・論理的な相互運用性は**未検証**
+- プロセス内 API 部分は以前どおり模擬。**ワイヤ形式（バイト列）は `operator_training/mavlink_wire.py` が実装**し、QGroundControl / MAVProxy / Mission Planner が UDP 越しに接続できます（pymavlink 不使用）。
+- PX4/ArduPilot との電気的・論理的な相互運用性は**未検証**（同一機体モデル上の SITL ブリッジであり、ファームウェアそのものではありません）
 - 機体直接操作（`step(action=...)`）での RL 行動は**次のステップで自動的に制御器に戻される**点に注意。
   監査後の `step(action=...)` は RL 行動を**当該ステップで適用**し、訓練環境と同じ観測を返します
 - `MAV_CMD_DO_SET_SERVO` の servo 1 PWM 1000 は推力停止、2000 は全開に対応
 - pitch（servo 2）の PWM は機体ハードウェア可動域 ±15° にクリップされます
 - `MAV_CMD_NAV_WAYPOINT` の `x, z` はプロセス内座標（実機 GPS ではない）
 
-### 6.6 評価経路
+### 6.6 OSS 地上局への接続（QGroundControl / MAVProxy / Mission Planner）
+
+```bash
+# SITL 単体（既定で QGC のオートコネクト UDP 14550 へ送出）
+python3 -m operator_training mavlink --port 14551 --gcs 127.0.0.1:14550
+
+# コックピットと同じセッションを MAVLink で配信
+python3 -m operator_training serve --port 8765 --mavlink-port 14551
+```
+
+| 項目 | 値 |
+|---|---|
+| 自前コーデック | `operator_training/mavlink_wire.py`（MAVLink v1/v2、X.25 CRC、`encode_v1`/`encode_v2`/`decode_buffer`） |
+| UDP SITL | `operator_training/mavlink_udp.py`（`MavlinkUdpBridge`） |
+| 既定バインド | `udp:127.0.0.1:14551` → GCS `udp:127.0.0.1:14550` |
+| ストリーム | HEARTBEAT / SYS_STATUS / ATTITUDE / GLOBAL_POSITION_INT / GPS_RAW_INT / LOCAL_POSITION_NED / VFR_HUD / HOME_POSITION / PARAM_VALUE / STATUSTEXT |
+| アップリンク | `COMMAND_LONG`（ARM 400 / TAKEOFF 22 / LAND 21 / WAYPOINT 16 / DO_CHANGE_SPEED 178 / DO_SET_SERVO 183 / DO_SET_MODE 176）、`MANUAL_CONTROL`（throttle / pitch / bank / rudder）、`SET_MODE`、`MISSION_REQUEST_LIST`/`MISSION_CLEAR_ALL`、`PARAM_REQUEST_*` |
+
+ジョイスティックは `MANUAL_CONTROL` を 50 ms 間隔で送出してください。座標系は内部
+（x=北、y=東、z=上）。`origin_lat`/`origin_lon` を経由して緯度経度へ写像します。
+PX4/ArduPilot 実機・SITL ファームウェアそのものではなく、KMT 力学への MAVLink ブリッジです。
+
+### 6.7 評価経路
 
 `evaluate.py` は次のフローで実行：
 
@@ -658,7 +680,9 @@ python3 -m pip install -r requirements.txt
 ```
 
 依存パッケージは `requirements.txt` に列挙。`pymavlink` の Python 3.14 ビルドが失敗するため
-MAVLink 風インターフェースはプロセス内実装のみ対応。
+MAVLink 風インターフェースはプロセス内実装（`mavlink_if.py`）。実ワイヤ／UDP SITL は
+`operator_training/mavlink_wire.py` + `mavlink_udp.py` の自前コーデックで
+QGroundControl / MAVProxy / Mission Planner に接続できます。
 
 ### 14.2 毎日の作業手順
 
@@ -677,6 +701,14 @@ python3 train.py --scenario takeoff --hs 1.5 --tp 6.0
 # 方向分散・エピソード毎ランダム化
 python3 train.py --scenario takeoff --directional \
   --theta-mean-deg 35 --seed-per-episode --episodes 400
+
+# 5. ブラウザコックピットで操縦
+python3 -m operator_training serve --port 8766
+# → http://127.0.0.1:8766/cockpit/
+
+# 6. QGroundControl / MAVProxy から SITL 操縦
+python3 -m operator_training mavlink --port 14551 --gcs 127.0.0.1:14550
+# → QGC は自動接続（UDP 14550）。手動なら Comm Link `udp:127.0.0.1:14551`
 ```
 
 ### 14.3 LLM パイロット評価
@@ -763,7 +795,11 @@ python3 feedback_education.py \
 | `ocean_directional.py` | 方向分散 2D 海面（y=0 縦断面） |
 | `dynamics.py` | 縦運動シミュレータ（離水・着水） |
 | `damage.py` | 海水飛沫・浸水 |
-| `mavlink_if.py` | MAVLink 風 API・PX4 風カスケード |
+| `mavlink_if.py` | MAVLink 風 API・PX4 風カスケード（プロセス内） |
+| `operator_training/mavlink_wire.py` | MAVLink v1/v2 コーデック（QGC/MAVProxy 接続用、pymavlink 不使用） |
+| `operator_training/mavlink_udp.py` | UDP SITL ブリッジ |
+| `operator_training/` | ブラウザコックピット・WebSocket・MAVLink 同時起動 |
+| `web/operator/` | ローカル操縦 UI（QGC 代替） |
 | `env.py` | RL Gym 風環境ラッパー |
 | `policy.py` | Actor-Critic（NumPy） |
 | `vectorized.py` | ベクトル環境（逐次） |
