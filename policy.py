@@ -98,7 +98,8 @@ class ActorCritic:
 
     def __init__(self, state_dim: int, action_dim: int,
                  action_low: np.ndarray, action_high: np.ndarray,
-                 hidden: int = 64, seed: int = 0):
+                 hidden: int = 64, seed: int = 0,
+                 init_action: np.ndarray | None = None):
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.action_low = np.asarray(action_low, dtype=np.float32)
@@ -117,13 +118,20 @@ class ActorCritic:
         self.critic_head_b = zeros_init((1,))
         # Learnable log-std (state-independent) for action distribution
         self.log_std = -1.5 * np.ones(action_dim, dtype=np.float32)
-        # Bias the initial action toward 'throttle ~ 1.0, pitch ~ +4 deg'
+        # Bias the initial action. Default is takeoff-oriented
+        # ('throttle ~ 1.0, pitch ~ +4 deg'); landing passes
+        # init_action=[-0.9, -0.7] (throttle ~0.05, pitch ~-5 deg) so the
+        # first episodes reach the water and produce a learning signal.
         # a[0] in [0,1] => a = 0.5*tanh(u) + 0.5 ;  u = atanh(2*a - 1)
         # a[1] in [-1,1] => a = tanh(u)
-        self.actor_head_b[:min(2, action_dim)] = np.array(
-            [math.atanh(0.98), math.atanh(-0.05)],   # throttle ~ 0.99, pitch ~ 4.1 deg
-            dtype=np.float32,
-        )[:min(2, action_dim)]
+        if init_action is None:
+            bias_u = np.array([math.atanh(0.98), math.atanh(-0.05)],
+                              dtype=np.float32)   # throttle ~ 0.99, pitch ~ 4.1 deg
+        else:
+            a_n = np.clip(np.asarray(init_action, dtype=np.float32),
+                          -0.98, 0.98)
+            bias_u = np.arctanh(a_n).astype(np.float32)
+        self.actor_head_b[:min(2, action_dim)] = bias_u[:min(2, action_dim)]
 
     # -------- helpers --------
     def _body_forward(self, x):

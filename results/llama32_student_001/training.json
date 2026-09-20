@@ -1,0 +1,21 @@
+{
+  "samples": 24,
+  "skipped": 0,
+  "seed": 0,
+  "epochs": 1000,
+  "initial_training_mse": 0.3412896566330523,
+  "final_training_mse": 0.05670048211528342,
+  "sources": [
+    {
+      "path": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/llama32_takeoff_003/decisions.jsonl",
+      "sha256": "fccc5933d0569f257342ba500113a31f961c68d9ff4b3d76233456fdf7eac657",
+      "accepted": 12
+    },
+    {
+      "path": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/llama32_landing_002/decisions.jsonl",
+      "sha256": "af1bdf48a41cbd4457aa9f824191692393a76627fb68e843cb8ca7befa58b2f8",
+      "accepted": 12
+    }
+  ],
+  "evaluation": "training fit only; no held-out flight performance established"
+}

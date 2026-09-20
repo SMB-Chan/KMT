@@ -1,0 +1,131 @@
+{
+  "study": "scripted-takeoff reproducibility (20 seeds) + Hs sensitivity",
+  "controller": "LowLevelController via MAV_CMD_NAV_TAKEOFF alt=10 speed=13",
+  "sea": {
+    "Tp": 6.0,
+    "s": 10,
+    "note": "directional = y=0 slice; grids differ from 1D, not phase-matched"
+  },
+  "duration_s": 12.0,
+  "dt": 0.05,
+  "success_rule": "z>=8 and Vx>=8.5 within 12 s",
+  "reproducibility_Hs1.5": {
+    "Hs1.5/1D": {
+      "Hs": 1.5,
+      "theta_mean_deg": null,
+      "n": 20,
+      "success": "0/20",
+      "rate": 0.0,
+      "mean_z_end": 0.2622535947376172,
+      "mean_vx_end": 2.5541005863699424,
+      "mean_water": 0.2088649675146657,
+      "failures": 0
+    },
+    "Hs1.5/dir0": {
+      "Hs": 1.5,
+      "theta_mean_deg": 0.0,
+      "n": 20,
+      "success": "0/20",
+      "rate": 0.0,
+      "mean_z_end": 0.5551885382572382,
+      "mean_vx_end": 3.2993688352909865,
+      "mean_water": 0.2012247299437786,
+      "failures": 0
+    },
+    "Hs1.5/dir35": {
+      "Hs": 1.5,
+      "theta_mean_deg": 35.0,
+      "n": 20,
+      "success": "4/20",
+      "rate": 0.2,
+      "mean_z_end": 2.5761668965169697,
+      "mean_vx_end": 6.039184995153375,
+      "mean_water": 0.17558985040551117,
+      "failures": 0
+    },
+    "Hs1.5/dir60": {
+      "Hs": 1.5,
+      "theta_mean_deg": 60.0,
+      "n": 20,
+      "success": "10/20",
+      "rate": 0.5,
+      "mean_z_end": 5.784417633853885,
+      "mean_vx_end": 10.07821323779277,
+      "mean_water": 0.13573480307920763,
+      "failures": 0
+    }
+  },
+  "hs_sensitivity": {
+    "Hs0.5/1D": {
+      "Hs": 0.5,
+      "theta_mean_deg": null,
+      "n": 10,
+      "success": "0/10",
+      "rate": 0.0,
+      "mean_z_end": 0.26361475594430084,
+      "mean_vx_end": 2.5510671193421404,
+      "mean_water": 0.21605486892754358,
+      "failures": 0
+    },
+    "Hs0.5/dir35": {
+      "Hs": 0.5,
+      "theta_mean_deg": 35.0,
+      "n": 10,
+      "success": "0/10",
+      "rate": 0.0,
+      "mean_z_end": 0.31195421789250655,
+      "mean_vx_end": 2.5585209778960865,
+      "mean_water": 0.21564801205907508,
+      "failures": 0
+    },
+    "Hs1/1D": {
+      "Hs": 1.0,
+      "theta_mean_deg": null,
+      "n": 10,
+      "success": "0/10",
+      "rate": 0.0,
+      "mean_z_end": 0.2609200672119543,
+      "mean_vx_end": 2.543194152790851,
+      "mean_water": 0.2130325059044175,
+      "failures": 0
+    },
+    "Hs1/dir35": {
+      "Hs": 1.0,
+      "theta_mean_deg": 35.0,
+      "n": 10,
+      "success": "0/10",
+      "rate": 0.0,
+      "mean_z_end": 0.36173356699128706,
+      "mean_vx_end": 2.557940479878795,
+      "mean_water": 0.21101401402910586,
+      "failures": 0
+    },
+    "Hs2/1D": {
+      "Hs": 2.0,
+      "theta_mean_deg": null,
+      "n": 10,
+      "success": "1/10",
+      "rate": 0.1,
+      "mean_z_end": 1.9854193894235668,
+      "mean_vx_end": 5.320593865653732,
+      "mean_water": 0.18032515595727475,
+      "failures": 0
+    },
+    "Hs2/dir35": {
+      "Hs": 2.0,
+      "theta_mean_deg": 35.0,
+      "n": 10,
+      "success": "5/10",
+      "rate": 0.5,
+      "mean_z_end": 5.538049687521527,
+      "mean_vx_end": 9.217539014339014,
+      "mean_water": 0.1434833878448134,
+      "failures": 0
+    }
+  },
+  "caveats": [
+    "scripted controller only",
+    "hump stagnation is controller-limited: calm seas also fail",
+    "longitudinal slice only; lateral motion unmodeled"
+  ]
+}

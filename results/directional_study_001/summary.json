@@ -1,0 +1,59 @@
+{
+  "study": "scripted-takeoff 1D vs directional longitudinal slice",
+  "controller": "LowLevelController via MAV_CMD_NAV_TAKEOFF alt=10 speed=13",
+  "sea": {
+    "Hs": 1.5,
+    "Tp": 6.0,
+    "s": 10,
+    "note": "directional = y=0 slice; component grids differ from 1D (32x16 vs 64), not phase-matched"
+  },
+  "duration_s": 12.0,
+  "dt": 0.05,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "success_rule": "z>=8 and Vx>=8.5 within 12 s",
+  "results": {
+    "1D": {
+      "theta_mean_deg": null,
+      "success": "0/5",
+      "mean_z_end": 0.4568820184060474,
+      "mean_vx_end": 2.542424932215739,
+      "mean_water": 0.2158262218821704,
+      "failures": 0
+    },
+    "dir0": {
+      "theta_mean_deg": 0.0,
+      "success": "0/5",
+      "mean_z_end": 0.5718760605213109,
+      "mean_vx_end": 2.5140594704948045,
+      "mean_water": 0.2061238004687583,
+      "failures": 0
+    },
+    "dir35": {
+      "theta_mean_deg": 35.0,
+      "success": "2/5",
+      "mean_z_end": 4.348747004980875,
+      "mean_vx_end": 7.789107203483584,
+      "mean_water": 0.1533870724409561,
+      "failures": 0
+    },
+    "dir60": {
+      "theta_mean_deg": 60.0,
+      "success": "2/5",
+      "mean_z_end": 4.2938218263966075,
+      "mean_vx_end": 7.862271260754483,
+      "mean_water": 0.15134829185848825,
+      "failures": 0
+    }
+  },
+  "caveats": [
+    "n=5 per config: pilot scale, no significance claim",
+    "scripted controller only, not a learned policy",
+    "longitudinal slice only; lateral motion unmodeled"
+  ]
+}

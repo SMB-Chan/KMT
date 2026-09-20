@@ -1,0 +1,24 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "llama3.2:3b",
+  "decisions": 12,
+  "fallback_decisions": 0,
+  "physics_steps": 240,
+  "simulation_seconds": 12.0,
+  "wall_seconds": 48.47234267600288,
+  "final_observation": {
+    "t": 12.0,
+    "x_m": 23.60417900083467,
+    "altitude_m": 0.30796185722903874,
+    "forward_speed_m_s": 2.2544849223716734,
+    "vertical_speed_m_s": -0.005798536600522201,
+    "wave_elevation_m": 0.056667943936862385,
+    "wave_rate_m_s": -0.04711147638677943,
+    "keel_clearance_m": -0.048706086707823636,
+    "water_mass_kg": 0.30167024698032613,
+    "failed": false
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/llama32_takeoff_003",
+  "timing": "synchronous: simulation pauses during inference"
+}

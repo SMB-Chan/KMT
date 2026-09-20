@@ -124,7 +124,7 @@ class NewModulesTests(unittest.TestCase):
         env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff"))
         env.reset(seed=5)
         lo, hi = env.cfg.pitch_lo, env.cfg.pitch_hi
-        o = _ad.short_simulate(env, (1.0, _math.radians(-8.0)), horizon_steps=4)
+        o = _ad.short_simulate(env, (1.0, _math.radians(-15.0)), horizon_steps=4)
         self.assertAlmostEqual(o["pitch"], lo)
         self.assertTrue(o["clipped"])
         o2 = _ad.short_simulate(env, (1.0, _math.radians(4.0)), horizon_steps=4)
@@ -138,11 +138,11 @@ class NewModulesTests(unittest.TestCase):
         cur = generate_curriculum(scenario="landing", n_examples=2,
                                   n_refinements=0, seeds=[400, 401],
                                   use_phi=False)
-        # Stub commands -5 deg on approach; env floor is -3 deg.
+        # Stub commands -5 deg on approach; env floor is -8 deg,
+        # so the command now passes through unclipped.
         for e in cur:
             if e["phase"] == "approach":
-                self.assertAlmostEqual(e["action_pitch_deg"],
-                                       _math.degrees(EnvConfig().pitch_lo))
+                self.assertAlmostEqual(e["action_pitch_deg"], -5.0)
 
     def test_directional_sweeps_run(self):
         import numpy as np
@@ -174,6 +174,130 @@ class NewModulesTests(unittest.TestCase):
             accelerate.mavlink_sea_sweep(
                 pol, Hs_list=[0.3], Tp_list=[4.0], n_seeds=1,
                 duration=1.0, directional=True, spread_s=0)
+
+    def test_seed_per_episode_varies_waves(self):
+        import numpy as np
+        from aircraft import Aircraft
+        from env import EnvConfig, FlyingBoatEnv
+        from ocean_directional import sea_eta_1d
+        cfg = EnvConfig(scenario="takeoff", directional=True,
+                        theta_mean_deg=35.0, spread_s=10)
+        env = FlyingBoatEnv(Aircraft(), cfg)
+        env.reset(seed=5)
+        a = float(sea_eta_1d(env._sea, np.array([0.0]), 0.0)[0])
+        env.reset(seed=5)
+        b = float(sea_eta_1d(env._sea, np.array([0.0]), 0.0)[0])
+        env.reset(seed=6)
+        c = float(sea_eta_1d(env._sea, np.array([0.0]), 0.0)[0])
+        self.assertEqual(a, b)   # fixed seed reproduces
+        self.assertNotEqual(a, c)  # seed+ep varies (train.py mechanism)
+
+    def test_init_bias_matches_envelope(self):
+        import math as _math
+        from env import EnvConfig
+        from train import _init_bias_for
+        b_to = _init_bias_for(EnvConfig(scenario="takeoff"))
+        cfg = EnvConfig(scenario="takeoff")
+        mid = (_math.degrees(cfg.pitch_hi) + _math.degrees(cfg.pitch_lo)) / 2
+        half = (_math.degrees(cfg.pitch_hi) - _math.degrees(cfg.pitch_lo)) / 2
+        self.assertAlmostEqual(mid + b_to[1] * half, 4.0)
+        b_ld = _init_bias_for(EnvConfig(scenario="landing"))
+        self.assertEqual(list(b_ld), [-0.9, -0.7])
+
+    def test_landing_init_bias_descends(self):
+        import numpy as np
+        from policy import ActorCritic
+        pol = ActorCritic(8, 2, np.array([0., -1.]),
+                          np.array([1., 1.]), hidden=8, seed=0,
+                          init_action=[-0.9, -0.7])
+        a, _, _ = pol.act(np.zeros(8, dtype=np.float32), deterministic=True)
+        self.assertAlmostEqual(float(a[0]), 0.05, places=2)
+        self.assertAlmostEqual(float(a[1]), -0.7, places=2)
+        pol0 = ActorCritic(8, 2, np.array([0., -1.]),
+                           np.array([1., 1.]), hidden=8, seed=0)
+        a0, _, _ = pol0.act(np.zeros(8, dtype=np.float32), deterministic=True)
+        self.assertAlmostEqual(float(a0[0]), 0.99, places=2)
+
+    def test_train_accepts_init_policy(self):
+        import os
+        import numpy as np
+        from aircraft import Aircraft
+        from env import EnvConfig, FlyingBoatEnv
+        from policy import ActorCritic
+        from train import train
+        env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff"))
+        init = ActorCritic(8, 2, np.array([0., -1.]),
+                           np.array([1., 1.]), hidden=8, seed=0)
+        before = init.body.get_flat().copy()
+        tag = "test_tmp_initpol"
+        path = os.path.join("results", f"{tag}_policy.npz")
+        try:
+            pol, hist = train(EnvConfig(scenario="takeoff", max_steps=20),
+                              episodes=2, max_updates=1, seed=0, tag=tag,
+                              init_policy=init)
+            self.assertIs(pol, init)
+            self.assertEqual(len(hist["episode_reward"]), 2)
+            self.assertFalse(np.array_equal(before, init.body.get_flat()))
+            self.assertTrue(os.path.exists(path))
+        finally:
+            if os.path.exists(path):
+                os.remove(path)
+
+    def test_train_seed_per_episode_runs_and_saves(self):
+        import os
+        from env import EnvConfig
+        from train import train
+        tag = "test_tmp_seedrand"
+        path = os.path.join("results", f"{tag}_policy.npz")
+        try:
+            _, hist = train(EnvConfig(scenario="takeoff", max_steps=20),
+                            episodes=2, max_updates=1, seed=0, tag=tag,
+                            seed_per_episode=True)
+            self.assertEqual(len(hist["episode_reward"]), 2)
+            self.assertTrue(os.path.exists(path))
+        finally:
+            if os.path.exists(path):
+                os.remove(path)
+
+    def test_train_cli_defaults_and_tags(self):
+        import os
+        from train import main, _default_tag, _config_for
+        import argparse
+        ns = argparse.Namespace(tag=None, directional=True,
+                                theta_mean_deg=35.0, seed_per_episode=True,
+                                hs=1.5, tp=6.0, spread_s=8)
+        self.assertEqual(_default_tag("takeoff", ns), "takeoff_dir35_rand")
+        cfg = _config_for("takeoff", ns)
+        self.assertTrue(cfg.directional)
+        self.assertEqual(cfg.spread_s, 8)
+        tag = "test_tmp_cli"
+        path = os.path.join("results", f"{tag}_policy.npz")
+        try:
+            main(["--scenario", "takeoff", "--episodes", "1",
+                  "--tag", tag])
+            self.assertTrue(os.path.exists(path))
+        finally:
+            for suffix in ("_policy.npz", "_learning.png"):
+                p = os.path.join("results", f"{tag}{suffix}")
+                if os.path.exists(p):
+                    os.remove(p)
+
+    def test_landing_reaches_water(self):
+        import numpy as np
+        from aircraft import Aircraft
+        from env import EnvConfig, FlyingBoatEnv
+        env = FlyingBoatEnv(Aircraft(),
+                            EnvConfig(scenario="landing", max_steps=600))
+        env.reset(seed=1)
+        # Full nose-down at the widened -8 deg floor must reach the
+        # surface within the episode (previously impossible in 400 steps)
+        for _ in range(600):
+            _, _, done, info = env.step(np.array([0.0, -1.0],
+                                                 dtype=np.float32))
+            if done:
+                break
+        self.assertTrue(done)
+        self.assertLess(env._steps, 600)
 
     def test_vehicle_accepts_directional_sea(self):
         import numpy as np

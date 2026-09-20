@@ -337,7 +337,8 @@ class FlyingBoatVehicle:
 
         if action is not None and self._armed:
             self.throttle = float(np.clip(action[0], 0.0, 1.0))
-            self.alpha = math.radians(4.5 + 7.5 * float(np.clip(action[1], -1, 1)))
+            # RL action envelope [-8, 12] deg, shared with EnvConfig
+            self.alpha = math.radians(2.0 + 10.0 * float(np.clip(action[1], -1, 1)))
         if not self._armed:
             self.throttle = 0.0
 

@@ -1,0 +1,19 @@
+{
+  "study": "landing warm-start via altitude curriculum + init bias + best checkpoints",
+  "changes": [
+    "train(): init_policy handoff",
+    "ActorCritic init_action param",
+    "scenario init bias (+4deg takeoff derived from envelope; -5deg landing)",
+    "best-checkpoint save on windowed success"
+  ],
+  "results": {
+    "landing fixed-seed": "100% train-wave (ep 5-250), collapse to 0% after ep ~260; best checkpoint kept",
+    "landing randomized 400ep": "0% held-out-10 (wave-phase luck dominates soft-touchdown)",
+    "takeoff fixed-seed": "final 90%, best 100% held-out-10"
+  },
+  "root_causes_found": [
+    "init bias meant +1.5deg after envelope widening (takeoff never scored)",
+    "fresh landing policy never touches water (0/5 contact) without descent bias"
+  ],
+  "open": "landing generalization across wave phases; options: longer randomized training, phase-aware features, BC from scripted flare"
+}

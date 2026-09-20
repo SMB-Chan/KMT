@@ -1,0 +1,79 @@
+{
+  "study": "fresh takeoff policies 1D vs directional + seed-fragility diagnosis",
+  "train": {
+    "episodes": 400,
+    "max_updates": 4,
+    "policy_seed": 0,
+    "Hs": 1.5,
+    "Tp": 6.0,
+    "seed_per_episode": false
+  },
+  "eval": {
+    "n_seeds": 5,
+    "Hs": 1.5,
+    "Tp": 6.0
+  },
+  "main_matrix": {
+    "train_1d/eval_1d": {
+      "rew": 256.1268956620712,
+      "succ": 1.0
+    },
+    "train_1d/eval_dir35": {
+      "rew": 225.3306698424276,
+      "succ": 0.6
+    },
+    "train_dir35/eval_1d": {
+      "rew": 202.89503703172085,
+      "succ": 0.0
+    },
+    "train_dir35/eval_dir35": {
+      "rew": 160.21104552652687,
+      "succ": 0.0
+    }
+  },
+  "main_tail_success30": {
+    "1d": 1.0,
+    "dir35": 0.0
+  },
+  "followup": {
+    "study3b_dir0/wave_seed0": {
+      "tail30": 0.4,
+      "eval_1d": 0.8,
+      "eval_dir35": 0.4
+    },
+    "study3b_dir35/wave_seed1": {
+      "tail30": 1.0,
+      "eval_1d": 1.0,
+      "eval_dir35": 1.0
+    }
+  },
+  "wave_diagnostic_x0-40m_t0-8s": {
+    "1d_s0": {
+      "eta_max": 0.89,
+      "eta_min": -0.69,
+      "max_slope": 0.222
+    },
+    "dir35_s0": {
+      "eta_max": 0.56,
+      "eta_min": -0.7,
+      "max_slope": 0.165
+    },
+    "dir35_s1": {
+      "eta_max": 0.81,
+      "eta_min": -1.33,
+      "max_slope": 0.291
+    }
+  },
+  "finding": "dir35 training fails only on wave-seed 0; seed 1 learns to 100%. s0 realization is milder, so failure is not extreme roughness; mechanism (phase/timing trap) unresolved.",
+  "recommendation": "use seed_per_episode=True for robust training claims; single-realization results are seed-fragile",
+  "artifacts": [
+    "results/study3_to_1d_policy.npz",
+    "results/study3_to_dir35_policy.npz",
+    "results/study3b_dir0_policy.npz",
+    "results/study3b_dir35_s1_policy.npz"
+  ],
+  "caveats": [
+    "n_seeds=5 eval: pilot scale",
+    "directional grids differ from 1D, not phase-matched"
+  ]
+}

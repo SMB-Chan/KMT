@@ -128,7 +128,11 @@ class Aircraft:
         return self.V_stall * math.sqrt(3.0)
 
     def CL(self, alpha: float) -> float:
-        return self.aero.CL0 + self.aero.CL_alpha * alpha
+        # Linear lift capped at stall (previously uncapped: a 20 deg
+        # effective alpha produced ~16 W lift spikes and blew up the
+        # explicit-Euler integration on flare).
+        raw = self.aero.CL0 + self.aero.CL_alpha * alpha
+        return max(-self.aero.CL_max, min(self.aero.CL_max, raw))
 
     def CD(self, CL: float) -> float:
         return (self.aero.CD0

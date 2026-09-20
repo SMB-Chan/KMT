@@ -1,0 +1,16 @@
+{
+  "study": "llama3.2 student loop with de-prescribed prompt",
+  "teacher": {
+    "takeoff": "results/llama32_takeoff_003 (12 decisions, 0 fb, 4 distinct, time_limit z=0.31/vx=2.25)",
+    "landing": "results/llama32_landing_002 (12 decisions, 0 fb, 4 distinct)"
+  },
+  "training": {
+    "samples": 24,
+    "mse": "0.341 -> 0.057"
+  },
+  "student_smoke": {
+    "run": "results/ollama_20260919T191647_511356Z",
+    "result": "60 decisions, 0 fb, time_limit z=0.24/vx=1.95"
+  },
+  "finding": "loop is mechanically complete; student inherits teacher hump-stuck outcome. Teacher quality (takeoff success), not pipeline, is the bottleneck."
+}

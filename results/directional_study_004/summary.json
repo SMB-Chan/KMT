@@ -1,0 +1,36 @@
+{
+  "study": "takeoff trained directional-theta35 WITH per-episode wave randomization",
+  "train": {
+    "tag": "takeoff_dir35_rand",
+    "episodes": 400,
+    "seed": 0,
+    "Hs": 1.5,
+    "Tp": 6.0,
+    "theta_mean_deg": 35.0,
+    "spread_s": 10,
+    "seed_per_episode": true,
+    "tail_succ30": "53-63% (vs 0% fixed-seed)"
+  },
+  "eval": {
+    "n_seeds": 10,
+    "matrix": {
+      "1d": {
+        "rew": 289.1219321439377,
+        "succ": 0.6
+      },
+      "dir35": {
+        "rew": 204.0183092335814,
+        "succ": 0.3
+      }
+    }
+  },
+  "finding": "randomization escapes the seed-0 trap; policy generalizes modestly (60% 1D / 30% dir35)",
+  "artifacts": [
+    "results/takeoff_dir35_rand_policy.npz",
+    "results/takeoff_dir35_rand_learning.png"
+  ],
+  "caveats": [
+    "n_seeds=10 eval: pilot scale",
+    "single training run per condition"
+  ]
+}

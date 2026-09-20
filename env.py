@@ -40,7 +40,7 @@ class EnvConfig:
     V_lo: float = 8.5                  # takeoff liftoff speed (m/s)
     approach_alt: float = 25.0         # landing initial altitude
     V_approach: float = 13.0           # landing approach speed
-    pitch_lo: float = math.radians(-3)
+    pitch_lo: float = math.radians(-8)
     pitch_hi: float = math.radians(12)
     Hs: float = 1.5
     Tp: float = 6.0
@@ -84,38 +84,48 @@ class FlyingBoatEnv:
         self.hd = HullDrag(Bwl=self.ac.geom.Bwl, Lwl=self.ac.geom.Lwl)
 
     # ----- internal physics step -----
+    # Explicit Euler substeps: at high dynamic pressure the aero forces
+    # stiffen (a single 0.05 s step once ran away to 388 m/s in a dive),
+    # so the control step is subdivided. Returned forces/surface are the
+    # last-substep values; Veta stays full-step scale for the state vector.
+    n_sub: int = 5
+
     def _physics_step(self, x, z, Vx, Vz, alpha, throttle, sea, t):
         eta = float(sea_eta_1d(sea, np.array([x]), t)[0])
         # Rate of change of eta (use central difference)
         eta_next = float(sea_eta_1d(sea, np.array([x]), t + self.cfg.dt)[0])
         Veta = (eta_next - eta) / self.cfg.dt
 
-        V = math.hypot(Vx, Vz)
-        T_i = self.ac.prop.thrust(V, throttle)
-        q = 0.5 * 1.225 * V ** 2
-        gamma = math.atan2(Vz, Vx)
-        alpha_eff = alpha - gamma
-        CL = self.ac.CL(alpha_eff)
-        CD = self.ac.CD(CL)
-        L_i = q * self.ac.geom.S * CL
-        D_i = q * self.ac.geom.S * CD
-        wf = hull_force(z, Vx, Vz, eta, self.hull)
-        R_hull = self.hd.resistance(Vx) if wf.N > 0 else 0.0
-        cos_a, sin_a = math.cos(alpha), math.sin(alpha)
-        cos_g, sin_g = math.cos(gamma), math.sin(gamma)
-        T_x = T_i * cos_a;  T_z = T_i * sin_a
-        L_x = -L_i * sin_g; L_z = +L_i * cos_g
-        D_x = -D_i * cos_g; D_z = -D_i * sin_g
-        Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, Vx)
-        Fz = T_z + L_z + D_z + wf.N - self.W
-        a_x = Fx / self.ac.mass.total
-        a_z = Fz / self.ac.mass.total
-        dt = self.cfg.dt
-        Vx_n = Vx + a_x * dt
-        Vz_n = Vz + a_z * dt
-        x_n  = x  + Vx_n * dt
-        z_n  = z  + Vz_n * dt
-        return x_n, z_n, Vx_n, Vz_n, eta, Veta, wf.N, T_i, L_i, D_i
+        h = self.cfg.dt / self.n_sub
+        t_sub = t
+        for _ in range(self.n_sub):
+            eta_s = float(sea_eta_1d(sea, np.array([x]), t_sub)[0])
+            V = math.hypot(Vx, Vz)
+            T_i = self.ac.prop.thrust(V, throttle)
+            q = 0.5 * 1.225 * V ** 2
+            gamma = math.atan2(Vz, Vx)
+            alpha_eff = alpha - gamma
+            CL = self.ac.CL(alpha_eff)
+            CD = self.ac.CD(CL)
+            L_i = q * self.ac.geom.S * CL
+            D_i = q * self.ac.geom.S * CD
+            wf = hull_force(z, Vx, Vz, eta_s, self.hull)
+            R_hull = self.hd.resistance(Vx) if wf.N > 0 else 0.0
+            cos_a, sin_a = math.cos(alpha), math.sin(alpha)
+            cos_g, sin_g = math.cos(gamma), math.sin(gamma)
+            T_x = T_i * cos_a;  T_z = T_i * sin_a
+            L_x = -L_i * sin_g; L_z = +L_i * cos_g
+            D_x = -D_i * cos_g; D_z = -D_i * sin_g
+            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, Vx)
+            Fz = T_z + L_z + D_z + wf.N - self.W
+            a_x = Fx / self.ac.mass.total
+            a_z = Fz / self.ac.mass.total
+            Vx = Vx + a_x * h
+            Vz = Vz + a_z * h
+            x = x + Vx * h
+            z = z + Vz * h
+            t_sub += h
+        return x, z, Vx, Vz, eta, Veta, wf.N, T_i, L_i, D_i
 
     # ----- API -----
     def reset(self, seed: int | None = None):
@@ -244,25 +254,31 @@ class FlyingBoatEnv:
             return r, done, info
 
         # ----- landing -----
-        # Per-step dense reward: gentle descent, getting closer to water
+        # Per-step dense reward: gentle descent, getting closer to water.
+        # The touchdown bonus below is scaled to dominate the background
+        # accumulated over a ~30 s episode (previously +-30 vs ~-1300,
+        # which made success invisible to the gradient).
         r_descent = -0.30 * (self._Vz ** 2) / 25.0     # punish sink rate
         r_prox    = -0.10 * self._z / cfg.z_goal        # encourage descent
         r_comfort = (-0.002 * (N_water / W) ** 2
                      - 0.05 * (self._Vz ** 2))
         r_step = -0.05
-        r = r_descent + r_prox + r_comfort + r_step
+        # Flare guidance near the surface: reward killing sink rate low down
+        r_flare = (0.5 * max(0.0, 1.0 - abs(self._Vz) / 1.5)
+                   * max(0.0, 1.0 - self._z / 5.0)) if self._z < 5.0 else 0.0
+        r = r_descent + r_prox + r_comfort + r_step + r_flare
         done = False
         # touchdown: first sample with hull in water
         hull_in_water = (eta + self.hull.h_keel) > self._z
         if hull_in_water:
             # reward soft touchdown (linear in |Vz|)
-            r += 30.0 * max(0.0, 1.0 - abs(self._Vz) / 1.5)
+            r += 100.0 * max(0.0, 1.0 - abs(self._Vz) / 1.5)
             # bonus for low hull impact
             if N_water < 3 * W and abs(self._Vz) < 1.5:
-                r += 30.0
+                r += 100.0
                 info["success"] = True
             else:
-                r -= 30.0
+                r -= 100.0
                 info["success"] = False
             done = True
         # catastrophic

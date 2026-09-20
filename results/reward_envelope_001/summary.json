@@ -1,0 +1,17 @@
+{
+  "study": "landing reward/envelope redesign",
+  "changes": [
+    "pitch_lo -3deg -> -8deg (unified with advisor/ollama floor, servo +-15deg)",
+    "vehicle direct-action map 4.5+-7.5 -> 2+-10 (same envelope)",
+    "touchdown bonus +-30 -> +200/-100, flare shaping near surface",
+    "landing max_steps 400 -> 600 (train default)",
+    "CL capped at CL_max=1.4 (was uncapped)",
+    "env physics 5x substeps (dive ran away to 388 m/s at dt=0.05)"
+  ],
+  "verified": [
+    "manual flare now succeeds (t=28s, Vz=-0.6, 0.34W)",
+    "58 regression tests + physics validate pass"
+  ],
+  "open": "RL-from-scratch landing still 0% at 200ep: discovery (12s down then flare) not found; needs warm-start/curriculum, not more episodes",
+  "note": "dynamics.py/vehicle keep single-step integration; stiffness remains there"
+}

@@ -120,6 +120,13 @@ class RegressionTests(unittest.TestCase):
         self.assertEqual(v.read_telemetry()[2]['T'], 0)
         with self.assertRaises(RuntimeError): v.arm()
 
+    def test_cl_capped_at_stall(self):
+        from aircraft import Aircraft
+        ac = Aircraft()
+        self.assertLessEqual(abs(ac.CL(math.radians(30))), ac.aero.CL_max + 1e-9)
+        self.assertLessEqual(abs(ac.CL(math.radians(-30))), ac.aero.CL_max + 1e-9)
+        self.assertTrue(math.isfinite(ac.CD(ac.CL(math.radians(30)))))
+
     def test_takeoff_setpoint_is_two_stage(self):
         from mavlink_if import LowLevelController
         ctl = LowLevelController()
@@ -151,7 +158,8 @@ class RegressionTests(unittest.TestCase):
         v.arm(); v.send_command(MAV_CMD_NAV_TAKEOFF)
         v.step(action=[.2, -1])
         self.assertEqual(v.throttle, .2)
-        self.assertAlmostEqual(v.alpha, math.radians(-3))
+        # RL action envelope is [-8, 12] deg, shared with EnvConfig
+        self.assertAlmostEqual(v.alpha, math.radians(-8))
         v.send_command(MAV_CMD_DO_SET_SERVO, {'servo':1, 'pwm':1300})
         v.step()
         self.assertAlmostEqual(v.throttle, .3)
