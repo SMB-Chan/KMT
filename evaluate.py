@@ -14,6 +14,8 @@ from __future__ import annotations
 import math
 import os
 import csv
+from pathlib import Path
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -81,7 +83,13 @@ def _build_trajectory_from_vehicle(veh: FlyingBoatVehicle, sea):
 
 
 def _save_telemetry_csv(veh: FlyingBoatVehicle, filename: str):
-    """Save MAVLink-style telemetry to CSV."""
+    """Save MAVLink-style telemetry to CSV.
+
+    The CSV has a single 12-column header followed by 12-column data
+    rows, so pandas/numpy loaders can parse it directly. A sidecar
+    ``.txt`` next to the CSV carries the run summary.
+    """
+    summary_path = str(Path(filename).with_suffix(".summary.txt"))
     with open(filename, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["t", "msg", "x", "y", "z", "Vx", "Vz", "roll",
@@ -98,10 +106,8 @@ def _save_telemetry_csv(veh: FlyingBoatVehicle, filename: str):
                         snap["Vx"], snap["Vz"], 0.0,
                         math.degrees(snap["alpha"]), 0.0,
                         int(snap["z"] * 1000), snap["mode"]])
-        # Comment lines stay parseable: pandas read_csv(comment="#")
-        # skips them while the data rows keep the 12-column header shape.
-        w.writerow([])
-        w.writerow(["# summary end_t", veh.t, "final_z", veh.z, "final_x", veh.x])
+    with open(summary_path, "w") as f:
+        f.write(f"end_t={veh.t}\nfinal_z={veh.z}\nfinal_x={veh.x}\n")
 
 
 def run_takeoff():
