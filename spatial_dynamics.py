@@ -11,18 +11,24 @@ from dynamics import hull_force, float_contacts
 
 def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
               pitch, throttle, bank_command, rudder_command,
-              extra_mass=0.0, thrust_factor=1.0):
+              extra_mass=0.0, thrust_factor=1.0, current=(0.0, 0.0)):
     """Integrate [x,y,z,Vx,Vy,Vz,bank,heading] without mutating callers.
 
     World axes: north/east/up. Forces are world-frame newtons.
     Thrust loss and added water mass are supplied by the damage adapter.
+    `current` is the surface current (north, east) in m/s: hydrodynamic
+    contact forces act on the water-relative velocity, so a boat at rest
+    in a current drifts downcurrent. Default (0, 0) is the still-water
+    behaviour.
     """
     state = np.asarray(state, dtype=float)
+    current = np.asarray(current, dtype=float)
     controls = [dt, t, pitch, throttle, bank_command, rudder_command,
                 extra_mass, thrust_factor]
     if (state.shape != (8,) or not np.isfinite(state).all()
             or not np.isfinite(controls).all() or dt <= 0
-            or extra_mass < 0 or not 0 <= thrust_factor <= 1):
+            or extra_mass < 0 or not 0 <= thrust_factor <= 1
+            or current.shape != (2,) or not np.isfinite(current).all()):
         raise ValueError('invalid spatial state or integration parameters')
     x, y, z, vx, vy, vz, bank, heading = state
     n_sub = max(1, math.ceil(dt / 0.01))
@@ -42,8 +48,13 @@ def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
                               y - ac.geom.float_y * right[1], now)
         eta_right = surface_at(x + ac.geom.float_y * right[0],
                                y + ac.geom.float_y * right[1], now)
-        contact = hull_force(z, math.hypot(vx, vy), vz, surface, hull)
-        left, right_float = float_contacts(ac, z, bank, vx, vz, eta_left, eta_right)
+        # Water-relative horizontal velocity (current is zero by default,
+        # so rel_x/rel_y stay bitwise equal to vx/vy in still water).
+        rel_x = vx - current[0]
+        rel_y = vy - current[1]
+        rel_speed = math.hypot(rel_x, rel_y)
+        contact = hull_force(z, rel_speed, vz, surface, hull)
+        left, right_float = float_contacts(ac, z, bank, rel_x, vz, eta_left, eta_right)
         waterborne = (contact.N + left.N + right_float.N) / (mass * 9.80665)
         hull_borne = contact.N > 0.2 * mass * 9.80665
         # A float grazing a crest does not rob the ailerons of authority;
@@ -87,13 +98,14 @@ def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
         thrust_x = thrust * thrust_axis[0]
         aero_x = force[0] - thrust_x
         water_x = 0.0
-        horizontal = math.hypot(vx, vy)
+        horizontal = rel_speed
         water_n = contact.N + left.N + right_float.N
         if water_n > 0 and horizontal > 1e-8:
             resistance = (hd.resistance(horizontal) if contact.N > 0 else 0.0) \
                 + hull.mu_s * contact.N + 0.05 * (left.N + right_float.N)
-            water_x = -resistance * velocity[0] / horizontal
-            force[:2] -= resistance * velocity[:2] / horizontal
+            water_x = -resistance * rel_x / horizontal
+            force[0] -= resistance * rel_x / horizontal
+            force[1] -= resistance * rel_y / horizontal
         force_sums += [thrust_x, aero_x, water_x]
         force[2] += water_n - (mass * 9.80665)
         velocity += force / mass * h
@@ -120,7 +132,8 @@ def advance(env, x, z, vx, vz, pitch, throttle, sea, t):
         lambda x, y, t: env._eta(x, t, y),
         [x, env._y, z, vx, env._Vy, vz, env._bank, env._heading],
         dt=env.cfg.dt, t=t, pitch=pitch, throttle=throttle,
-        bank_command=env._bank_command, rudder_command=env._rudder_command)
+        bank_command=env._bank_command, rudder_command=env._rudder_command,
+        current=env.cfg.current)
     env._last_force_budget = forces["force_budget"]
     x, env._y, z, vx, env._Vy, vz, env._bank, env._heading = state
     return x, z, vx, vz, eta, veta, forces['N_water'], forces['T'], forces['L'], forces['D']

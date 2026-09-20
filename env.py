@@ -54,6 +54,10 @@ class EnvConfig:
     theta_mean_deg: float = 0.0     # mean wave direction (deg, CCW from +x)
     spread_s: int = 10              # cos^{2s} spreading; larger = narrower
     preview_dx_m: tuple = PREVIEW_DX_M  # upstream encounter-time look-aheads (m)
+    gamma: float = 1.0              # JONSWAP peak enhancement (1 = PM)
+    depth: float = 50.0             # water depth, m (used when finite_depth)
+    finite_depth: bool = False      # omega^2 = g k tanh(k*depth) dispersion
+    current: tuple = (0.0, 0.0)     # surface current (north, east), m/s
 
 
 def pitch_from_normalized(u: float, pitch_lo: float, pitch_hi: float) -> float:
@@ -82,6 +86,7 @@ class FlyingBoatEnv:
         self.ac = ac
         self.cfg = cfg or EnvConfig()
         dx = np.asarray(self.cfg.preview_dx_m, dtype=float)
+        current = np.asarray(self.cfg.current, dtype=float)
         if (self.cfg.scenario not in ("takeoff", "landing")
                 or not np.isfinite(self.cfg.dt) or self.cfg.dt <= 0
                 or self.cfg.max_steps <= 0 or self.cfg.z_goal <= 0
@@ -89,7 +94,12 @@ class FlyingBoatEnv:
                 or not isinstance(self.cfg.spread_s, (int, np.integer))
                 or self.cfg.spread_s < 1
                 or dx.ndim != 1 or not np.isfinite(dx).all()
-                or np.any(dx <= 0)):
+                or np.any(dx <= 0)
+                or not np.isfinite(self.cfg.gamma) or self.cfg.gamma < 1.0
+                or (self.cfg.finite_depth
+                    and (not np.isfinite(self.cfg.depth)
+                         or self.cfg.depth <= 0))
+                or current.shape != (2,) or not np.isfinite(current).all()):
             raise ValueError("invalid environment configuration")
         if not self.cfg.spatial and self.cfg.atmosphere != AtmosphereConfig():
             raise ValueError("atmosphere configuration requires spatial=True")
@@ -141,14 +151,17 @@ class FlyingBoatEnv:
             CD = self.ac.CD(CL, height_m=z - eta_s)
             L_i = q * self.ac.geom.S * CL
             D_i = q * self.ac.geom.S * CD
-            wf = hull_force(z, Vx, Vz, eta_s, self.hull)
-            R_hull = self.hd.resistance(Vx) if wf.N > 0 else 0.0
+            # Hydrodynamic forces act on the water-relative speed (current
+            # defaults to zero, keeping Vx_rel bitwise equal to Vx).
+            Vx_rel = Vx - self.cfg.current[0]
+            wf = hull_force(z, Vx_rel, Vz, eta_s, self.hull)
+            R_hull = self.hd.resistance(Vx_rel) if wf.N > 0 else 0.0
             cos_a, sin_a = math.cos(alpha + self.ac.aero.alpha_T), math.sin(alpha + self.ac.aero.alpha_T)
             cos_g, sin_g = math.cos(gamma), math.sin(gamma)
             T_x = T_i * cos_a;  T_z = T_i * sin_a
             L_x = -L_i * sin_g; L_z = +L_i * cos_g
             D_x = -D_i * cos_g; D_z = -D_i * sin_g
-            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, Vx)
+            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, Vx_rel)
             Fz = T_z + L_z + D_z + wf.N - self.W
             a_x = Fx / self.ac.mass.total
             a_z = Fz / self.ac.mass.total
@@ -177,13 +190,21 @@ class FlyingBoatEnv:
                                      gust_rms=atmosphere.gust_rms + rng.uniform(0, 0.8))
         self.episode_conditions = dict(seed=int(seed), Hs=float(hs), Tp=float(tp),
                                        theta_mean_deg=float(direction),
-                                       wind=list(atmosphere.wind), gust_rms=float(atmosphere.gust_rms))
+                                       wind=list(atmosphere.wind), gust_rms=float(atmosphere.gust_rms),
+                                       gamma=float(self.cfg.gamma),
+                                       finite_depth=bool(self.cfg.finite_depth),
+                                       current=[float(c) for c in self.cfg.current])
         if self.cfg.directional:
             self._sea = DirectionalOcean(Hs=hs, Tp=tp,
                                          theta_mean=math.radians(direction),
-                                         s=self.cfg.spread_s, seed=seed)
+                                         s=self.cfg.spread_s, seed=seed,
+                                         gamma=self.cfg.gamma,
+                                         depth=self.cfg.depth,
+                                         finite_depth=self.cfg.finite_depth)
         else:
-            self._sea = Ocean(Hs=hs, Tp=tp, seed=seed)
+            self._sea = Ocean(Hs=hs, Tp=tp, seed=seed, gamma=self.cfg.gamma,
+                              depth=self.cfg.depth,
+                              finite_depth=self.cfg.finite_depth)
         self._y = self._Vy = self._bank = self._heading = 0.0
         self._bank_command = self._rudder_command = 0.0
         self._atmosphere = Atmosphere(atmosphere, seed=seed)

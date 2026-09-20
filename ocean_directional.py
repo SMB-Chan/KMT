@@ -26,7 +26,7 @@ import math
 from dataclasses import dataclass, field
 import numpy as np
 
-from ocean import pm_spectrum, G
+from ocean import pm_spectrum, jonswap_spectrum, dispersion_k, G
 
 
 # ---------------------------------------------------------------------
@@ -63,6 +63,8 @@ class DirectionalOcean:
     n_dir     : number of directional components
     depth     : water depth (m); default 50 m (deep-water approx holds)
     seed      : RNG seed
+    gamma     : JONSWAP peak enhancement (1 = PM spectrum exactly)
+    finite_depth : solve omega^2 = g k tanh(k*depth) instead of k = omega^2/g
     """
     Hs: float = 1.5
     Tp: float = 6.0
@@ -74,6 +76,8 @@ class DirectionalOcean:
     omega_hi: float = 4.0
     depth: float = 50.0
     seed: int = 42
+    gamma: float = 1.0          # JONSWAP peak enhancement (1 = PM exactly)
+    finite_depth: bool = False  # solve omega^2 = g k tanh(k*depth) for k
 
     # internal
     omega: np.ndarray = field(init=False, repr=False)
@@ -96,10 +100,11 @@ class DirectionalOcean:
         self.theta = np.linspace(-math.pi, math.pi, self.n_dir,
                                  endpoint=False) + math.pi / self.n_dir
         self.dtheta = self.theta[1] - self.theta[0]
-        # Deep-water dispersion
-        self.k = self.omega ** 2 / G
+        # Dispersion: deep water unless finite-depth requested
+        self.k = dispersion_k(self.omega,
+                              self.depth if self.finite_depth else None)
         # 1-D spectrum (m^2 / (rad/s))
-        self.S_1d = pm_spectrum(self.omega, self.Hs, self.Tp)
+        self.S_1d = jonswap_spectrum(self.omega, self.Hs, self.Tp, self.gamma)
         # Directional spreading
         D = cos2s_spreading(self.theta, self.theta_mean, self.s)
         # Per-(freq, dir) amplitudes:  a^2 = 2 S(omega) D(theta) domega dtheta
@@ -215,7 +220,8 @@ class DirectionalOcean:
 def from_ndbc(realtime_path="data/ndbc_46012_realtime.txt",
               spectral_path="data/ndbc_46026_spectral.txt",
               s: int = 8,
-              n_dir: int = 16):
+              n_dir: int = 16,
+              gamma: float = 1.0):
     """Build a DirectionalOcean from NDBC files.
 
     Uses the latest MWD value (mean wave direction) when available.
@@ -294,8 +300,10 @@ def from_ndbc(realtime_path="data/ndbc_46012_realtime.txt",
     mwd_str = f"{mwd_raw:.0f} deg from" if mwd_raw is not None else "unknown"
     label = (f"NDBC Hs={Hs:.2f} m  Tp={Tp:.2f} s  "
              f"MWD={mwd_str}  s={s}")
+    if gamma != 1.0:
+        label += f"  gamma={gamma:.1f}"
     sea = DirectionalOcean(Hs=Hs, Tp=Tp, theta_mean=theta_mean, s=s,
-                           n_dir=n_dir, seed=42)
+                           n_dir=n_dir, seed=42, gamma=gamma)
     sea.label = label
     return sea
 

@@ -241,11 +241,18 @@ class FlyingBoatVehicle:
 
     def __init__(self, aircraft: Aircraft, sea,
                  origin_lat: float = 36.0, origin_lon: float = -122.0,
-                 *, spatial: bool = False, atmosphere=None, seed: int = 42):
+                 *, spatial: bool = False, atmosphere=None, seed: int = 42,
+                 current=(0.0, 0.0)):
         self.spatial = spatial
         self.atmosphere_config = atmosphere or AtmosphereConfig()
         if not spatial and self.atmosphere_config != AtmosphereConfig():
             raise ValueError("atmosphere requires spatial=True")
+        # Surface current (north, east) m/s; hydrodynamics use the
+        # water-relative velocity. Default zero = still water.
+        current = tuple(float(c) for c in np.asarray(current, dtype=float).ravel())
+        if len(current) != 2 or not np.isfinite(current).all():
+            raise ValueError("current must be two finite components (north, east)")
+        self.current = current
         self._wind_seed = seed
         self.ac = aircraft
         self.sea = sea
@@ -470,8 +477,12 @@ class FlyingBoatVehicle:
         Veta = (eta_next - eta) / dt
 
         # ---- Damage update ----
+        # Spray/impact severity depends on the water-relative speed.
+        V_water = (math.hypot(self.Vx - self.current[0],
+                              self.Vy - self.current[1])
+                   if self.spatial else self.Vx - self.current[0])
         self.damage = update_damage(self.damage, dt,
-                                    self.z, math.hypot(self.Vx, self.Vy) if self.spatial else self.Vx, eta, Veta,
+                                    self.z, V_water, eta, Veta,
                                     self.hull.h_keel,
                                     self.spray, self.ingress)
         if self.damage.failed:
@@ -504,14 +515,17 @@ class FlyingBoatVehicle:
             CD = self.ac.CD(CL, height_m=self.z - eta_h)
             L_i = q * self.ac.geom.S * CL
             D_i = q * self.ac.geom.S * CD
-            wf = hull_force(self.z, self.Vx, self.Vz, eta_h, self.hull)
-            R_hull = self.hd.resistance(self.Vx) if wf.N > 0 else 0.0
+            # Water-relative speed for hydrodynamics (bitwise equal to
+            # self.Vx when the default zero current is used).
+            Vx_rel = self.Vx - self.current[0]
+            wf = hull_force(self.z, Vx_rel, self.Vz, eta_h, self.hull)
+            R_hull = self.hd.resistance(Vx_rel) if wf.N > 0 else 0.0
             cos_a, sin_a = math.cos(self.alpha + self.ac.aero.alpha_T), math.sin(self.alpha + self.ac.aero.alpha_T)
             cos_g, sin_g = math.cos(gamma), math.sin(gamma)
             T_x = T_i * cos_a;  T_z = T_i * sin_a
             L_x = -L_i * sin_g; L_z = +L_i * cos_g
             D_x = -D_i * cos_g; D_z = -D_i * sin_g
-            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, self.Vx)
+            Fx = T_x + L_x + D_x + wf.Rt - math.copysign(R_hull, Vx_rel)
             Fz = T_z + L_z + D_z + wf.N - W_eff
             m_total = self.ac.mass.total + extra_mass
             a_x = Fx / m_total
@@ -535,7 +549,8 @@ class FlyingBoatVehicle:
             lambda x, y, t: self.wave_elevation(x, y, t), old,
             dt=dt, t=self.t, pitch=self.alpha, throttle=self.throttle,
             bank_command=self.bank_command, rudder_command=self.rudder_command,
-            extra_mass=extra_mass, thrust_factor=thrust_factor)
+            extra_mass=extra_mass, thrust_factor=thrust_factor,
+            current=self.current)
         self.x, self.y, self.z, self.Vx, self.Vy, self.Vz, self.bank, self.heading = state
         self.rollspeed = (self.bank - old[6]) / dt
         self.yawspeed = math.atan2(math.sin(self.heading - old[7]),
