@@ -14,6 +14,7 @@ from aircraft import Aircraft
 from dynamics import hull_force
 from mavlink_if import FlyingBoatVehicle
 from atmosphere import AtmosphereConfig
+from weather import PRESETS, get_preset, weather_asdict
 from ocean_directional import DirectionalOcean
 from ocean import Ocean
 from ocean_real import load_buoy_default
@@ -41,8 +42,10 @@ def parser():
                    help='use per-step corridor feedback for bank/rudder, preserving pilot throttle/pitch')
     p.add_argument('--directional', action='store_true')
     p.add_argument('--theta-mean-deg', type=float, default=0.0)
-    p.add_argument('--wind', type=float, nargs=3, default=(0., 0., 0.))
-    p.add_argument('--gust-rms', type=float, default=0.0)
+    p.add_argument('--wind', type=float, nargs=3, default=None)
+    p.add_argument('--gust-rms', type=float, default=None)
+    p.add_argument('--weather', choices=sorted(PRESETS), default=None,
+                   help='weather preset; brings recommended wind/gusts unless --wind/--gust-rms given')
     p.add_argument('--render', action='store_true', help='save scene.png after flight')
     p.add_argument('--host', default='http://127.0.0.1:11434')
     p.add_argument('--duration', type=positive, default=12)
@@ -66,9 +69,21 @@ def run(args, pilot=None):
         raise ValueError("--lateral-assist requires --spatial")
     if args.spatial and args.student:
         raise ValueError('legacy student checkpoints do not support spatial control; use --policy')
-    atmosphere = AtmosphereConfig(wind=tuple(args.wind), gust_rms=args.gust_rms)
+    preset = get_preset(args.weather) if args.weather else None
+    wind = tuple(args.wind) if args.wind is not None else (
+        preset.atmosphere.wind if preset else (0., 0., 0.))
+    gust_rms = args.gust_rms if args.gust_rms is not None else (
+        preset.atmosphere.gust_rms if preset else 0.0)
+    gust_model = (preset.atmosphere.gust_model
+                  if preset is not None and args.wind is None
+                  and args.gust_rms is None else 'sum4')
+    atmosphere = AtmosphereConfig(wind=wind, gust_rms=gust_rms,
+                                  gust_model=gust_model)
+    weather = preset.weather if preset else None
     if not args.spatial and atmosphere != AtmosphereConfig():
         raise ValueError('wind configuration requires --spatial')
+    if weather is not None and not args.spatial:
+        raise ValueError('--weather requires --spatial')
     if args.ndbc and args.directional:
         raise ValueError('--ndbc and --directional cannot be combined in this runner')
     if pilot is None:
@@ -99,7 +114,8 @@ def run(args, pilot=None):
         sea = DirectionalOcean(Hs=args.hs, Tp=args.tp, seed=args.seed,
                                theta_mean=math.radians(args.theta_mean_deg))
     vehicle = FlyingBoatVehicle(Aircraft(), sea, spatial=args.spatial,
-                                atmosphere=atmosphere, seed=args.seed)
+                                atmosphere=atmosphere, seed=args.seed,
+                                weather=weather)
     vehicle.dt = args.dt
     if args.scenario == 'landing':
         vehicle.z = 25
@@ -112,6 +128,7 @@ def run(args, pilot=None):
                    target_speed_m_s=args.target_speed, decision_interval_s=args.interval)
     config = {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()}
     (out / 'config.json').write_text(json.dumps(dict(config=config, model=model_info, atmosphere=asdict(atmosphere),
+        weather=(weather_asdict(weather) if weather is not None else None),
         source_sha256={p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                        for p in Path(__file__).resolve().parent.glob('*.py')}), indent=2) + '\n')
     decisions, fallback_count, steps = 0, 0, 0

@@ -307,6 +307,8 @@ def _default_tag(scenario: str, args) -> str:
     tag = scenario
     if getattr(args, "spatial", False):
         tag += "_spatial"
+    if getattr(args, "weather", None):
+        tag += f"_{args.weather}"
     if args.directional:
         tag += f"_dir{args.theta_mean_deg:g}"
     if args.seed_per_episode:
@@ -318,10 +320,26 @@ def _config_for(scenario: str, args) -> EnvConfig:
     # Landing from 25 m needs ~30 s even at full nose-down authority
     steps = 300 if scenario == "takeoff" else 600
     from atmosphere import AtmosphereConfig
+    wind = tuple(getattr(args, "wind", (0, 0, 0)))
+    gust_rms = getattr(args, "gust_rms", 0.0)
+    gust_model = "sum4"
+    weather_cfg = None
+    preset_name = getattr(args, "weather", None)
+    if preset_name:
+        from weather import get_preset
+        preset = get_preset(preset_name)
+        weather_cfg = preset.weather
+        if not any(wind) and not gust_rms:
+            # Adopt the preset's recommended wind/gusts when untouched.
+            wind = tuple(preset.atmosphere.wind)
+            gust_rms = preset.atmosphere.gust_rms
+            gust_model = preset.atmosphere.gust_model
     return EnvConfig(randomize_conditions=getattr(args, "randomize_conditions", False),
                      spatial=getattr(args, "spatial", False),
-                     atmosphere=AtmosphereConfig(wind=tuple(getattr(args, "wind", (0, 0, 0))),
-                                                  gust_rms=getattr(args, "gust_rms", 0.0)),
+                     atmosphere=AtmosphereConfig(wind=wind,
+                                                  gust_rms=gust_rms,
+                                                  gust_model=gust_model),
+                     weather=weather_cfg,
                      scenario=scenario, max_steps=steps, dt=0.05,
                      Hs=args.hs, Tp=args.tp,
                      directional=args.directional,
@@ -354,9 +372,15 @@ def main(argv=None):
     p.add_argument("--spatial", action="store_true", help="enable lateral motion, bank/yaw control and atmosphere")
     p.add_argument("--wind", type=float, nargs=3, default=(0., 0., 0.), metavar=("WX", "WY", "WZ"))
     p.add_argument("--gust-rms", type=float, default=0.0)
+    from weather import PRESETS
+    p.add_argument("--weather", choices=sorted(PRESETS), default=None,
+                   help="weather preset (spatial only); brings recommended "
+                        "wind/gusts unless --wind/--gust-rms are set")
     args = p.parse_args(argv)
     if not args.spatial and (any(args.wind) or args.gust_rms):
         p.error("--wind and --gust-rms require --spatial")
+    if args.weather and not args.spatial:
+        p.error("--weather requires --spatial")
     scenarios = ("takeoff", "landing") if args.scenario == "both" \
         else (args.scenario,)
     for sc in scenarios:

@@ -43,6 +43,7 @@ from env import EnvConfig, pitch_from_normalized
 from damage import (SprayModel, IngressModel, DamageState,
                     update_damage, effective_thrust_factor,
                     effective_mass_increase)
+from weather import Weather, WeatherConfig
 
 
 # ---------------------------------------------------------------------
@@ -242,11 +243,20 @@ class FlyingBoatVehicle:
     def __init__(self, aircraft: Aircraft, sea,
                  origin_lat: float = 36.0, origin_lon: float = -122.0,
                  *, spatial: bool = False, atmosphere=None, seed: int = 42,
-                 current=(0.0, 0.0)):
+                 current=(0.0, 0.0), weather=None):
         self.spatial = spatial
         self.atmosphere_config = atmosphere or AtmosphereConfig()
         if not spatial and self.atmosphere_config != AtmosphereConfig():
             raise ValueError("atmosphere requires spatial=True")
+        # Optional weather layer (temperature/humidity/precip/icing); it
+        # replaces the bare Atmosphere object and needs the spatial model.
+        if weather is not None and not isinstance(weather, WeatherConfig):
+            raise TypeError("weather must be a WeatherConfig")
+        if weather is not None and not spatial:
+            raise ValueError("weather requires spatial=True")
+        self.weather_config = weather
+        self.weather = None
+        self.ice_mass = 0.0
         # Surface current (north, east) m/s; hydrodynamics use the
         # water-relative velocity. Default zero = still water.
         current = tuple(float(c) for c in np.asarray(current, dtype=float).ravel())
@@ -290,7 +300,16 @@ class FlyingBoatVehicle:
         self._attitude = None
         if seed is not None:
             self._wind_seed = seed
-        self.atmosphere = Atmosphere(self.atmosphere_config, self._wind_seed)
+        if self.weather_config is not None:
+            # Weather implements the Atmosphere interface; it carries wind,
+            # density and the rain/icing penalties for the spatial integrator.
+            self.weather = Weather(self.weather_config, self.atmosphere_config,
+                                   self._wind_seed)
+            self.atmosphere = self.weather
+        else:
+            self.weather = None
+            self.atmosphere = Atmosphere(self.atmosphere_config, self._wind_seed)
+        self.ice_mass = 0.0
         self.x = 0.0
         eta0 = float(sea_eta_1d(self.sea, np.array([0.0]), 0.0)[0])
         self.z = eta0 + self.hull.h_keel - self.ac.W / (RHO_W * G * self.hull.A_wp)
@@ -496,6 +515,8 @@ class FlyingBoatVehicle:
                                            self.z, eta, Veta)
         extra_mass = effective_mass_increase(self.damage, self.ingress)
         if self.spatial:
+            if self.weather is not None:
+                extra_mass += self.ice_mass
             self._step_spatial(dt, T_factor, extra_mass)
             return
         # Substepped explicit Euler (h <= 0.01 s) like the RL env and the
@@ -550,8 +571,13 @@ class FlyingBoatVehicle:
             dt=dt, t=self.t, pitch=self.alpha, throttle=self.throttle,
             bank_command=self.bank_command, rudder_command=self.rudder_command,
             extra_mass=extra_mass, thrust_factor=thrust_factor,
-            current=self.current)
+            current=self.current, weather=self.weather)
         self.x, self.y, self.z, self.Vx, self.Vy, self.Vz, self.bank, self.heading = state
+        if self.weather is not None:
+            wind = self.atmosphere.wind(self.t, self.z)
+            air = float(np.linalg.norm(
+                np.array([self.Vx, self.Vy, self.Vz]) - wind))
+            self.ice_mass = self.weather.step(dt, self.z, air, self.ac.geom.S)
         self.rollspeed = (self.bank - old[6]) / dt
         self.yawspeed = math.atan2(math.sin(self.heading - old[7]),
                                    math.cos(self.heading - old[7])) / dt
@@ -588,6 +614,10 @@ class FlyingBoatVehicle:
                     bank_command=self.bank_command, rudder=self.rudder_command,
                     wind=wind.tolist(), airspeed=airspeed,
                     density=self.atmosphere.density(self.z) if self.spatial else RHO)
+        if self.weather is not None:
+            snap.update(ice_mass_kg=self.ice_mass,
+                        weather=self.weather.summary(self.t, self.z, airspeed,
+                                                     self.ac.geom.S))
         if force_budget is not None:
             snap["force_budget"] = dict(force_budget)
         # Convert local NED position to lat/lon (simple linear mapping)

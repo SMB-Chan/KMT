@@ -30,6 +30,7 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `advisor.py` | Phi助言＋短horizon試行によるカリキュラム生成（Ollama不在時は規則スタブ） |
 | `ocean_directional.py` | 方向分散付き2D不規則波（cos^2s、NDBCのMWD対応） |
 | `atmosphere.py` | ISA大気・対数風・シード固定突風 |
+| `weather.py` | 決定論的気象層（湿り空気密度・降雨/雲/霧・着氷・下降気流・天候プリセット） |
 | `design_optimize.py` | 機体設計の決定論的パラメトリック最適化（コンパス探索） |
 | `wind_tunnel.py` | 大気モデル駆動の仮想風洞（ポーラ・速度スイープ・突風荷重計測と空力設計最適化） |
 | `spatial_dynamics.py` | 横運動・バンク・フロート復原の空間動力学 |
@@ -339,10 +340,75 @@ python3 train.py --scenario takeoff --spatial --directional \
 - 成功には従来条件に加え |y|<10 m、|Vy|<1.5 m/s、|バンク|<10° が必要です。|y|>50 mで失敗終了します。横ずれ・横速度にも報酬ペナルティを適用します。
 - 学習出力名には既定で `_spatial` が付きます。旧11入力・2出力モデルとは互換性がありません。着水の従来BC教師は使用せず、新規学習します。
 
-`atmosphere.py` と `spatial_dynamics.py` は簡易モデルです。完全な6自由度剛体運動、
+`atmosphere.py`・`weather.py`・`spatial_dynamics.py` は簡易モデルです。完全な6自由度剛体運動、
 空力モーメント・失速後の横安定性、波面傾斜によるロール、左右フロート接触、
-気象予報・標準大気の厳密実装ではありません。学習環境・MAVLink風機体は共通の
+気象予報・標準大気の厳密実装ではありません（気象層は解析的・定常で、時間変動する
+前線やメソスケール現象は扱いません）。学習環境・MAVLink風機体は共通の
 空間運動計算を使用します。Ollama／RL操縦と3D表示への接続は以下を参照してください。
+
+
+## 気象（weather.py）
+
+`Weather` は `Atmosphere` と同じインターフェース（temperature / pressure /
+density / shear_factor / wind）を持つ決定論的な気象層で、spatial モードの大気を
+そのまま置き換えます。加えて `effects()`（機体に働く全気象項のスナップショット）と
+`step()`（着氷質量の積分）を提供します。未設定時の挙動は従来とビット単位で同一です。
+
+```bash
+# 雷雨プリセットで飛行（--wind/--gust-rms 未指定時はプリセット推奨値を採用）
+python3 fly_ollama.py --spatial --weather storm --policy runs/…/best.pt --duration 12
+# 着氷を伴う降雪下でRL学習（出力タグは takeoff_spatial_snow）
+python3 train.py --scenario takeoff --spatial --weather snow --seed-per-episode
+```
+
+### 天候プリセット（`--weather`）
+
+| プリセット | 気象 | 海面密度 kg/m³ | 推奨風・突風RMS m/s |
+|---|---|---|---|
+| `clear` | 晴天（温圧偏差なし・湿度50%） | 1.221（ISA比 −0.3%） | なし |
+| `heat_wave` | 猛暑 +15 K・乾燥 | 1.160（−5%） | 0 / 0.3 |
+| `low_pressure` | 低気圧 −25 hPa・薄雲 | 1.181（−4%） | (−4,−2) / 0.8 |
+| `overcast` | 曇天・雲底800 m | 1.223 | (−5, 2) / 1.0 |
+| `fog` | 濃霧・視程150 m | 1.222 | (−1, 0) / 0.2 |
+| `rain` | 降雨 8 mm/h・視程4 km | 1.217 | (−7, 3) / 1.5 |
+| `storm` | 雷雨 35 mm/h・下降気流 −3 m/s・雷リスク0.8 | 1.206（−2%） | (−12, 5) / 3.5（Dryden） |
+| `snow` | 降雪 −10 °C・着氷条件 | 1.334（+9%） | (−4,−2) / 1.0 |
+
+### 物理法則とドローンへの影響
+
+- **湿り空気密度**：水蒸気は乾燥空気より軽い（R_V=461.5 対 R=287.05 J/(kg·K)）ため、
+  同圧・同温なら湿度が高いほど空気は軽く、揚力・プロペラ推力（ともに ∝ρ）が落ちます。
+  飽和蒸気圧は Magnus 式（0 °C 以上は水面、未満は氷面）。
+  ρ = (p−e)/(R·T) + e/(R_V·T)。気温・気圧の視覚的偏差（offset）も同じ経路で密度高度を変えます。
+- **降雨・降雪**：降水強度 R (mm/h) から含水量 LWC = R/(3.6×10⁶·v_t)、
+  落下終端速度 v_t = min(9, 2.5·R^0.24) m/s（雪は 1 m/s）。雨粒の運動量交換で
+  ΔCD = LWC·(V+v_t)/(½ρV) の追加抗力、プロペラ濡れで推力最大 −10%、視程低下。
+- **雲・霧**：雲は cloud_base–cloud_top の層に cover×0.3 g/m³（プリセット既定）。
+  霧は視程 <1 km かつ湿度 ≥0.95 のとき LWC = 0.15·√(200/vis) g/m³ で
+  高度300 m まで線形減衰。降雨による視程低下（>1 km）は霧として扱いません。
+- **着氷**：Messinger 風付着 dm/dt = 0.45·LWC·V·S·f(T)（雪は効率 ×0.4）。
+  f(T) は 0 °C で 0、−8 °C で最大 1、−28 °C で再び 0（雲が氷晶化）。
+  氷 1 kg ごとに CD0 +0.004、CL_max −3.5%、プロペラ効率 −2%（上限 12 kg、
+  CL_max は最低 50%、プロペラは最低 60%）。付着した氷は `extra_mass` として
+  機体質量にも加算されます。
+- **下降気流**：storm の −3 m/s は風速 z 成分に常時加算され、上昇性能を直接奪います。
+- **雷**：リスク指標（0–1）をテレメトリに載せるのみで、落雷・故障はシミュレートしません。
+
+### 接続点
+
+- `EnvConfig(weather=WeatherConfig(…))`（spatial=True 必須）：info に
+  `ice_mass_kg` と `weather` サマリー、`episode_conditions["weather"]` に設定を記録。
+- `FlyingBoatVehicle(…, weather=WeatherConfig(…))`：テレメトリ snapshot に
+  `ice_mass_kg` / `weather` を追加。`reset()` で着氷もリセットされます。
+- `integrate(…, weather=w)`：気象項は呼び出しごとに初期状態で1回評価し、
+  サブステップ中は一定（定常気象）とします。`weather=None` では従来とビット同一。
+- `fly_ollama.py --weather PRESET` / `train.py --weather PRESET`：
+  どちらも `--wind`/`--gust-rms` を明示した場合はそちらが優先されます。
+
+すべて解析的・シード固定で、同一シードなら風・突風・着氷は完全に再現します。
+プリセットは `weather.PRESETS`、任意条件は `WeatherConfig` の13フィールド
+（気温/気圧 offset、湿度、降水強度、雪、視程、雲底/雲頂/雲量/雲LWC、
+下降気流、雷リスク）で構成します。
 
 
 ## 空間運動の機体・操縦・表示への接続

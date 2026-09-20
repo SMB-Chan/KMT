@@ -30,6 +30,7 @@ from aircraft import Aircraft
 from ocean import Ocean
 from ocean_directional import DirectionalOcean, PREVIEW_DX_M, sea_eta_1d, wave_preview
 from dynamics import HullContact, HullDrag, HULL_HYSTERESIS_M, hull_force
+from weather import Weather, WeatherConfig, weather_asdict
 
 
 # ---------------------------------------------------------------------
@@ -38,6 +39,7 @@ class EnvConfig:
     randomize_conditions: bool = False  # seeded wave/wind variation per reset
     spatial: bool = False
     atmosphere: AtmosphereConfig = field(default_factory=AtmosphereConfig)
+    weather: WeatherConfig | None = None  # preset weather layer (spatial only)
     scenario: str = "takeoff"          # "takeoff" or "landing"
     dt: float = 0.05                   # control step
     max_steps: int = 200
@@ -103,12 +105,16 @@ class FlyingBoatEnv:
             raise ValueError("invalid environment configuration")
         if not self.cfg.spatial and self.cfg.atmosphere != AtmosphereConfig():
             raise ValueError("atmosphere configuration requires spatial=True")
+        if self.cfg.weather is not None and not self.cfg.spatial:
+            raise ValueError("weather configuration requires spatial=True")
         self.action_dim = 4 if self.cfg.spatial else 2
         self.state_dim = 8 + int(dx.size) + (8 if self.cfg.spatial else 0)
         self._build_state_scales()
         self._sea = None
         self._state = None
         self._traj = []
+        self._weather = None
+        self._ice_mass = 0.0
 
     # ----- scaling helpers -----
     def _build_state_scales(self):
@@ -131,7 +137,8 @@ class FlyingBoatEnv:
     def _physics_step(self, x, z, Vx, Vz, alpha, throttle, sea, t):
         if self.cfg.spatial:
             from spatial_dynamics import advance
-            return advance(self, x, z, Vx, Vz, alpha, throttle, sea, t)
+            return advance(self, x, z, Vx, Vz, alpha, throttle, sea, t,
+                           extra_mass=self._ice_mass, weather=self._weather)
         eta = float(sea_eta_1d(sea, np.array([x]), t)[0])
         # Rate of change of eta (use central difference)
         eta_next = float(sea_eta_1d(sea, np.array([x]), t + self.cfg.dt)[0])
@@ -193,7 +200,9 @@ class FlyingBoatEnv:
                                        wind=list(atmosphere.wind), gust_rms=float(atmosphere.gust_rms),
                                        gamma=float(self.cfg.gamma),
                                        finite_depth=bool(self.cfg.finite_depth),
-                                       current=[float(c) for c in self.cfg.current])
+                                       current=[float(c) for c in self.cfg.current],
+                                       weather=(weather_asdict(self.cfg.weather)
+                                                if self.cfg.weather is not None else None))
         if self.cfg.directional:
             self._sea = DirectionalOcean(Hs=hs, Tp=tp,
                                          theta_mean=math.radians(direction),
@@ -207,7 +216,15 @@ class FlyingBoatEnv:
                               finite_depth=self.cfg.finite_depth)
         self._y = self._Vy = self._bank = self._heading = 0.0
         self._bank_command = self._rudder_command = 0.0
-        self._atmosphere = Atmosphere(atmosphere, seed=seed)
+        if self.cfg.weather is not None:
+            # Weather implements the Atmosphere interface, so it replaces the
+            # bare atmosphere object; wind/density then carry the weather.
+            self._weather = Weather(self.cfg.weather, atmosphere, seed=seed)
+            self._atmosphere = self._weather
+        else:
+            self._weather = None
+            self._atmosphere = Atmosphere(atmosphere, seed=seed)
+        self._ice_mass = 0.0
         self._t = 0.0
         if self.cfg.scenario == "takeoff":
             # Place hull at hydrostatic equilibrium on the wave surface
@@ -321,12 +338,19 @@ class FlyingBoatEnv:
                      "T": T_i, "L": L_i, "D": D_i})
         if self.cfg.spatial:
             wind = self._atmosphere.wind(self._t, self._z)
+            airspeed = float(np.linalg.norm(
+                np.array([self._Vx, self._Vy, self._Vz]) - wind))
             info.update(force_budget=dict(self._last_force_budget),
                         y=self._y, Vy=self._Vy, bank=self._bank,
                         heading=self._heading, wind=wind.tolist(),
-                        airspeed=float(np.linalg.norm(
-                            np.array([self._Vx, self._Vy, self._Vz]) - wind)),
+                        airspeed=airspeed,
                         density=self._atmosphere.density(self._z))
+            if self._weather is not None:
+                self._ice_mass = self._weather.step(self.cfg.dt, self._z,
+                                                    airspeed, self.ac.geom.S)
+                info.update(ice_mass_kg=self._ice_mass,
+                            weather=self._weather.summary(
+                                self._t, self._z, airspeed, self.ac.geom.S))
         self._traj.append(info)
         self._state = self._build_state()
         return self._state.copy(), float(r), bool(done), info
