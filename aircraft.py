@@ -4,7 +4,7 @@ All values are design-point estimates consistent with public data for
 large foam-skinned UAVs (Predator-class wingspan) and Li-Po powered
 amateur-built flying boats.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import math
 
 # --- Constants --------------------------------------------------------
@@ -27,6 +27,11 @@ class Geometry:
     Bwl:  float = 0.55   # waterline beam, m
     # Tail
     S_t:  float = 2.4    # tail area, m^2
+    # Under-wing floats (outriggers), one per side
+    float_y:     float = 5.5   # lateral arm from CG, m
+    float_A_wp:  float = 0.12  # waterplane area each, m^2
+    float_h_keel: float = 0.22 # float bottom below CG, m (clears water when level)
+    float_Ixx:   float = 800.0 # roll inertia, kg m^2
 
     @property
     def wing_volume(self) -> float:
@@ -46,6 +51,7 @@ class MassBreakdown:
     avionics:        float =  3.0   # flight controller, GPS, RC rx, servos
     wiring_misc:     float =  1.5
     payload:         float =  5.0   # camera/sensor
+    floats:          float =  4.0   # two EPS under-wing floats
     margin:          float =  3.9   # design margin
 
     @property
@@ -82,27 +88,31 @@ class Propulsion:
 
     @property
     def T_static(self) -> float:
-        """Static thrust of the full propulsion system."""
-        T_one = (self.C_T_static * RHO
-                 * self.n_hz**2 * self.D_prop**4)
-        return T_one * self.n_motors
+        """Static thrust of the full propulsion system at sea-level density."""
+        return self.thrust(0.0, 1.0, rho=RHO)
 
     @property
     def V_max(self) -> float:
         """Ideal no-load advance velocity, m/s."""
         return self.n_hz * self.pitch * 0.85
 
-    def thrust(self, V: float, throttle: float = 1.0) -> float:
-        """Quadratic thrust-vs-speed curve, bounded by static thrust."""
+    def thrust(self, V: float, throttle: float = 1.0, rho: float = RHO) -> float:
+        """Advance-ratio quadratic, density-scaled, power-limited thrust."""
+        if not math.isfinite(rho) or rho <= 0 or not math.isfinite(V):
+            raise ValueError("thrust requires finite speed and positive density")
         V_eff = max(0.0, min(V, self.V_max))
-        T = self.T_static * throttle * (1.0 - (V_eff / self.V_max) ** 2)
+        T_static = (self.C_T_static * rho * self.n_hz**2 * self.D_prop**4) * self.n_motors
+        T = T_static * throttle * (1.0 - (V_eff / self.V_max) ** 2)
+        eta = self.eta_motor * self.eta_esc
+        if V > 0.5:
+            T = min(T, self.P_max * max(throttle, 0.0) * eta / V)
         return max(T, 0.0)
 
-    def power_required(self, V: float, throttle: float = 1.0) -> float:
+    def power_required(self, V: float, throttle: float = 1.0, rho: float = RHO) -> float:
         """Electrical power to deliver thrust(T) at speed V."""
         if V < 0.5:
             V = 0.5
-        T = self.thrust(V, throttle)
+        T = self.thrust(V, throttle, rho=rho)
         eta = self.eta_motor * self.eta_esc
         return T * V / eta
 
@@ -127,19 +137,62 @@ class Aircraft:
         """Speed for minimum power (L/D max × √3)."""
         return self.V_stall * math.sqrt(3.0)
 
+    @property
+    def CL_alpha_3d(self) -> float:
+        """Finite-wing lift slope from the 2-D section via Helmbold."""
+        a0 = self.aero.CL_alpha
+        return a0 / (1.0 + a0 / (math.pi * self.aero.e * self.geom.AR))
+
+    def induced_drag_factor(self, height_m: float | None = None) -> float:
+        """McCormick ground-effect factor on induced drag (1 = free air)."""
+        if height_m is None:
+            return 1.0
+        hb = max(float(height_m), 1e-4) / self.geom.b
+        k = 16.0 * hb
+        return (k * k) / (1.0 + k * k)
+
     def CL(self, alpha: float) -> float:
-        # Linear lift capped at stall (previously uncapped: a 20 deg
+        # Linear 3-D lift capped at stall (previously uncapped: a 20 deg
         # effective alpha produced ~16 W lift spikes and blew up the
         # explicit-Euler integration on flare).
-        raw = self.aero.CL0 + self.aero.CL_alpha * alpha
+        raw = self.aero.CL0 + self.CL_alpha_3d * alpha
         return max(-self.aero.CL_max, min(self.aero.CL_max, raw))
 
-    def CD(self, CL: float) -> float:
+    def CD(self, CL: float, height_m: float | None = None) -> float:
         return (self.aero.CD0
-                + CL**2 / (math.pi * self.aero.e * self.geom.AR))
+                + self.induced_drag_factor(height_m) * CL**2
+                / (math.pi * self.aero.e * self.geom.AR))
 
     def L_D(self, CL: float) -> float:
         return CL / self.CD(CL)
+
+
+def scaled_aircraft(scale: float) -> Aircraft:
+    """Geometrically similar airframe. Lengths ×λ, areas ×λ², mass ×λ³, I ×λ⁵.
+
+    Rotor speed scales as λ^{-1/2} so static T/W is unchanged. Aero coefficients stay.
+    """
+    if not math.isfinite(scale) or scale <= 0:
+        raise ValueError('scale must be positive and finite')
+    lam = float(scale)
+    base = Aircraft()
+    mass = {name: value * lam ** 3 for name, value in base.mass.__dict__.items()}
+    return Aircraft(
+        geom=replace(base.geom,
+                     b=base.geom.b * lam, c=base.geom.c * lam, S=base.geom.S * lam ** 2,
+                     Lwl=base.geom.Lwl * lam, Bwl=base.geom.Bwl * lam,
+                     S_t=base.geom.S_t * lam ** 2,
+                     float_y=base.geom.float_y * lam, float_A_wp=base.geom.float_A_wp * lam ** 2,
+                     float_h_keel=base.geom.float_h_keel * lam,
+                     float_Ixx=base.geom.float_Ixx * lam ** 5),
+        mass=MassBreakdown(**mass),
+        aero=base.aero,
+        prop=replace(base.prop,
+                     P_max=base.prop.P_max * lam ** 3.5,
+                     P_cruise=base.prop.P_cruise * lam ** 3.5,
+                     D_prop=base.prop.D_prop * lam,
+                     pitch=base.prop.pitch * lam,
+                     n_rpm=base.prop.n_rpm / math.sqrt(lam)))
 
     def summary(self) -> str:
         m = self.mass
@@ -159,7 +212,7 @@ class Aircraft:
             f"  motor {m.motor:5.1f}  esc {m.esc:4.1f}  prop {m.propeller:4.1f}  "
             f"batt {m.battery:4.1f}",
             f"  avionics {m.avionics:4.1f}  wiring {m.wiring_misc:4.1f}  "
-            f"payload {m.payload:4.1f}  margin {m.margin:4.1f}",
+            f"payload {m.payload:4.1f}  floats {m.floats:4.1f}  margin {m.margin:4.1f}",
             f"Weight                          : {a.W:.0f} N",
             f"Stall speed (CL_max={a.aero.CL_max:.2f})        : "
             f"{a.V_stall:.2f} m/s  ({a.V_stall*3.6:.1f} km/h)",

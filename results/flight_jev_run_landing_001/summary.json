@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "error": null,
+  "lateral_assist": true,
+  "model": "flight_jev_v1",
+  "decisions": 503,
+  "fallback_decisions": 0,
+  "physics_steps": 503,
+  "simulation_seconds": 25.150000000000222,
+  "wall_seconds": 1.5494523840025067,
+  "final_observation": {
+    "t": 25.150000000000222,
+    "x_m": 326.9122197489154,
+    "altitude_m": 0.0691673500761348,
+    "forward_speed_m_s": 11.882031943340724,
+    "vertical_speed_m_s": -0.563243445090028,
+    "wave_elevation_m": -0.22423674964635246,
+    "wave_rate_m_s": -0.35280917696922154,
+    "wave_preview_m": [
+      -0.02640038401483022,
+      0.03421555362039501,
+      -0.29162509779434687
+    ],
+    "keel_clearance_m": -0.006595900277512751,
+    "water_mass_kg": 0.0,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": 0.3609001947715082,
+    "lateral_speed_m_s": 0.024373116666052637,
+    "bank_deg": -0.4569119434957153,
+    "heading_deg": -0.9889318093829453,
+    "wind_m_s": [
+      -0.058733108667215185,
+      1.2917570546352977,
+      -0.24756120361094003
+    ],
+    "airspeed_m_s": 12.011985154463932,
+    "density_kg_m3": 1.2249918656995304
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/flight_jev_run_landing_001",
+  "timing": "synchronous: simulation pauses during inference"
+}

@@ -1,0 +1,62 @@
+{
+  "status": "success",
+  "error": null,
+  "lateral_assist": true,
+  "model": "flight_jev_v1",
+  "decisions": 154,
+  "fallback_decisions": 0,
+  "physics_steps": 154,
+  "simulation_seconds": 7.699999999999981,
+  "wall_seconds": 0.49743157299235463,
+  "final_observation": {
+    "t": 7.699999999999981,
+    "x_m": 60.15682261024804,
+    "altitude_m": 8.01913871832689,
+    "forward_speed_m_s": 12.750358764537243,
+    "vertical_speed_m_s": 0.42102777771081573,
+    "wave_elevation_m": -0.016055581004983725,
+    "wave_rate_m_s": -0.14568144309337636,
+    "wave_preview_m": [
+      0.002806986807298611,
+      -0.041513468306408965,
+      -0.008253804566164622
+    ],
+    "keel_clearance_m": 7.735194299331873,
+    "water_mass_kg": 0.06116893456165484,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": 0.541791916411844,
+    "lateral_speed_m_s": -0.0632519839708579,
+    "bank_deg": -1.4032265829322392,
+    "heading_deg": -2.5041806356975718,
+    "wind_m_s": [
+      0.014265322902954706,
+      2.790267504154902,
+      -0.1998861979914501
+    ],
+    "airspeed_m_s": 13.066605672031885,
+    "density_kg_m3": 1.2240571990564868
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/flight_jev_002/takeoff_holdout",
+  "timing": "synchronous: simulation pauses during inference",
+  "takeoff_diagnostics": {
+    "low_speed_plateau": false,
+    "sufficient_history": true,
+    "window_seconds": 2.9999999999999893,
+    "min_speed_m_s": 10.105711308305995,
+    "max_speed_m_s": 12.750358764537243,
+    "speed_change_m_s": 2.6446474562312474,
+    "mean_force_budget": {
+      "thrust_x_N": 260.12736637146696,
+      "aerodynamic_x_N": -186.023314174596,
+      "water_x_N": 0.0,
+      "net_x_N": 74.10405219687092,
+      "mean_ax_m_s2": 0.8815491520770826,
+      "total_mass_kg": 84.06116893456166
+    },
+    "mean_T_factor": 0.9974980996772286,
+    "mean_prop_clearance_m": 7.686088709840937,
+    "min_prop_clearance_m": 4.5337272938937785,
+    "min_prop_bottom_clearance_m": 3.8237272938937785
+  }
+}

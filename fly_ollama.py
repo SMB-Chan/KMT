@@ -34,6 +34,8 @@ def parser():
     models = p.add_mutually_exclusive_group()
     models.add_argument('--student', type=Path, help='offline distilled student checkpoint; no Ollama connection')
     models.add_argument('--policy', type=Path, help='saved RL policy, no Ollama connection')
+    models.add_argument('--jev', action='store_true', help='local System One layer over native setpoints')
+    p.add_argument('--jev-calibrator', type=Path, help='npz logistic weights for FlightJev')
     p.add_argument('--spatial', action='store_true')
     p.add_argument('--lateral-assist', action='store_true',
                    help='use per-step corridor feedback for bank/rudder, preserving pilot throttle/pitch')
@@ -70,7 +72,15 @@ def run(args, pilot=None):
     if args.ndbc and args.directional:
         raise ValueError('--ndbc and --directional cannot be combined in this runner')
     if pilot is None:
-        if args.policy:
+        if args.jev:
+            from flight_jev import FlightJev
+            if args.jev_calibrator:
+                pilot = FlightJev.load(args.jev_calibrator, spatial=args.spatial)
+            else:
+                pilot = FlightJev(spatial=args.spatial)
+        elif getattr(args, 'jev_calibrator', None):
+            raise ValueError('--jev-calibrator requires --jev')
+        elif args.policy:
             from policy_pilot import PolicyPilot
             pilot = PolicyPilot(args.policy, spatial=args.spatial)
         elif args.student:
@@ -116,7 +126,7 @@ def run(args, pilot=None):
                     record = dict(observation=observation, mission=mission)
                     try:
                         control, metadata = pilot.decide(observation, mission, control)
-                        source = 'policy' if args.policy else ('student' if args.student else 'ollama')
+                        source = 'jev' if args.jev else ('policy' if args.policy else ('student' if args.student else 'ollama'))
                         record.update(metadata)
                     except PilotError as exc:
                         source = 'fallback'
@@ -135,6 +145,8 @@ def run(args, pilot=None):
                 # Fallback feedback is recomputed every physics step, never a stale LLM command.
                 if source == 'fallback':
                     control = fallback_control(vehicle, args.scenario, args.target_alt, args.target_speed)
+                elif args.jev:
+                    control, _ = pilot.decide(observe(vehicle), mission, control)
                 if args.spatial:
                     from ollama_pilot import SpatialControl
                     if not isinstance(control, SpatialControl):

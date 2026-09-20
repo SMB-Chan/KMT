@@ -94,6 +94,11 @@ class SpatialConnectionTests(unittest.TestCase):
         control = fallback_control(v, 'landing', 0, 13)
         self.assertIsInstance(control, SpatialControl)
         self.assertLess(control.bank_deg, 0)
+        far = FlyingBoatVehicle(Aircraft(), DirectionalOcean(Hs=.3, seed=42),
+                                spatial=True, atmosphere=AtmosphereConfig(wind=(0, 3, 0), gust_rms=.2))
+        far.y, far.Vy = 4, 0
+        v.y, v.Vy = 2, 0
+        self.assertLess(far.lateral_setpoint()[0], v.lateral_setpoint()[0])
         v.send_command(MAV_CMD_NAV_WAYPOINT, {'x':100, 'y':-10, 'alt':25})
         v.step()
         self.assertLess(v.bank_command, 0)

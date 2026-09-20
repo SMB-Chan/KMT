@@ -204,7 +204,7 @@ def observe(vehicle):
                 applied_throttle=vehicle.throttle)
     if vehicle.spatial:
         import numpy as np
-        wind = vehicle.atmosphere.wind(vehicle.t)
+        wind = vehicle.atmosphere.wind(vehicle.t, vehicle.z)
         observation.update(lateral_position_m=vehicle.y, lateral_speed_m_s=vehicle.Vy,
                            bank_deg=math.degrees(vehicle.bank), heading_deg=math.degrees(vehicle.heading),
                            wind_m_s=wind.tolist(),
@@ -219,7 +219,9 @@ def fallback_control(vehicle, scenario, target_alt, target_speed):
     state = {'z': vehicle.z, 'Vx': vehicle.Vx, 'Vz': vehicle.Vz,
              'eta': eta, 'wave_preview': preview}
     if scenario == 'takeoff':
-        pitch, throttle = vehicle.ctl.takeoff_setpoint(state, target_alt, target_speed)
+        from mavlink_if import rotate_speed
+        pitch, throttle = vehicle.ctl.takeoff_setpoint(
+            state, target_alt, target_speed, rotate_speed(vehicle.ac))
     else:
         pitch, throttle = vehicle.ctl.landing_setpoint(state, 0, math.radians(8))
     if vehicle.spatial:

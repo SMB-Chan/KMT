@@ -1,0 +1,240 @@
+{
+  "note": "flight_jev_v1 heuristic System One over native setpoints",
+  "scores": {
+    "takeoff": "10/10",
+    "landing": "10/10"
+  },
+  "rows": [
+    {
+      "scenario": "takeoff",
+      "seed": 9500,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 8.79999999999999,
+      "z": 8.002421129105496,
+      "Vx": 12.642527840006881,
+      "Vz": 0.7218096955641553
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9500,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 8.949999999999992,
+      "z": 8.015653668610907,
+      "Vx": 12.870358248180477,
+      "Vz": 0.7349097400086404
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9501,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 7.549999999999981,
+      "z": 8.060723068845132,
+      "Vx": 12.493143327703933,
+      "Vz": 1.2409952621629659
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9501,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 7.399999999999982,
+      "z": 8.001001377044577,
+      "Vx": 12.488951351748206,
+      "Vz": 1.2524839190011805
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9502,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 8.84999999999999,
+      "z": 8.041889731511294,
+      "Vx": 12.486490145877273,
+      "Vz": 1.2061512898858175
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9502,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 8.599999999999987,
+      "z": 8.049292129791196,
+      "Vx": 12.437181513791684,
+      "Vz": 1.0359342820161002
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9503,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 8.499999999999986,
+      "z": 8.02536718159389,
+      "Vx": 12.405711082756298,
+      "Vz": 1.4938804085133386
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9503,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 8.549999999999986,
+      "z": 8.023585018486388,
+      "Vx": 12.537856457142139,
+      "Vz": 1.5092409608644308
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9504,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 8.249999999999982,
+      "z": 8.013082432780864,
+      "Vx": 12.79792628046462,
+      "Vz": 0.3767533964746608
+    },
+    {
+      "scenario": "takeoff",
+      "seed": 9504,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 7.699999999999981,
+      "z": 8.01913871832689,
+      "Vx": 12.750358764537243,
+      "Vz": 0.42102777771081573
+    },
+    {
+      "scenario": "landing",
+      "seed": 9500,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 24.90000000000022,
+      "z": 0.03875023175770629,
+      "Vx": 11.55300939446759,
+      "Vz": -0.35554072758998717
+    },
+    {
+      "scenario": "landing",
+      "seed": 9500,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 25.150000000000222,
+      "z": 0.0691673500761348,
+      "Vx": 11.882031943340724,
+      "Vz": -0.563243445090028
+    },
+    {
+      "scenario": "landing",
+      "seed": 9501,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 24.450000000000212,
+      "z": 0.5131579927240993,
+      "Vx": 11.704076188606425,
+      "Vz": -0.37764770799540864
+    },
+    {
+      "scenario": "landing",
+      "seed": 9501,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 25.950000000000234,
+      "z": 0.07570405349290343,
+      "Vx": 11.14739528371987,
+      "Vz": -0.23728117828462525
+    },
+    {
+      "scenario": "landing",
+      "seed": 9502,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 23.100000000000193,
+      "z": 0.13572237867148035,
+      "Vx": 12.355742175599067,
+      "Vz": -0.2495371868036226
+    },
+    {
+      "scenario": "landing",
+      "seed": 9502,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 22.600000000000186,
+      "z": 0.0187160740989059,
+      "Vx": 12.80722473445841,
+      "Vz": -0.14432830514516626
+    },
+    {
+      "scenario": "landing",
+      "seed": 9503,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 24.25000000000021,
+      "z": -0.11345914680839844,
+      "Vx": 12.049379177654135,
+      "Vz": -0.26657620712639457
+    },
+    {
+      "scenario": "landing",
+      "seed": 9503,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 26.100000000000236,
+      "z": -0.7137944916319278,
+      "Vx": 11.417017075812174,
+      "Vz": -0.3231384426713883
+    },
+    {
+      "scenario": "landing",
+      "seed": 9504,
+      "wind_y": -3.0,
+      "status": "success",
+      "t": 24.35000000000021,
+      "z": -0.11470026926356869,
+      "Vx": 11.603478787077204,
+      "Vz": -0.14594992150104508
+    },
+    {
+      "scenario": "landing",
+      "seed": 9504,
+      "wind_y": 3.0,
+      "status": "success",
+      "t": 23.900000000000205,
+      "z": 0.03799578056518044,
+      "Vx": 12.239469465825854,
+      "Vz": -0.29093652561858085
+    }
+  ],
+  "source_sha256": {
+    "accelerate.py": "548e733cda3611a813a7af5b1c4be3646b608aa8c1b7574460b7642fdccff608",
+    "advisor.py": "1a7e52eb49504f6d88005a6f488b522fb327fada53581e083cdb1a8f2991754d",
+    "aircraft.py": "379aeabbb52de807d18e1e089302b988fd2d58ca35f65c1f800941e56f53c08f",
+    "atmosphere.py": "74030c6f0687274827b7421b58dcc85d47ebeb5e6d47c18912973cdad1a8c96c",
+    "audit.py": "e7e283d1691df312cd464353b7aacc72747cf3068e8cddbc26bbc32dd9528bb3",
+    "damage.py": "5b2e50efd2dfe68a5c39feb8229dbc5e9aa0b7a2014b106a918a931f026ad194",
+    "dynamics.py": "c1be690664b86f8729e127b63d02ac3b115c6fc8ec4f201598f2e9f10bf32712",
+    "educate.py": "08f8753171073e1f7d43cf315cbab90fcbb7809d206206d5ccad3e60dd381e39",
+    "env.py": "1fbdad11dbd4a7d957c51c3951e057fd278a0851da5e2d027c724841676e80b1",
+    "evaluate.py": "d64dab6bfb5f3d1a8a17073768aab3deadd0550b3822cc6c12f89f774001d3b8",
+    "feedback_education.py": "f0c89c94859a95aa33c431aa5dc75d0581f14c351aed55107692897cc3c96094",
+    "flight_diagnostics.py": "25f53f0c531a0bdf5a11ed181103646c357e78aa94398bf601c606f2bf7ab122",
+    "flight_jev.py": "ab50da9dcdfde8d03556def3494a54b6fc3be726a3847043a12110222bca0fd8",
+    "fly_ollama.py": "e24215be16723a57052170be012e58561745443f4afb84ce34feb923c6622878",
+    "main.py": "9b5a6232ef1dab4f49547fc0b2a4af924ccf663b25d1f333bafa025bc52f874f",
+    "mavlink_if.py": "0e41b5895849d0906f320e19e22d904609eef235bef2bd5935d113da1a25d319",
+    "ocean.py": "dccef25da4b38289fb903c338233d009e0ebe357725eb46b755318f7c3b4f5cc",
+    "ocean_directional.py": "56a9ca60a97db9de2115c619a40503e2e9c39aa9af71d8c37a32ace7fe77f004",
+    "ocean_real.py": "9c31102e1e1b52845c5d67ce0cf6163f8315f3bc02b37c6faecaaa1a0d001b77",
+    "ollama_pilot.py": "809f06f77360cd08daf516d0c7118530091314679565f2f3d91827f6470f0e6f",
+    "policy.py": "28b69edbbb88a861989c56644339b71ec03263d6de56d3e77855af42a6fdf609",
+    "policy_pilot.py": "a98c76002d5dd7284f5c751c98203dfd818fe7f9beac3e888b8d4d34b6fe4597",
+    "spatial_dynamics.py": "1f8eb6f454ae2bf588ce648035486b9afd6141a2a31856ac6ef35d87a9cb0549",
+    "system_one.py": "6275943d6460f8d50bb745d24f1159f2e44d6dc5fe42647b3443e4bf1aed6e57",
+    "teacher_student.py": "7654b285cc5c475e62d7dcf2aa5c4b2dd5ad4f0e619fce56d16d7cd7f3118fe0",
+    "train.py": "354db98bbaaad12467d5944a70610634527e81a16d21f9436bea77ad307389f7",
+    "validate.py": "8ddd118124cd52f7646ed2986a679a9a792174275bf4f353a655a3804e057eb9",
+    "vectorized.py": "62d7a33cede5022f92d19f7838ac8dbf59e6add9c78e8a79e19cd7e0d3d0d435",
+    "visual3d.py": "b760f632d30bf8f41545fa27bddfe2ea3b9662e1ecad8f4e3aeb7353876f4cab"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "train": {
+    "takeoff_n": 1344,
+    "landing_n": 3930
+  },
+  "holdout": {
+    "rotate_soon": {
+      "heuristic_brier": 0.19791104196826695,
+      "learned_brier": 0.08183104960204653
+    },
+    "balloon_soon": {
+      "heuristic_brier": 0.05698660785790163,
+      "learned_brier": 0.023755622338606588
+    }
+  },
+  "source_sha256": {
+    "accelerate.py": "548e733cda3611a813a7af5b1c4be3646b608aa8c1b7574460b7642fdccff608",
+    "advisor.py": "1a7e52eb49504f6d88005a6f488b522fb327fada53581e083cdb1a8f2991754d",
+    "aircraft.py": "379aeabbb52de807d18e1e089302b988fd2d58ca35f65c1f800941e56f53c08f",
+    "atmosphere.py": "74030c6f0687274827b7421b58dcc85d47ebeb5e6d47c18912973cdad1a8c96c",
+    "audit.py": "e7e283d1691df312cd464353b7aacc72747cf3068e8cddbc26bbc32dd9528bb3",
+    "damage.py": "5b2e50efd2dfe68a5c39feb8229dbc5e9aa0b7a2014b106a918a931f026ad194",
+    "dynamics.py": "c1be690664b86f8729e127b63d02ac3b115c6fc8ec4f201598f2e9f10bf32712",
+    "educate.py": "08f8753171073e1f7d43cf315cbab90fcbb7809d206206d5ccad3e60dd381e39",
+    "env.py": "1fbdad11dbd4a7d957c51c3951e057fd278a0851da5e2d027c724841676e80b1",
+    "evaluate.py": "d64dab6bfb5f3d1a8a17073768aab3deadd0550b3822cc6c12f89f774001d3b8",
+    "feedback_education.py": "f0c89c94859a95aa33c431aa5dc75d0581f14c351aed55107692897cc3c96094",
+    "flight_diagnostics.py": "25f53f0c531a0bdf5a11ed181103646c357e78aa94398bf601c606f2bf7ab122",
+    "flight_jev.py": "47ca035a62f2ceee58267bd41447c111c90a44e2e5a1194c59e099f5ca1f6f1f",
+    "fly_ollama.py": "e24215be16723a57052170be012e58561745443f4afb84ce34feb923c6622878",
+    "main.py": "9b5a6232ef1dab4f49547fc0b2a4af924ccf663b25d1f333bafa025bc52f874f",
+    "mavlink_if.py": "0e41b5895849d0906f320e19e22d904609eef235bef2bd5935d113da1a25d319",
+    "ocean.py": "dccef25da4b38289fb903c338233d009e0ebe357725eb46b755318f7c3b4f5cc",
+    "ocean_directional.py": "56a9ca60a97db9de2115c619a40503e2e9c39aa9af71d8c37a32ace7fe77f004",
+    "ocean_real.py": "9c31102e1e1b52845c5d67ce0cf6163f8315f3bc02b37c6faecaaa1a0d001b77",
+    "ollama_pilot.py": "809f06f77360cd08daf516d0c7118530091314679565f2f3d91827f6470f0e6f",
+    "policy.py": "28b69edbbb88a861989c56644339b71ec03263d6de56d3e77855af42a6fdf609",
+    "policy_pilot.py": "a98c76002d5dd7284f5c751c98203dfd818fe7f9beac3e888b8d4d34b6fe4597",
+    "spatial_dynamics.py": "1f8eb6f454ae2bf588ce648035486b9afd6141a2a31856ac6ef35d87a9cb0549",
+    "system_one.py": "3e0c96391ba8d67825c2c3abb2a7272baa23f238e16ff60e33742e615cffdeda",
+    "teacher_student.py": "7654b285cc5c475e62d7dcf2aa5c4b2dd5ad4f0e619fce56d16d7cd7f3118fe0",
+    "train.py": "354db98bbaaad12467d5944a70610634527e81a16d21f9436bea77ad307389f7",
+    "validate.py": "8ddd118124cd52f7646ed2986a679a9a792174275bf4f353a655a3804e057eb9",
+    "vectorized.py": "62d7a33cede5022f92d19f7838ac8dbf59e6add9c78e8a79e19cd7e0d3d0d435",
+    "visual3d.py": "b760f632d30bf8f41545fa27bddfe2ea3b9662e1ecad8f4e3aeb7353876f4cab"
+  }
+}

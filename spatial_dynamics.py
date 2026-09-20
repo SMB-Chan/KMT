@@ -1,12 +1,12 @@
 """Reduced spatial dynamics with commanded bank and yaw rate.
 
 Not a six-DOF rigid body: pitch is commanded directly, bank follows a
-first-order servo, and yaw combines coordinated-turn and rudder commands.
-Hydrodynamics remain a single vertical contact and isotropic horizontal drag.
+first-order servo in air, and yaw combines coordinated-turn and rudder.
+On water, under-wing floats add buoyancy and a roll restoring moment.
 """
 import math
 import numpy as np
-from dynamics import hull_force
+from dynamics import hull_force, float_contacts
 
 
 def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
@@ -33,19 +33,41 @@ def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
     for i in range(n_sub):
         now = t + i * h
         surface = surface_at(x, y, now)
-        wind = atmosphere.wind(now)
+        wind = atmosphere.wind(now, z)
         velocity = np.array([vx, vy, vz])
         air = velocity - wind
         speed = float(np.linalg.norm(air))
-        bank += (bank_command - bank) * (1 - math.exp(-h / 0.5))
-        # Coordinated turn approximation, only when airborne.
+        right = np.array([-math.sin(heading), math.cos(heading), 0.0])
+        eta_left = surface_at(x - ac.geom.float_y * right[0],
+                              y - ac.geom.float_y * right[1], now)
+        eta_right = surface_at(x + ac.geom.float_y * right[0],
+                               y + ac.geom.float_y * right[1], now)
         contact = hull_force(z, math.hypot(vx, vy), vz, surface, hull)
-        turn = 9.80665 * math.tan(bank) / max(speed, 3.0) if contact.N == 0 else 0.0
+        left, right_float = float_contacts(ac, z, bank, vx, vz, eta_left, eta_right)
+        waterborne = (contact.N + left.N + right_float.N) / (mass * 9.80665)
+        hull_borne = contact.N > 0.2 * mass * 9.80665
+        # A float grazing a crest does not rob the ailerons of authority;
+        # only the main hull riding on water desensitizes the servo.
+        servo = 0.05 if hull_borne else 1.0
+        bank += (bank_command - bank) * (1 - math.exp(-h / 0.5)) * servo
+        if waterborne > 0.0:
+            # Buoyancy righting is a spring toward the wave slope across the
+            # floats, not a free angle impulse: bounded by construction.
+            slope = math.atan2(eta_left - eta_right, 2.0 * ac.geom.float_y)
+            support = min(1.0, waterborne)
+            bank += (slope - bank) * (1 - math.exp(-h / 0.3)) * support
+        bank = float(np.clip(bank, -math.radians(45), math.radians(45)))
+        # Coordinated turn approximation, only when airborne.
+        turn = 9.80665 * math.tan(bank) / max(speed, 3.0) if not hull_borne else 0.0
         heading += (turn + rudder_command * math.radians(20)) * h
         heading = math.atan2(math.sin(heading), math.cos(heading))
+        right = np.array([-math.sin(heading), math.cos(heading), 0.0])
         forward = np.array([math.cos(pitch) * math.cos(heading),
                             math.cos(pitch) * math.sin(heading), math.sin(pitch)])
-        right = np.array([-math.sin(heading), math.cos(heading), 0.0])
+        thrust_axis = np.array([
+            math.cos(pitch + ac.aero.alpha_T) * math.cos(heading),
+            math.cos(pitch + ac.aero.alpha_T) * math.sin(heading),
+            math.sin(pitch + ac.aero.alpha_T)])
         up = np.cross(forward, right)
         # Positive bank tilts the lift toward +body-y.
         wing_right = right * math.cos(bank) - up * math.sin(bank)
@@ -55,22 +77,25 @@ def integrate(ac, hull, hd, atmosphere, surface_at, state, *, dt, t,
         lift_dir = lift_dir / norm if norm > 1e-8 else np.zeros(3)
         alpha = math.atan2(-float(air @ up), float(air @ forward))
         beta = math.asin(float(np.clip(air @ right / max(speed, 1e-8), -1, 1)))
-        q = 0.5 * atmosphere.density(z) * speed ** 2
+        density = atmosphere.density(z)
+        q = 0.5 * density * speed ** 2
         cl = ac.CL(alpha)
         lift = q * ac.geom.S * cl
-        drag = q * ac.geom.S * (ac.CD(cl) + 0.3 * beta ** 2)
-        thrust = ac.prop.thrust(speed, throttle) * thrust_factor
-        force = thrust * forward + lift * lift_dir - drag * tangent
-        thrust_x = thrust * forward[0]
+        drag = q * ac.geom.S * (ac.CD(cl, height_m=z - surface) + 0.3 * beta ** 2)
+        thrust = ac.prop.thrust(speed, throttle, rho=density) * thrust_factor
+        force = thrust * thrust_axis + lift * lift_dir - drag * tangent
+        thrust_x = thrust * thrust_axis[0]
         aero_x = force[0] - thrust_x
         water_x = 0.0
         horizontal = math.hypot(vx, vy)
-        if contact.N > 0 and horizontal > 1e-8:
-            resistance = hd.resistance(horizontal) + hull.mu_s * contact.N
+        water_n = contact.N + left.N + right_float.N
+        if water_n > 0 and horizontal > 1e-8:
+            resistance = (hd.resistance(horizontal) if contact.N > 0 else 0.0) \
+                + hull.mu_s * contact.N + 0.05 * (left.N + right_float.N)
             water_x = -resistance * velocity[0] / horizontal
             force[:2] -= resistance * velocity[:2] / horizontal
         force_sums += [thrust_x, aero_x, water_x]
-        force[2] += contact.N - (mass * 9.80665)
+        force[2] += water_n - (mass * 9.80665)
         velocity += force / mass * h
         vx, vy, vz = map(float, velocity)
         x += vx * h

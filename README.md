@@ -25,6 +25,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `visual3d.py` | mplot3d による 3D シーン＋操縦ログ可視化 |
 | `validate.py` | 再計算による物理サニティチェック |
 | `audit.py` | 回帰テスト・物理検証・JSON監査レポート |
+| `system_one.py` | 型付き Choice/Score/Noul と信頼度（ローカル System One 原語） |
+| `flight_jev.py` | 飛行状態に対する Jev 風決定。内側は内蔵セットポイント |
 | `advisor.py` | Phi助言＋短horizon試行によるカリキュラム生成（Ollama不在時は規則スタブ） |
 | `ocean_directional.py` | 方向分散付き2D不規則波（cos^2s、NDBCのMWD対応） |
 | `tests/` | 学習・評価・故障処理の回帰テスト |
@@ -37,10 +39,10 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 |---|---|
 | 翼幅 / 翼弦 / 翼面積 | 15.0 m / 1.5 m / 22.5 m² |
 | アスペクト比 | 10.0 |
-| 総質量 | 80.0 kg |
+| 総質量 | 84.0 kg（翼下フロート 4 kg を含む） |
 | 双発モーター（28"プロペラ） | ピーク12 kW |
-| 静止推力 / 重量比 | 0.70 |
-| 失速速度 / 巡航速度 | 6.4 / 11.0 m/s |
+| 静止推力 / 重量比 | 0.67 |
+| 失速速度 / 巡航速度 | 6.5 / 11.3 m/s |
 | 最大揚抗比 L/D | 16.3 |
 | Li-Po 6S 22000 mAh ×2 | 3.52 MJ |
 
@@ -132,17 +134,25 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 | RL方策（ダメージなし環境、保持評価） | takeoff_preview_best 7/10 | landing_preview_best 10/10（50波 47/50） |
 | 空間＋横風10条件・ハブ0.30 m | どちらも 0/10 | 内蔵 8/10、既存RL＋横 7/10 |
 | 空間＋横風10条件・ハブ0.90 m（採用） | 内蔵 10/10（Hs=0.3 と 1.5）、既存縦RL＋横 7/10 | 内蔵 8/10、既存RL＋横 5/10 |
+| 同上・ISA/地面効果後の内蔵制御 | 10/10（Hs=0.3 と 1.5） | 6/10（低空で沈下不足） |
+| 同上・着水沈下則（アイドル＋揚力捨て） | 10/10 | 10/10 |
 | 空間離水RL 400ep（検証で選択） | 4軸 0/10（横ずれ）、推力ピッチ＋横補助 10/10 | — |
+| 新機体84 kg 空間RL 400ep | 4軸 1/10、横補助 8/10 | 4軸 0/10、横補助 9/10 |
+| 新機体 縦RL＋横補助 | 7/10（旧方策 2/10） | 10/10（旧方策 6/10） |
+| 離水 BC＋縦RL | 7/10（内蔵 10/10のまま） | — |
 
 実機の運用限界は検証していない。詳細は `results/hump_analysis_001/`、
 `results/reward_envelope_001/`、`results/warmstart_001/`、
 `results/takeoff_control_001/`、`results/landing_spatial_001/`、
 `results/takeoff_spray_001/`、`results/takeoff_mount_001/`、
-`results/spatial_takeoff_001/` を参照。
+`results/spatial_takeoff_001/`、`results/model_fidelity_001/`、
+`results/model_fidelity_002/`、`results/landing_settle_001/`、
+`results/wing_floats_001/`、`results/new_airframe_001/`、
+`results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/lateral_001/`、`results/size_001/` を参照。
 
 ## 注意点・限界
 
-- 従来モードは縦方向（x）のみ。`spatial=True` では横運動・旋回と現在y位置の方向性海面を使います（波面傾斜によるロールは未モデル）
+- 従来モードは縦方向（x）のみ。`spatial=True` では横運動・旋回と現在y位置の方向性海面を使います。翼下フロートが接水するとロール復元が入り、波面の左右差も荷重に反映します。空中のバンクは指令追従のままです。
 - ピッチ指令の範囲は経路で異なる。RL環境・機体直接操作はオートパイロット包絡線 -8〜12°、サーボ直接操作はハードウェア可動域 ±15°（Ollamaは-8〜15°で応答）。`advisor.short_simulate` とカリキュラムは環境で実際に適用された値（クリップ後）を記録する
 - 完全な6自由度剛体運動・独立した舵面の空力モーメントは未モデル
 - 従来モードの外乱は海面のみ。`--spatial` では横運動と合成大気モデルを使用（後述）
@@ -182,6 +192,11 @@ python3 fly_ollama.py --scenario landing --duration 30
 python3 fly_ollama.py --scenario takeoff --ndbc --duration 12
 # 応答に問題があれば即座に打ち切る接続検証
 python3 fly_ollama.py --duration 3 --interval 1 --strict
+# ローカル System One（Jev 風）。内側は内蔵制御。Ollama不要
+python3 fly_ollama.py --jev --spatial --lateral-assist --scenario takeoff --duration 12
+python3 fly_ollama.py --jev --jev-calibrator results/flight_jev_002/calibrator.npz --spatial --lateral-assist --scenario takeoff --duration 12
+# 性能包絡（環境変数）
+HAMA_HS=0.3,1.5,3.5 HAMA_WIND_Y=-5,5 python3 results/envelope_001/sweep.py
 ```
 
 既定の接続先は `http://127.0.0.1:11434`。`--host` でローカルの別ポートを指定できます。
@@ -292,9 +307,9 @@ python3 train.py --scenario takeoff --spatial --directional \
   --wind 0 3 0 --gust-rms 0.5 --seed-per-episode --episodes 400
 ```
 
-- `--wind WX WY WZ`：空気が向かう方向の速度成分（m/s、世界座標）。気象の「吹いてくる方位」とは異なります。
-- 大気密度は海面1.225 kg/m³から高度に応じて指数減衰。突風はシード固定の滑らかな合成正弦波で、同時刻の再読込は同じ値になります。
-- 空力は対気速度（対地速度 − 風速）から算出。水抵抗は対地水平速度に作用します（海流なし）。
+- `--wind WX WY WZ`：高度 10 m での空気速度（m/s、世界座標）。気象の「吹いてくる方位」とは異なります。水平平均風と突風は z0=0.001 m の対数則で高度換算します。
+- 大気密度は ICAO ISA 対流圏（海面 1.225 kg/m³）。1D 経路も同じ密度を使います。突風はシード固定の滑らかな合成正弦波で、同時刻の再読込は同じ値になります。
+- 空力は対気速度（対地速度 − 風速）から算出。揚力勾配は有限翼、誘導抗力は地面効果付き。水抵抗は対地水平速度に作用します（海流なし）。
 - 行動4次元：スロットル[0,1]、ピッチ[-1,1]、バンク[-1,1]（±45°）、ラダー[-1,1]（ヨーレート±20°/s）。
 - 観測は既定19次元。従来の11次元に y/10、Vy/15、バンク/45°、sin方位、cos方位、風速3成分/15を追加します。前方波面は実際のy位置と水平進行方向から予測します。
 - 成功には従来条件に加え |y|<10 m、|Vy|<1.5 m/s、|バンク|<10° が必要です。|y|>50 mで失敗終了します。横ずれ・横速度にも報酬ペナルティを適用します。

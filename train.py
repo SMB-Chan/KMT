@@ -69,12 +69,33 @@ def landing_teacher_action(state, cfg: EnvConfig):
     return np.array([float(thr), float((pitch - mid) / half)], dtype=np.float32)
 
 
+def takeoff_teacher_action(state, cfg: EnvConfig, ac=None):
+    """Normalized env action from the two-stage takeoff setpoint."""
+    from mavlink_if import LowLevelController, rotate_speed
+    z = float(state[0]) * 10.0
+    Vx = float(state[1]) * 15.0
+    Vz = float(state[2]) * 15.0
+    ctl = LowLevelController(pitch_lo=cfg.pitch_lo, pitch_hi=cfg.pitch_hi)
+    pitch, thr = ctl.takeoff_setpoint(
+        {"z": z, "Vx": Vx, "Vz": Vz}, cfg.z_goal, cfg.V_lo,
+        rotate_speed(ac) if ac is not None else 7.0)
+    mid = (cfg.pitch_hi + cfg.pitch_lo) / 2.0
+    half = (cfg.pitch_hi - cfg.pitch_lo) / 2.0
+    return np.array([float(thr), float((pitch - mid) / half)], dtype=np.float32)
+
+
+def teacher_action(state, cfg: EnvConfig, ac=None):
+    if cfg.scenario == "landing":
+        return landing_teacher_action(state, cfg)
+    return takeoff_teacher_action(state, cfg, ac)
+
+
 def _bc_pretrain(policy, env, episodes: int, epochs: int, seed: int):
     states, actions = [], []
     for ep in range(episodes):
         s = env.reset(seed=seed + ep)
         for _ in range(env.cfg.max_steps):
-            a = landing_teacher_action(s, env.cfg)
+            a = teacher_action(s, env.cfg, getattr(env, "ac", None))
             states.append(s)
             actions.append(a)
             s, _, done, _ = env.step(a)
@@ -108,8 +129,8 @@ def train(env_cfg: EnvConfig, episodes: int = 400, max_updates: int = 8,
     if bc_episodes < 0 or bc_epochs < 0:
         raise ValueError("bc_episodes and bc_epochs must be nonnegative")
     if bc_episodes > 0 and env_cfg.spatial:
-        raise ValueError("landing BC supports longitudinal observations only")
-    if bc_episodes > 0 and env_cfg.scenario == "landing":
+        raise ValueError("BC supports longitudinal observations only")
+    if bc_episodes > 0:
         _bc_pretrain(policy, env, bc_episodes, bc_epochs, seed)
 
     history = {
@@ -327,7 +348,7 @@ def main(argv=None):
         print("=" * 60)
         bc = args.bc_episodes
         if bc is None:
-            bc = 24 if sc == "landing" and not args.spatial else 0
+            bc = 24 if not args.spatial else 0
         _, hist = train(_config_for(sc, args), episodes=args.episodes,
                         max_updates=4, seed=seed, tag=tag,
                         seed_per_episode=args.seed_per_episode,

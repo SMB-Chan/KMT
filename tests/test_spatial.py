@@ -19,8 +19,9 @@ class SpatialTests(unittest.TestCase):
         self.assertFalse(np.array_equal(a.wind(1), Atmosphere(config, 5).wind(1)))
         self.assertEqual(a.density(0), 1.225)
         self.assertLess(a.density(1000), a.density(0))
+        np.testing.assert_array_equal(a.wind(1), a.wind(1, 10.0))
         for kwargs in ({'wind': (1, 2)}, {'gust_rms': -1}, {'gust_period': 0},
-                       {'density_scale_height': float('nan')}):
+                        {'density_scale_height': float('nan')}, {'z0': 0}, {'z_ref': 0.0005}):
             with self.assertRaises(ValueError):
                 AtmosphereConfig(**kwargs)
 

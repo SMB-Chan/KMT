@@ -123,6 +123,22 @@ class RegressionTests(unittest.TestCase):
             0.0, math.radians(8))
         self.assertAlmostEqual(p0, trough)
         self.assertGreater(crest, trough)
+        balloon, thr = ctl.landing_setpoint(
+            {"z": 0.6, "Vx": 10.0, "Vz": 0.2}, 0.0, math.radians(8))
+        self.assertLess(balloon, 0.0)
+        self.assertEqual(thr, 0.0)
+
+    def test_takeoff_teacher_in_unit_box(self):
+        from train import takeoff_teacher_action
+        env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff", max_steps=4, Hs=0))
+        s = env.reset(seed=0)
+        a = takeoff_teacher_action(s, env.cfg)
+        self.assertEqual(a.shape, (2,))
+        self.assertTrue(np.isfinite(a).all())
+        self.assertGreaterEqual(a[0], 0.0)
+        self.assertLessEqual(a[0], 1.0)
+        self.assertGreaterEqual(a[1], -1.0)
+        self.assertLessEqual(a[1], 1.0)
 
     def test_bc_imitate_and_load_dim_check(self):
         from train import landing_teacher_action
@@ -227,6 +243,25 @@ class RegressionTests(unittest.TestCase):
                                          10.0, 13.0)
         self.assertGreater(pitch2, math.radians(4.0))
         self.assertLessEqual(pitch2, math.radians(15.0))
+
+    def test_rotate_speed_scales_with_stall(self):
+        import math
+        from aircraft import Aircraft, scaled_aircraft
+        from mavlink_if import LowLevelController, V_ROTATE_MARGIN, rotate_speed
+        base = Aircraft()
+        self.assertAlmostEqual(rotate_speed(base), 7.0, delta=0.05)
+        small = scaled_aircraft(0.5)
+        v_rot = rotate_speed(small)
+        self.assertLess(v_rot, 8.5 * math.sqrt(0.5))
+        self.assertAlmostEqual(v_rot, V_ROTATE_MARGIN * small.V_stall)
+        ctl = LowLevelController()
+        pitch_hold, _ = ctl.takeoff_setpoint({"z": 0.3, "Vx": 5.5, "Vz": 0.0},
+                                             4.0, 6.0, v_rot)
+        self.assertGreater(pitch_hold, math.radians(4.0))
+        pitch_taxi, thr = ctl.takeoff_setpoint({"z": 0.3, "Vx": 2.0, "Vz": 0.0},
+                                               4.0, 6.0, v_rot)
+        self.assertAlmostEqual(pitch_taxi, math.radians(4.0))
+        self.assertEqual(thr, 1.0)
 
     def test_hil_state_reports_accelerations(self):
         v = FlyingBoatVehicle(Aircraft(), Ocean(Hs=0))

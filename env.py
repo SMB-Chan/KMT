@@ -25,7 +25,7 @@ import math
 from dataclasses import dataclass, field
 import numpy as np
 
-from atmosphere import Atmosphere, AtmosphereConfig
+from atmosphere import Atmosphere, AtmosphereConfig, isa_density
 from aircraft import Aircraft
 from ocean import Ocean
 from ocean_directional import DirectionalOcean, PREVIEW_DX_M, sea_eta_1d, wave_preview
@@ -114,17 +114,18 @@ class FlyingBoatEnv:
         for _ in range(self.n_sub):
             eta_s = float(sea_eta_1d(sea, np.array([x]), t_sub)[0])
             V = math.hypot(Vx, Vz)
-            T_i = self.ac.prop.thrust(V, throttle)
-            q = 0.5 * 1.225 * V ** 2
+            rho = isa_density(z)
+            T_i = self.ac.prop.thrust(V, throttle, rho=rho)
+            q = 0.5 * rho * V ** 2
             gamma = math.atan2(Vz, Vx)
             alpha_eff = alpha - gamma
             CL = self.ac.CL(alpha_eff)
-            CD = self.ac.CD(CL)
+            CD = self.ac.CD(CL, height_m=z - eta_s)
             L_i = q * self.ac.geom.S * CL
             D_i = q * self.ac.geom.S * CD
             wf = hull_force(z, Vx, Vz, eta_s, self.hull)
             R_hull = self.hd.resistance(Vx) if wf.N > 0 else 0.0
-            cos_a, sin_a = math.cos(alpha), math.sin(alpha)
+            cos_a, sin_a = math.cos(alpha + self.ac.aero.alpha_T), math.sin(alpha + self.ac.aero.alpha_T)
             cos_g, sin_g = math.cos(gamma), math.sin(gamma)
             T_x = T_i * cos_a;  T_z = T_i * sin_a
             L_x = -L_i * sin_g; L_z = +L_i * cos_g
@@ -219,7 +220,7 @@ class FlyingBoatEnv:
                 self._y / 10.0, self._Vy / self.V_scale,
                 self._bank / math.radians(45), math.sin(self._heading),
                 math.cos(self._heading),
-                *(self._atmosphere.wind(self._t) / self.V_scale),
+                *(self._atmosphere.wind(self._t, self._z) / self.V_scale),
             ], dtype=np.float32)))
         return s
 
@@ -267,7 +268,7 @@ class FlyingBoatEnv:
                      "eta": eta, "Veta": Veta, "N_water": N_water,
                      "T": T_i, "L": L_i, "D": D_i})
         if self.cfg.spatial:
-            wind = self._atmosphere.wind(self._t)
+            wind = self._atmosphere.wind(self._t, self._z)
             info.update(force_budget=dict(self._last_force_budget),
                         y=self._y, Vy=self._Vy, bank=self._bank,
                         heading=self._heading, wind=wind.tolist(),

@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from aircraft import Aircraft, RHO, RHO_W, G
+from atmosphere import isa_density
 from ocean import Ocean
 
 
@@ -69,6 +70,16 @@ def hull_force(z: float, Vx: float, Vz: float,
     sign = -1.0 if Vx > 0 else (1.0 if Vx < 0 else 0.0)
     Rt = sign * h.mu_s * N
     return WaterForce(N=N, Rt=Rt)
+
+
+def float_contacts(ac, z, bank, vx, vz, eta_left, eta_right):
+    """Buoyancy of left/right under-wing floats. +bank lowers the right float."""
+    geom = ac.geom
+    pad = HullContact(h_keel=geom.float_h_keel, A_wp=geom.float_A_wp, mu_s=0.05)
+    z_left = z + geom.float_y * math.sin(bank)
+    z_right = z - geom.float_y * math.sin(bank)
+    return (hull_force(z_left, vx, vz, eta_left, pad),
+            hull_force(z_right, vx, vz, eta_right, pad))
 
 
 # ---------------------------------------------------------------------
@@ -161,20 +172,21 @@ def simulate_takeoff(ac: Aircraft, sea: Ocean,
         eta = float(sea.eta(np.array([x[i]]), t[i])[0])
         V = math.hypot(Vx[i], Vz[i])
         # Forces
-        T_i = ac.prop.thrust(V, throttle)
-        q = 0.5 * RHO * V ** 2
+        rho = isa_density(z[i])
+        T_i = ac.prop.thrust(V, throttle, rho=rho)
+        q = 0.5 * rho * V ** 2
         # Flight-path angle and effective angle of attack
         gamma = math.atan2(Vz[i], Vx[i])
         alpha_eff = alpha - gamma
         CL = ac.CL(alpha_eff)
-        CD = ac.CD(CL)
+        CD = ac.CD(CL, height_m=z[i] - eta)
         L_i = q * ac.geom.S * CL
         D_i = q * ac.geom.S * CD
         # Hydrodynamic (hull) reaction
         wf = hull_force(z[i], Vx[i], Vz[i], eta, hull)
         R_hull = hd.resistance(Vx[i]) if wf.N > 0 else 0.0
         # Thrust body-axis aligned; L, D velocity-vector aligned
-        cos_a, sin_a = math.cos(alpha), math.sin(alpha)
+        cos_a, sin_a = math.cos(alpha + ac.aero.alpha_T), math.sin(alpha + ac.aero.alpha_T)
         cos_g, sin_g = math.cos(gamma), math.sin(gamma)
         # Body-axis thrust
         T_x = T_i * cos_a
@@ -204,12 +216,12 @@ def simulate_takeoff(ac: Aircraft, sea: Ocean,
         ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + 0.05 else 0
 
     # Set first sample
-    T[0]  = ac.prop.thrust(Vx[0], throttle)
-    q0 = 0.5 * RHO * Vx[0] ** 2
+    T[0]  = ac.prop.thrust(Vx[0], throttle, rho=isa_density(z[0]))
+    q0 = 0.5 * isa_density(z[0]) * Vx[0] ** 2
     gamma0 = math.atan2(Vz[0], Vx[0])
-    L[0] = q0 * ac.geom.S * ac.CL(alpha - gamma0)
-    D[0] = q0 * ac.geom.S * ac.CD(L[0] / (q0 * ac.geom.S))
     eta0 = float(sea.eta(np.array([x[0]]), t[0])[0])
+    L[0] = q0 * ac.geom.S * ac.CL(alpha - gamma0)
+    D[0] = q0 * ac.geom.S * ac.CD(L[0] / (q0 * ac.geom.S), height_m=z[0] - eta0)
     wf0 = hull_force(z[0], Vx[0], Vz[0], eta0, hull)
     Nw[0] = wf0.N
     R_[0] = hd.resistance(Vx[0]) if wf0.N > 0 else 0.0
@@ -254,18 +266,19 @@ def simulate_landing(ac: Aircraft, sea: Ocean,
     for i in range(n - 1):
         eta = float(sea.eta(np.array([x[i]]), t[i])[0])
         V = math.hypot(Vx[i], Vz[i])
-        T_i = ac.prop.thrust(V, throttle)
-        q = 0.5 * RHO * V ** 2
+        rho = isa_density(z[i])
+        T_i = ac.prop.thrust(V, throttle, rho=rho)
+        q = 0.5 * rho * V ** 2
         gamma = math.atan2(Vz[i], Vx[i])
         alpha_eff = alpha - gamma
         CL = ac.CL(alpha_eff)
-        CD = ac.CD(CL)
+        CD = ac.CD(CL, height_m=z[i] - eta)
         L_i = q * ac.geom.S * CL
         D_i = q * ac.geom.S * CD
         wf = hull_force(z[i], Vx[i], Vz[i], eta, hull)
         R_hull = hd.resistance(Vx[i]) if wf.N > 0 else 0.0
         # Thrust body-axis; L, D velocity-vector aligned
-        cos_a, sin_a = math.cos(alpha), math.sin(alpha)
+        cos_a, sin_a = math.cos(alpha + ac.aero.alpha_T), math.sin(alpha + ac.aero.alpha_T)
         cos_g, sin_g = math.cos(gamma), math.sin(gamma)
         T_x = T_i * cos_a
         T_z = T_i * sin_a
@@ -290,12 +303,12 @@ def simulate_landing(ac: Aircraft, sea: Ocean,
         ph[i + 1] = 1 if z[i + 1] - hull.h_keel > eta + 0.05 else 0
 
     # First-sample logging
-    T[0] = ac.prop.thrust(Vx[0], throttle)
-    q0 = 0.5 * RHO * math.hypot(Vx[0], Vz[0]) ** 2
+    T[0] = ac.prop.thrust(Vx[0], throttle, rho=isa_density(z[0]))
+    q0 = 0.5 * isa_density(z[0]) * math.hypot(Vx[0], Vz[0]) ** 2
     gamma0 = math.atan2(Vz[0], Vx[0])
-    L[0] = q0 * ac.geom.S * ac.CL(alpha - gamma0)
-    D[0] = q0 * ac.geom.S * ac.CD(L[0] / (q0 * ac.geom.S))
     eta0 = float(sea.eta(np.array([x[0]]), t[0])[0])
+    L[0] = q0 * ac.geom.S * ac.CL(alpha - gamma0)
+    D[0] = q0 * ac.geom.S * ac.CD(L[0] / (q0 * ac.geom.S), height_m=z[0] - eta0)
     wf0 = hull_force(z[0], Vx[0], Vz[0], eta0, hull)
     Nw[0] = wf0.N
     R_[0] = hd.resistance(Vx[0]) if wf0.N > 0 else 0.0
