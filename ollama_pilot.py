@@ -35,6 +35,27 @@ Derive throttle and pitch from the current observation, mission and
 previous control; do not repeat a fixed value. No text or code.'''
 
 
+SPATIAL_CONTROL_SCHEMA = {
+    'type': 'object',
+    'properties': dict(CONTROL_SCHEMA['properties'],
+        bank_deg={'type': 'number', 'minimum': -45, 'maximum': 45},
+        rudder={'type': 'number', 'minimum': -1, 'maximum': 1}),
+    'required': ['throttle', 'pitch_deg', 'bank_deg', 'rudder'],
+    'additionalProperties': False,
+}
+SPATIAL_SYSTEM_PROMPT = SYSTEM_PROMPT.replace(
+    'longitudinal simulation', 'spatial north/east/up simulation').replace(
+    '{"throttle": number, "pitch_deg": number}',
+    '{"throttle": number, "pitch_deg": number, "bank_deg": number, "rudder": number}') + """
+Bank limits -45..45 degrees; rudder -1..1 commands yaw rate up to 20 deg/s.
+Positive bank tilts lift east when heading north. Positive rudder turns east.
+Use lateral_position_m, lateral_speed_m_s, bank_deg, heading_deg and wind_m_s
+(world north/east/up) to keep y near zero with gentle corrections.
+Landing also requires |y|<10 m, |Vy|<1.5 m/s, |bank|<10 degrees.
+Airspeed differs from ground speed in wind. This is a simulation, no hardware.
+"""
+
+
 class PilotError(RuntimeError):
     """Local service or model response cannot be used as a control."""
 
@@ -66,6 +87,34 @@ class Control:
         vehicle.send_servo(2, 1500 + 500 * self.pitch_deg / 15)
 
 
+@dataclass(frozen=True)
+class SpatialControl(Control):
+    bank_deg: float
+    rudder: float
+
+    @classmethod
+    def parse(cls, text):
+        try:
+            data = json.loads(text)
+        except (ValueError, TypeError) as exc:
+            raise PilotError('model did not return valid JSON') from exc
+        if not isinstance(data, dict) or set(data) != set(SPATIAL_CONTROL_SCHEMA['required']):
+            raise PilotError('expected exactly throttle, pitch_deg, bank_deg and rudder')
+        base = Control.parse(json.dumps({k: data[k] for k in ('throttle', 'pitch_deg')}))
+        for key, limit in (('bank_deg', 45), ('rudder', 1)):
+            value = data[key]
+            if type(value) not in (int, float) or not math.isfinite(value) or abs(value) > limit:
+                raise PilotError(f'invalid {key}')
+        return cls(base.throttle, base.pitch_deg, float(data['bank_deg']), float(data['rudder']))
+
+    def apply(self, vehicle):
+        if not vehicle.spatial:
+            raise PilotError('spatial control requires a spatial vehicle')
+        super().apply(vehicle)
+        vehicle.send_servo(3, 1500 + 500 * self.bank_deg / 45)
+        vehicle.send_servo(4, 1500 + 500 * self.rudder)
+
+
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise PilotError('Ollama redirects are not supported')
@@ -73,7 +122,7 @@ class NoRedirect(HTTPRedirectHandler):
 
 class OllamaPilot:
     def __init__(self, model='phi3.5:latest', base_url='http://127.0.0.1:11434',
-                 timeout=60.0, seed=0):
+                 timeout=60.0, seed=0, spatial=False):
         url = urlsplit(base_url)
         if (url.scheme != 'http' or url.hostname not in ('127.0.0.1', 'localhost', '::1')
                 or url.username or url.password or url.path not in ('', '/')
@@ -83,6 +132,7 @@ class OllamaPilot:
             raise ValueError('timeout must be positive and finite')
         if not isinstance(model, str) or not model.strip():
             raise ValueError('model is required')
+        self.spatial = spatial
         self.model, self.base_url = model, base_url.rstrip('/')
         self.timeout, self.seed = timeout, seed
         self.opener = build_opener(ProxyHandler({}), NoRedirect())
@@ -117,13 +167,13 @@ class OllamaPilot:
 
     def decide(self, observation, mission, previous=None):
         payload = {
-            'model': self.model, 'stream': False, 'format': CONTROL_SCHEMA,
-            'messages': [{'role': 'system', 'content': SYSTEM_PROMPT},
+            'model': self.model, 'stream': False, 'format': SPATIAL_CONTROL_SCHEMA if self.spatial else CONTROL_SCHEMA,
+            'messages': [{'role': 'system', 'content': SPATIAL_SYSTEM_PROMPT if self.spatial else SYSTEM_PROMPT},
                          {'role': 'user', 'content': json.dumps({
                              'mission': mission, 'observation': observation,
                              'previous_control': asdict(previous) if previous else None,
                          }, allow_nan=False)}],
-            'options': {'temperature': 0, 'seed': self.seed, 'num_predict': 64,
+            'options': {'temperature': 0, 'seed': self.seed, 'num_predict': 128 if self.spatial else 64,
                         'num_ctx': 2048},
             'keep_alive': '5m',
         }
@@ -134,7 +184,7 @@ class OllamaPilot:
         message = result.get('message')
         if not isinstance(message, dict) or not isinstance(message.get('content'), str):
             raise PilotError('missing assistant content')
-        control = Control.parse(message['content'])
+        control = (SpatialControl if self.spatial else Control).parse(message['content'])
         return control, {'latency_s': time.monotonic() - started,
                          'raw_response': message['content'],
                          'eval_count': result.get('eval_count'),
@@ -142,21 +192,49 @@ class OllamaPilot:
 
 
 def observe(vehicle):
-    eta = float(vehicle.sea.eta([vehicle.x], vehicle.t)[0])
-    wave_rate = (float(vehicle.sea.eta([vehicle.x], vehicle.t + vehicle.dt)[0]) - eta) / vehicle.dt
-    preview = wave_preview(vehicle.sea, vehicle.x, vehicle.t, vehicle.Vx)
-    return dict(t=vehicle.t, x_m=vehicle.x, altitude_m=vehicle.z,
+    eta = vehicle.wave_elevation()
+    wave_rate = (vehicle.wave_elevation(t=vehicle.t + vehicle.dt) - eta) / vehicle.dt
+    preview = vehicle.wave_preview()
+    observation = dict(t=vehicle.t, x_m=vehicle.x, altitude_m=vehicle.z,
                 forward_speed_m_s=vehicle.Vx, vertical_speed_m_s=vehicle.Vz,
                 wave_elevation_m=eta, wave_rate_m_s=wave_rate,
                 wave_preview_m=[float(v) for v in preview],
                 keel_clearance_m=vehicle.z - vehicle.hull.h_keel - eta,
-                water_mass_kg=vehicle.damage.water_mass, failed=vehicle.damage.failed)
+                water_mass_kg=vehicle.damage.water_mass, failed=vehicle.damage.failed,
+                applied_throttle=vehicle.throttle)
+    if vehicle.spatial:
+        import numpy as np
+        wind = vehicle.atmosphere.wind(vehicle.t)
+        observation.update(lateral_position_m=vehicle.y, lateral_speed_m_s=vehicle.Vy,
+                           bank_deg=math.degrees(vehicle.bank), heading_deg=math.degrees(vehicle.heading),
+                           wind_m_s=wind.tolist(),
+                           airspeed_m_s=float(np.linalg.norm(np.array([vehicle.Vx, vehicle.Vy, vehicle.Vz]) - wind)),
+                           density_kg_m3=vehicle.atmosphere.density(vehicle.z))
+    return observation
 
 
 def fallback_control(vehicle, scenario, target_alt, target_speed):
-    state = {'z': vehicle.z, 'Vx': vehicle.Vx, 'Vz': vehicle.Vz}
+    eta = vehicle.wave_elevation()
+    preview = vehicle.wave_preview()
+    state = {'z': vehicle.z, 'Vx': vehicle.Vx, 'Vz': vehicle.Vz,
+             'eta': eta, 'wave_preview': preview}
     if scenario == 'takeoff':
         pitch, throttle = vehicle.ctl.takeoff_setpoint(state, target_alt, target_speed)
     else:
         pitch, throttle = vehicle.ctl.landing_setpoint(state, 0, math.radians(8))
+    if vehicle.spatial:
+        bank, rudder = vehicle.lateral_setpoint()
+        return SpatialControl(float(throttle), math.degrees(pitch), math.degrees(bank), rudder)
     return Control(float(throttle), math.degrees(pitch))
+
+
+def stabilize_lateral(vehicle, control):
+    """Replace lateral commands with fast corridor feedback; preserve pitch/throttle.
+
+    The caller must log this applied command separately from the pilot request.
+    This is a controller assist, not an improvement to the underlying pilot.
+    """
+    if not vehicle.spatial or not isinstance(control, SpatialControl):
+        raise ValueError('lateral assistance requires spatial control and vehicle')
+    bank, rudder = vehicle.lateral_setpoint()
+    return SpatialControl(control.throttle, control.pitch_deg, math.degrees(bank), rudder)

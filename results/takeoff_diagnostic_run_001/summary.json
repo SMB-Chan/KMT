@@ -1,0 +1,58 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "lateral_assist": true,
+  "model": "takeoff_policy.npz",
+  "decisions": 100,
+  "fallback_decisions": 0,
+  "physics_steps": 100,
+  "simulation_seconds": 4.99999999999999,
+  "wall_seconds": 0.20693028399546165,
+  "final_observation": {
+    "t": 4.99999999999999,
+    "x_m": 12.346825124504091,
+    "altitude_m": 0.3341954869929125,
+    "forward_speed_m_s": 2.57672397261912,
+    "vertical_speed_m_s": 0.0594110106212852,
+    "wave_elevation_m": 0.0670539652836504,
+    "wave_rate_m_s": 0.08974486877726007,
+    "wave_preview_m": [
+      0.06647427149115397,
+      -0.06624414372283927,
+      -0.08010759937597689
+    ],
+    "keel_clearance_m": -0.032858478290737875,
+    "water_mass_kg": 0.12254305868911751,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": 1.440060256638122,
+    "lateral_speed_m_s": 0.07272136621000141,
+    "bank_deg": -4.808469392339384,
+    "heading_deg": 0.0,
+    "wind_m_s": [
+      -0.385604368662733,
+      2.447067808227617,
+      0.6018347418818888
+    ],
+    "airspeed_m_s": 3.834988100700976,
+    "density_kg_m3": 1.224951837479569
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/takeoff_diagnostic_run_001",
+  "timing": "synchronous: simulation pauses during inference",
+  "takeoff_diagnostics": {
+    "low_speed_plateau": true,
+    "sufficient_history": true,
+    "window_seconds": 2.9999999999999893,
+    "min_speed_m_s": 2.392466722307434,
+    "max_speed_m_s": 2.868687335041647,
+    "speed_change_m_s": 0.18425725031168572,
+    "mean_force_budget": {
+      "thrust_x_N": 433.088919244471,
+      "aerodynamic_x_N": 19.508711936520108,
+      "water_x_N": -447.6841169885504,
+      "net_x_N": 4.913514192440859,
+      "mean_ax_m_s2": 0.061419083437228565,
+      "total_mass_kg": 80.08635783913583
+    }
+  }
+}

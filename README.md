@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# KMT - 強化学習オートパイロット
-=======
 # KMT - 15 m 翼幅 スチロール製 ドローン飛行艇 実験プロジェクト
->>>>>>> 2f23987 (Reward/envelope redesign, warmstart, KMT rename)
+
 
 EPS（発泡スチロール）製・双発モーター駆動のLi-Poドローン飛行艇を設計し、
 実海洋データに基づく不規則波浪モデル上で離水・着水の動力学シミュ
@@ -62,6 +59,7 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 ## ダメージモデル（damage.py）
 
 **海水飛沫（プロペラ負荷）**
+- プロペラハブは CG 上 0.90 m（径 0.71 m）。静水の上端クリアランスは約 1.50 m
 - プロペラ上端と波面との距離から効率係数を計算（0.55〜1.0）
 - 推力に効率係数を乗じる
 - プロペラ上端が水面以下になるとスリング事象 → 2回で致命的故障
@@ -91,7 +89,7 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 ## 強化学習（env.py / policy.py / train.py）
 
 - **環境**：11次元状態（z, Vx, Vz, η, dη/dt, 水没, 速度比, 前回推力, 前方5/15/30 mの遭遇波面）
-- **行動**：推力 [0,1]、ピッチ（[-3°, 12°]にマップ）
+- **行動**：推力 [0,1]、ピッチ（[-8°, 12°]にマップ）
 - **アルゴリズム**：numpy製 Actor-Critic、GAE(λ)  Advantage Estimation
 - **報酬**：高度・速度に対する密報酬＋成功ボーナス
 - **旧実績の扱い**：既存の学習済みモデル・学習曲線は監査前の出力です。
@@ -130,21 +128,27 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 
 | 経路 | 離水 | 着水 |
 |---|---|---|
-| スクリプト制御器（機体・ダメージあり） | 失敗（ハンプ停滞、実推力444N） | 成功 |
-| RL方策（ダメージなし環境、10波保持評価） | 成功（takeoff_best 100%） | 失敗（0%、波位相運が支配的） |
+| スクリプト制御器（ハブ0.30 m当時） | 失敗（ハンプ停滞、実推力444N） | 成功 |
+| RL方策（ダメージなし環境、保持評価） | takeoff_preview_best 7/10 | landing_preview_best 10/10（50波 47/50） |
+| 空間＋横風10条件・ハブ0.30 m | どちらも 0/10 | 内蔵 8/10、既存RL＋横 7/10 |
+| 空間＋横風10条件・ハブ0.90 m（採用） | 内蔵 10/10（Hs=0.3 と 1.5）、既存縦RL＋横 7/10 | 内蔵 8/10、既存RL＋横 5/10 |
+| 空間離水RL 400ep（検証で選択） | 4軸 0/10（横ずれ）、推力ピッチ＋横補助 10/10 | — |
 
 実機の運用限界は検証していない。詳細は `results/hump_analysis_001/`、
-`results/reward_envelope_001/`、`results/warmstart_001/` を参照。
+`results/reward_envelope_001/`、`results/warmstart_001/`、
+`results/takeoff_control_001/`、`results/landing_spatial_001/`、
+`results/takeoff_spray_001/`、`results/takeoff_mount_001/`、
+`results/spatial_takeoff_001/` を参照。
 
 ## 注意点・限界
 
-- 動力学は縦方向（x）のみ。`EnvConfig(directional=True)` と `FlyingBoatVehicle` は方向分散付き2D海面の縦断面（y=0）を使える。横方向の運動・旋回・斜め波の影響は未モデル
+- 従来モードは縦方向（x）のみ。`spatial=True` では横運動・旋回と現在y位置の方向性海面を使います（波面傾斜によるロールは未モデル）
 - ピッチ指令の範囲は経路で異なる。RL環境・機体直接操作はオートパイロット包絡線 -8〜12°、サーボ直接操作はハードウェア可動域 ±15°（Ollamaは-8〜15°で応答）。`advisor.short_simulate` とカリキュラムは環境で実際に適用された値（クリップ後）を記録する
-- 機体縦運動のみ（横方向・回転・制御面の独立度は未モデル）
-- 風の擾乱は含まず、海面のみが外乱源
+- 完全な6自由度剛体運動・独立した舵面の空力モーメントは未モデル
+- 従来モードの外乱は海面のみ。`--spatial` では横運動と合成大気モデルを使用（後述）
 - pymavlink のPython 3.14互換ビルドが失敗したため、MAVLinkメッセージ
   識別子を使う自前のプロセス内実装（シリアライズ・通信・ACK未実装、実機接続やプロトコル互換性は未検証）
-- 訓練エピソードのランダム化はせず、固定シードで再現性を確保
+- 訓練は既定で固定シード。`--seed-per-episode` でエピソード毎に海面シードを変更可能
 
 ## 監査と再検証
 
@@ -273,3 +277,99 @@ Phiの返答は候補番号として検証し、候補に存在しない指令�
 物理・損傷係数を変更せずに再学習し、第1回モデルと比較します。
 第2回では新しい評価シード201/202を使い、評価結果でチェックポイントを選びません。
 後続の反復でもシード201/202を再利用する場合は、既知のベンチマークとして扱ってください。
+
+
+## 横方向の運動と大気（spatial モード）
+
+`EnvConfig(spatial=True)` または `train.py --spatial` で横方向を含む学習を実行できます。
+座標は x＝前方基準、y＝横方向、z＝上向き。位置 x/y/z、速度 Vx/Vy/Vz、
+バンク角、方位角を積分します。バンクは時定数0.5秒の指令追従、方位は空中の
+協調旋回近似とラダーによるヨーレート指令で更新します。
+
+```bash
+# 横風3 m/s、各成分の突風RMS 0.5 m/s、方向性海面で学習
+python3 train.py --scenario takeoff --spatial --directional \
+  --wind 0 3 0 --gust-rms 0.5 --seed-per-episode --episodes 400
+```
+
+- `--wind WX WY WZ`：空気が向かう方向の速度成分（m/s、世界座標）。気象の「吹いてくる方位」とは異なります。
+- 大気密度は海面1.225 kg/m³から高度に応じて指数減衰。突風はシード固定の滑らかな合成正弦波で、同時刻の再読込は同じ値になります。
+- 空力は対気速度（対地速度 − 風速）から算出。水抵抗は対地水平速度に作用します（海流なし）。
+- 行動4次元：スロットル[0,1]、ピッチ[-1,1]、バンク[-1,1]（±45°）、ラダー[-1,1]（ヨーレート±20°/s）。
+- 観測は既定19次元。従来の11次元に y/10、Vy/15、バンク/45°、sin方位、cos方位、風速3成分/15を追加します。前方波面は実際のy位置と水平進行方向から予測します。
+- 成功には従来条件に加え |y|<10 m、|Vy|<1.5 m/s、|バンク|<10° が必要です。|y|>50 mで失敗終了します。横ずれ・横速度にも報酬ペナルティを適用します。
+- 学習出力名には既定で `_spatial` が付きます。旧11入力・2出力モデルとは互換性がありません。着水の従来BC教師は使用せず、新規学習します。
+
+`atmosphere.py` と `spatial_dynamics.py` は簡易モデルです。完全な6自由度剛体運動、
+空力モーメント・失速後の横安定性、波面傾斜によるロール、左右フロート接触、
+気象予報・標準大気の厳密実装ではありません。学習環境・MAVLink風機体は共通の
+空間運動計算を使用します。Ollama／RL操縦と3D表示への接続は以下を参照してください。
+
+
+## 空間運動の機体・操縦・表示への接続
+
+`FlyingBoatVehicle(..., spatial=True, atmosphere=AtmosphereConfig(...))` で
+横運動・大気をMAVLink風機体にも適用します。`spatial_dynamics.integrate` は学習環境と共通で、
+機体側は飛沫による推力低下・浸水による質量増加・非武装／故障時の推力停止を追加します。
+積分刻みは最大0.01秒です。従来モードは引き続き使用できます。
+
+```bash
+# ローカルPhiの4軸操縦。3秒の接続試験＋図の保存
+python3 fly_ollama.py --scenario landing --spatial --directional \
+  --wind 0 3 0 --gust-rms 0.5 --duration 3 --interval 1 --strict --render
+
+# 保存済み空間RLモデルを機体側で動かす（Ollama不要）
+python3 fly_ollama.py --policy results/spatial_001/landing_policy.npz \
+  --scenario landing --spatial --directional --wind 0 3 0 --gust-rms 0.5 \
+  --duration 3 --interval .05 --render
+```
+
+上記RLファイルは2エピソードだけの動作確認モデルです。操縦性能を実証したものではありません。
+`--policy` は既定の11入力・2出力または19入力・4出力のRLモデルに対応します。
+従来のPhi生徒モデル（`--student`）は空間モードでは使用できません。
+
+- Ollamaは `throttle`、`pitch_deg`、`bank_deg`、`rudder` の厳密なJSONスキーマで応答します。値の範囲と有限値を検証します。
+- サーボ1/2は推力／ピッチ、3/4はバンク±45°／ラダー±1。`step(action=...)` は空間モードで4要素を受け取ります。
+- TAKEOFF/LANDはy=0の進路維持、WAYPOINTはローカル `x`/`y` と `alt` を使用します。`heading` は北を0°・東を90°とする絶対方位で、指定時は位置からの方位算出より優先します。CONDITION_YAWは `heading` を更新します。
+- 推論失敗時は既存の縦制御と横位置／横速度を使う制御器で4軸フォールバックします。`--strict` は適用前に停止します。
+- `read_telemetry()` の既存3要素を保ち、snapshotにy・Vy・バンク・方位・角速度・風・対気速度・密度を追加。`read_attitude()` でATTITUDE相当のメッセージを取得できます。
+- 位置は内部で北／東／上。GLOBAL_POSITION_INT相当の速度は北／東／下のcm/s、緯度はx、経度はyから換算します。HIL相当は従来の模擬フィールド（速度m/s、加速度m/s²）で、ワイヤ形式との完全互換はありません。
+- `trajectory.jsonl` に観測・4軸指令・適用状態・テレメトリを保存。`config.json` に実行時ソースのハッシュ、`--render` で `scene.png` を保存します。3D表示は横移動・バンク・方位と2D海面に対応します。
+
+実接続記録は `results/spatial_connected_phi_001/`（Phi、3判断・60ステップ・フォールバック0回）です。
+3秒の試験は飛行完遂を意味しません。Phiはこの試験で横舵を変更せず、約1.43 mの横流れが残りました。
+本接続はローカルOllamaとプロセス内シミュレータであり、実機・UDP／シリアル・PX4 SITLへの接続ではありません。
+
+
+### Phi／RLの横方向補助
+
+`fly_ollama.py --spatial --lateral-assist` は推力・ピッチを操縦モデルに任せ、
+バンク・ラダーを物理ステップごとのy=0進路維持制御で置き換えます。
+推論間隔中も補正を更新します。既定では無効で、Phi自体の学習改善とは区別します。
+
+```bash
+python3 fly_ollama.py --scenario landing --spatial --lateral-assist --directional \
+  --wind 0 3 0 --gust-rms 0.5 --duration 3 --interval 1 --strict --render
+```
+
+`decisions.jsonl` は操縦モデルの生の指令、`trajectory.jsonl` は元の `control` と
+実際に適用した `applied_control`、`lateral_assist` を保存します。
+補助なしの場合も `applied_control` に適用指令を記録します。
+本補助はy=0の進路維持用です。操縦モデルによる横方向の旋回指示も置き換えるため、
+任意の横方向ミッションでは補助を無効にしてください。
+比較試験・離水の固定ピッチ試験は `results/control_improvement_001/` に保存しています。
+
+
+### 離水停滞の診断
+
+空間モードの環境info・機体snapshotには `force_budget` を記録します。
+`thrust_x_N`、`aerodynamic_x_N`、`water_x_N` は前後方向の力（N）の物理ステップ平均。
+その和が `net_x_N`、`mean_ax_m_s2` は同区間の前進加速度、`total_mass_kg` は浸水を含む質量です。
+
+`fly_ollama.py --scenario takeoff` の `summary.json` には `takeoff_diagnostics` を保存します。
+最後3秒間があり、全期間で推力指令≥0.95、速度0〜4 m/s未満、速度幅≤0.5 m/sなら
+`low_speed_plateau=true`。診断のみで指令・成功判定・終了時刻を変更しません。
+スナップショットの `prop_clearance_m` / `prop_bottom_clearance_m` は飛沫判定に使った幾何です。
+離水制御12案は `results/takeoff_control_001/`、取付高さのスイープは
+`results/takeoff_spray_001/`、採用後の再評価は `results/takeoff_mount_001/` を参照してください。
+既定の `prop_z_offset` は 0.90 m です。

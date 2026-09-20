@@ -1,0 +1,41 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "landing_policy.npz",
+  "decisions": 60,
+  "fallback_decisions": 0,
+  "physics_steps": 60,
+  "simulation_seconds": 2.9999999999999973,
+  "wall_seconds": 0.18287747500289697,
+  "final_observation": {
+    "t": 2.9999999999999973,
+    "x_m": 39.303506126924674,
+    "altitude_m": 20.276453247158084,
+    "forward_speed_m_s": 13.230558311060955,
+    "vertical_speed_m_s": -2.0748534726537438,
+    "wave_elevation_m": -0.013018335842095082,
+    "wave_rate_m_s": -0.04554529288385373,
+    "wave_preview_m": [
+      -0.04082465882069858,
+      -0.04180126171706944,
+      0.013997170044400991
+    ],
+    "keel_clearance_m": 19.989471583000178,
+    "water_mass_kg": 0.0,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": -2.3091794793811133,
+    "lateral_speed_m_s": -1.9761922343537917,
+    "bank_deg": -6.0760189336724855,
+    "heading_deg": -21.012395555496077,
+    "wind_m_s": [
+      0.9412649135904315,
+      3.5528965169271696,
+      -0.627653470649933
+    ],
+    "airspeed_m_s": 13.553300058452704,
+    "density_kg_m3": 1.2220812878943002
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/spatial_connected_rl_002",
+  "timing": "synchronous: simulation pauses during inference"
+}

@@ -348,3 +348,18 @@ veh.send_command(MAV_CMD_DO_SET_SERVO, {"servo": 2, "pwm": 1700})
 - `fly_ollama.py` — Phi パイロットランナー（MAVLink 経由）
 - マニュアル本体 — `MANUAL.md` 第 6 章
 - 監査報告 — `AUDIT.md`
+
+
+## 空間モードの追加API
+
+`FlyingBoatVehicle(..., spatial=True, atmosphere=AtmosphereConfig(...), seed=42)` で有効化。
+サーボ3＝バンク（1000–2000 µs → -45〜45°）、4＝ラダー（-1〜1）を追加。
+直接RL行動は4次元で、従来2次元との混用を拒否します。
+WAYPOINTの `x`/`y` はローカル北／東位置（m）、`heading` は北0°・東90°です。
+`MAV_CMD_CONDITION_YAW` は `heading` で絶対方位を指定します。
+
+`read_telemetry()` は従来通り `(hil, global_position, snapshot)` を返します。
+`read_attitude()` はATTITUDE相当を返し、reset直後はNoneです。
+内部zは上向き、HIL/GLOBAL_POSITION相当のvzは下向き。経度はyから算出します。
+HILの速度・加速度は模擬APIのSI値で、MAVLinkのシリアライズ／単位変換を実装したものではありません。
+学習環境と共通の空間積分器を使い、機体側の損傷・推力停止を適用します。

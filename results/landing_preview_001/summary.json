@@ -1,0 +1,39 @@
+{
+  "study": "landing preview features + BC from wave-aware flare",
+  "training": {
+    "tag": "landing_preview",
+    "episodes": 400,
+    "seed_per_episode": true,
+    "bc_episodes": 24
+  },
+  "eval": {
+    "landing_preview_policy.npz": {
+      "heldout10": "8/10",
+      "train_seeds_1_10": "9/10"
+    },
+    "landing_preview_best_policy.npz": {
+      "heldout10": "10/10",
+      "train_seeds_1_10": "10/10",
+      "heldout50": "47/50"
+    },
+    "teacher": {
+      "heldout10": "5/10"
+    }
+  },
+  "sea_state_10seeds_Tp4_6_8": {
+    "Hs0.3": "10/10 10/10 10/10",
+    "Hs0.8": "10/10 10/10 10/10",
+    "Hs1.5": "9/10 8/10 10/10",
+    "Hs2.0": "5/10 9/10 9/10",
+    "Hs2.5": "4/10 5/10 9/10"
+  },
+  "mavlink_damage_Hs1.5_Tp6_n10": "50%",
+  "takeoff_preview": {
+    "episodes": 400,
+    "seed_per_episode": true,
+    "final_heldout10": "0/10",
+    "best_heldout10": "7/10",
+    "note": "windowed success collapsed after ep ~70; 8-dim takeoff_best no longer loads"
+  },
+  "teacher_train_seeds_0_9": "6/10 (pre-run)"
+}

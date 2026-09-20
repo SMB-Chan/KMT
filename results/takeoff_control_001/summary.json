@@ -1,0 +1,33 @@
+{
+  "study": "native vs existing RL+lateral-assist takeoff on 10 new spatial conditions",
+  "conditions": {
+    "seeds": [9500, 9501, 9502, 9503, 9504],
+    "wind_y_m_s": [-3, 3],
+    "Hs": 0.3,
+    "Tp": 6,
+    "gust_rms": 0.5,
+    "duration_s": 15
+  },
+  "results": {
+    "native": "0/10",
+    "rl_with_lateral_feedback": "0/10",
+    "status": "all time_limit"
+  },
+  "representative_force_budget_last_3s": {
+    "seed": 9500,
+    "wind_y_m_s": -3,
+    "controller": "native",
+    "thrust_x_N": 441.08,
+    "aerodynamic_x_N": -28.60,
+    "water_x_N": -411.70,
+    "net_x_N": 0.78,
+    "mean_ax_m_s2": 0.00976
+  },
+  "finding": "delivered thrust ~441 N is balanced by aero+hydro ~440 N; acceleration stalls. Failed pitch-schedule candidates not adopted.",
+  "kept": [
+    "force_budget logging",
+    "takeoff_diagnostics / low_speed_plateau",
+    "validation.json, trajectories, audit.json"
+  ],
+  "not_adopted": "12 searched pitch schedules; no takeoff_setpoint change"
+}

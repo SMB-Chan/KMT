@@ -1,0 +1,26 @@
+/home/intel/.config/matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /tmp/matplotlib-d34ythyh because there was an issue with the default path (/home/intel/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+[takeoff] ep    0 | rew  +269.5 | sm  +269.5 | succ   0.0% | pol +0.000 v 320.648 H -0.162 | 0.1s
+[takeoff] ep   40 | rew  +188.8 | sm  +289.3 | succ  63.3% | pol -0.000 v 149.773 H -0.162 | 4.0s
+[takeoff] ep   80 | rew  +361.5 | sm  +293.9 | succ  63.3% | pol +0.000 v 603.481 H -0.162 | 7.9s
+[takeoff] ep  120 | rew  +328.1 | sm  +287.4 | succ  60.0% | pol +0.000 v 564.178 H -0.162 | 11.8s
+[takeoff] ep  160 | rew  +348.9 | sm  +284.7 | succ  40.0% | pol +0.000 v 591.011 H -0.162 | 15.8s
+[takeoff] ep  200 | rew  +110.4 | sm  +300.2 | succ  50.0% | pol +0.000 v 39.375 H -0.162 | 19.8s
+[takeoff] ep  240 | rew  +338.6 | sm  +314.2 | succ  36.7% | pol +0.000 v 577.842 H -0.162 | 23.9s
+[takeoff] ep  280 | rew  +254.9 | sm  +258.1 | succ  16.7% | pol -0.000 v 265.882 H -0.161 | 28.0s
+[takeoff] ep  320 | rew  +267.5 | sm  +258.3 | succ  10.0% | pol -0.000 v 260.728 H -0.161 | 32.1s
+[takeoff] ep  360 | rew  +235.5 | sm  +254.2 | succ   6.7% | pol -0.000 v 231.707 H -0.161 | 36.2s
+[takeoff] ep  399 | rew  +107.6 | sm  +235.2 | succ   3.3% | pol -0.000 v 38.783 H -0.161 | 40.3s
+takeoff selected baseline test {'baseline': 38, 'selected': 38}
+[landing] ep    0 | rew    -2.9 | sm    -2.9 | succ 100.0% | pol -0.000 v 311.742 H -0.160 | 0.1s
+[landing] ep   40 | rew   +22.5 | sm    -6.3 | succ  93.3% | pol -0.000 v 445.683 H -0.160 | 5.3s
+[landing] ep   80 | rew    -7.6 | sm    -7.4 | succ  93.3% | pol -0.000 v 280.514 H -0.159 | 10.5s
+[landing] ep  120 | rew    +5.5 | sm   -11.1 | succ  90.0% | pol -0.000 v 342.878 H -0.158 | 15.7s
+[landing] ep  160 | rew   +34.2 | sm   +14.2 | succ 100.0% | pol -0.000 v 516.360 H -0.157 | 20.8s
+[landing] ep  200 | rew   +11.8 | sm    +0.4 | succ  96.7% | pol -0.000 v 391.056 H -0.157 | 26.0s
+[landing] ep  240 | rew   +22.0 | sm   -10.8 | succ  90.0% | pol -0.000 v 445.018 H -0.157 | 31.1s
+[landing] ep  280 | rew    -0.5 | sm    +2.8 | succ  96.7% | pol -0.000 v 330.637 H -0.156 | 36.2s
+[landing] ep  320 | rew    +0.4 | sm    +2.7 | succ  96.7% | pol -0.000 v 310.985 H -0.156 | 41.3s
+[landing] ep  360 | rew   +17.9 | sm    +5.0 | succ  96.7% | pol -0.000 v 444.770 H -0.156 | 46.4s
+[landing] ep  399 | rew    +4.6 | sm   -27.7 | succ  83.3% | pol -0.000 v 337.283 H -0.155 | 51.4s
+landing selected final test {'baseline': 46, 'selected': 47}

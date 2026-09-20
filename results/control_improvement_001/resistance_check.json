@@ -1,0 +1,47 @@
+[
+  {
+    "speed": 1,
+    "hull_resistance_N": 40.01909846333484,
+    "thrust_N": 449.603763767453
+  },
+  {
+    "speed": 2,
+    "hull_resistance_N": 241.04466477332488,
+    "thrust_N": 447.13065324909314
+  },
+  {
+    "speed": 2.5,
+    "hull_resistance_N": 380.21226124959776,
+    "thrust_N": 445.2758203603233
+  },
+  {
+    "speed": 3,
+    "hull_resistance_N": 458.230860168298,
+    "thrust_N": 443.00880238516
+  },
+  {
+    "speed": 3.5,
+    "hull_resistance_N": 175.01861191993618,
+    "thrust_N": 440.32959932360353
+  },
+  {
+    "speed": 4,
+    "hull_resistance_N": 149.0976830194728,
+    "thrust_N": 437.2382111756537
+  },
+  {
+    "speed": 5,
+    "hull_resistance_N": 192.3273008787332,
+    "thrust_N": 429.81887962057414
+  },
+  {
+    "speed": 6,
+    "hull_resistance_N": 272.2937891164609,
+    "thrust_N": 420.75080771992134
+  },
+  {
+    "speed": 7,
+    "hull_resistance_N": 366.413394358112,
+    "thrust_N": 410.03399547369526
+  }
+]

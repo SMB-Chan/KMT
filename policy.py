@@ -283,6 +283,38 @@ class ActorCritic:
                 "entropy":  float(ent),
                 "loss":     float(loss)}
 
+    def imitate(self, states, actions, lr=3e-4, clip_grad: float = 5.0):
+        """Behavioural cloning: MSE of actor mean vs teacher actions."""
+        states = np.asarray(states, dtype=np.float32)
+        actions = np.asarray(actions, dtype=np.float32)
+        if states.ndim != 2 or actions.shape != (states.shape[0], self.action_dim):
+            raise ValueError("states/actions shape mismatch")
+        h, h_last, mean, _value = self._body_forward(states)
+        raw = np.clip((actions - self.action_mid) / self.action_range,
+                      -1.0 + 1e-6, 1.0 - 1e-6)
+        u_tgt = np.arctanh(raw).astype(np.float32)
+        err = mean - u_tgt
+        d_mean = (2.0 * err / max(err.size, 1)).astype(np.float32)
+        d_actor_W = h_last.T @ d_mean
+        d_actor_b = d_mean.sum(axis=0)
+        d_h = d_mean @ self.actor_head_W.T
+        body_grads = self.body.backward(h, [z for z in h[1:]], d_h)
+        gradients = [g[k] for g in body_grads for k in ("W", "b")]
+        gradients += [d_actor_W, d_actor_b]
+        norm = math.sqrt(sum(float(np.sum(g.astype(np.float64) ** 2))
+                             for g in gradients))
+        if not math.isfinite(norm):
+            raise FloatingPointError("nonfinite bc gradient")
+        if norm > clip_grad:
+            for g in gradients:
+                g *= clip_grad / (norm + 1e-12)
+        for layer, g in zip(self.body.params, body_grads):
+            layer["W"] -= lr * g["W"]
+            layer["b"] -= lr * g["b"]
+        self.actor_head_W -= lr * d_actor_W
+        self.actor_head_b -= lr * d_actor_b
+        return {"bc_loss": float((err ** 2).mean())}
+
     # -------- state-dict --------
     def save(self, path: str):
         np.savez(path,
@@ -297,13 +329,28 @@ class ActorCritic:
                  log_std=self.log_std)
 
     def load(self, path: str):
-        z = np.load(path)
-        self.body.params[0]["W"] = z["body_W0"]
-        self.body.params[0]["b"] = z["body_b0"]
-        self.body.params[1]["W"] = z["body_W1"]
-        self.body.params[1]["b"] = z["body_b1"]
-        self.actor_head_W  = z["actor_head_W"]
-        self.actor_head_b  = z["actor_head_b"]
-        self.critic_head_W = z["critic_head_W"]
-        self.critic_head_b = z["critic_head_b"]
-        self.log_std       = z["log_std"]
+        expected = {
+            **{f"body_{key}{i}": layer[key]
+               for i, layer in enumerate(self.body.params) for key in ("W", "b")},
+            **{key: getattr(self, key) for key in (
+                "actor_head_W", "actor_head_b", "critic_head_W",
+                "critic_head_b", "log_std")},
+        }
+        # Validate the complete checkpoint before changing the live policy.
+        loaded = {}
+        with np.load(path, allow_pickle=False) as checkpoint:
+            for key, current in expected.items():
+                if key not in checkpoint:
+                    raise ValueError(f"policy checkpoint missing {key}")
+                value = checkpoint[key]
+                if value.shape != current.shape:
+                    raise ValueError(f"policy checkpoint shape mismatch: {key}")
+                if value.dtype.kind != "f" or not np.isfinite(value).all():
+                    raise ValueError(f"policy checkpoint invalid values: {key}")
+                loaded[key] = value.copy()
+        for i, layer in enumerate(self.body.params):
+            for key in ("W", "b"):
+                layer[key] = loaded[f"body_{key}{i}"]
+        for key in ("actor_head_W", "actor_head_b", "critic_head_W",
+                    "critic_head_b", "log_std"):
+            setattr(self, key, loaded[key])

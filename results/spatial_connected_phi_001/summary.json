@@ -1,0 +1,41 @@
+{
+  "status": "time_limit",
+  "error": null,
+  "model": "phi3.5:latest",
+  "decisions": 3,
+  "fallback_decisions": 0,
+  "physics_steps": 60,
+  "simulation_seconds": 2.9999999999999973,
+  "wall_seconds": 56.0777416619967,
+  "final_observation": {
+    "t": 2.9999999999999973,
+    "x_m": 49.160485338465385,
+    "altitude_m": 22.778284534260035,
+    "forward_speed_m_s": 18.70100505952869,
+    "vertical_speed_m_s": -1.1833191798522675,
+    "wave_elevation_m": -0.02909041375647617,
+    "wave_rate_m_s": -0.10130895391755948,
+    "wave_preview_m": [
+      -0.007199261885135384,
+      0.05948385118845751,
+      0.02041582978945263
+    ],
+    "keel_clearance_m": 22.50737494801651,
+    "water_mass_kg": 0.0,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": 1.432964803827988,
+    "lateral_speed_m_s": 0.985862309167434,
+    "bank_deg": 0.0,
+    "heading_deg": 0.0,
+    "wind_m_s": [
+      0.9412649135904315,
+      3.5528965169271696,
+      -0.627653470649933
+    ],
+    "airspeed_m_s": 17.952905031092964,
+    "density_kg_m3": 1.2217216418598864
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/spatial_connected_phi_001",
+  "timing": "synchronous: simulation pauses during inference"
+}

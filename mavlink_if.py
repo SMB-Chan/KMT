@@ -33,10 +33,11 @@ from dataclasses import dataclass, field, replace
 from typing import Any
 import numpy as np
 
+from atmosphere import Atmosphere, AtmosphereConfig
 from aircraft import Aircraft, RHO, RHO_W, G
 from ocean    import Ocean
 from ocean_real import RealOcean
-from ocean_directional import DirectionalOcean, sea_eta_1d
+from ocean_directional import DirectionalOcean, sea_eta_1d, wave_preview
 from dynamics import HullContact, HullDrag, hull_force
 from damage import (SprayModel, IngressModel, DamageState,
                     update_damage, effective_thrust_factor,
@@ -91,7 +92,8 @@ class LowLevelController:
 
         Landing controller:
             glide_slope_rad drives descent; as the aircraft nears the
-            surface, throttle is reduced and pitch is held at -5 deg.
+            surface, throttle is reduced and pitch flares. Optional
+            wave_preview delays the dive onto an upcoming crest.
     """
 
     def __init__(self,
@@ -141,20 +143,22 @@ class LowLevelController:
 
     def landing_setpoint(self, state, target_alt: float, glide_slope: float):
         z, Vx, Vz = state["z"], state["Vx"], state["Vz"]
-        # We aim to track the glide slope: gamma = -glide_slope (descending)
-        # If we're above the line, descend faster; below, level off.
-        # Use target_alt (touchdown altitude) as the reference.
         e_alt = z - max(target_alt, 0.0)
-        # If we are high, lower pitch (more nose-down) to descend
+        preview = state.get("wave_preview")
+        eta = state.get("eta")
+        crest_ahead = False
+        if preview is not None and eta is not None:
+            eta_ahead = float(np.atleast_1d(preview)[0])
+            crest_ahead = eta_ahead > float(eta) + 0.15
         if e_alt > 1.0:
-            # Aim for 4 degrees nose-down when high
-            target_pitch = math.radians(-5.0)
+            target_pitch = math.radians(-2.0 if crest_ahead else -5.0)
             throttle = 0.10
         else:
-            # Flare: pitch up to slow descent
             flare_factor = math.exp(-e_alt / 1.5)
             target_pitch = (math.radians(-5.0) * (1 - flare_factor)
                             + math.radians(2.0) * flare_factor)
+            if crest_ahead:
+                target_pitch = max(target_pitch, math.radians(4.0))
             throttle = 0.05
         target_pitch = float(np.clip(target_pitch, self.pitch_lo, self.pitch_hi))
         throttle = float(np.clip(throttle, self.throttle_min, self.throttle_max))
@@ -201,7 +205,13 @@ class FlyingBoatVehicle:
     MSG_ATTITUDE              = 30
 
     def __init__(self, aircraft: Aircraft, sea,
-                 origin_lat: float = 36.0, origin_lon: float = -122.0):
+                 origin_lat: float = 36.0, origin_lon: float = -122.0,
+                 *, spatial: bool = False, atmosphere=None, seed: int = 42):
+        self.spatial = spatial
+        self.atmosphere_config = atmosphere or AtmosphereConfig()
+        if not spatial and self.atmosphere_config != AtmosphereConfig():
+            raise ValueError("atmosphere requires spatial=True")
+        self._wind_seed = seed
         self.ac = aircraft
         self.sea = sea
         self.origin_lat = origin_lat
@@ -211,8 +221,7 @@ class FlyingBoatVehicle:
         self.hull = HullContact()
         self.hd = HullDrag(Bwl=aircraft.geom.Bwl, Lwl=aircraft.geom.Lwl)
         # Damage models
-        self.spray = SprayModel(prop_z_offset=0.30,
-                                D_prop=aircraft.prop.D_prop)
+        self.spray = SprayModel(D_prop=aircraft.prop.D_prop)
         self.ingress = IngressModel()
         self.damage = DamageState()
         # MAVLink command queue (last command wins)
@@ -232,6 +241,14 @@ class FlyingBoatVehicle:
                 raise TypeError("seeded reset requires Ocean, RealOcean, or DirectionalOcean")
             self.sea = replace(self.sea, seed=seed)
         # Reset dynamics state
+        self.y = self.Vy = self.bank = self.heading = 0.0
+        self.bank_command = self.rudder_command = 0.0
+        self.rollspeed = self.yawspeed = self.pitchspeed = 0.0
+        self._last_pitch = 0.0
+        self._attitude = None
+        if seed is not None:
+            self._wind_seed = seed
+        self.atmosphere = Atmosphere(self.atmosphere_config, self._wind_seed)
         self.x = 0.0
         eta0 = float(sea_eta_1d(self.sea, np.array([0.0]), 0.0)[0])
         self.z = eta0 + self.hull.h_keel - self.ac.W / (RHO_W * G * self.hull.A_wp)
@@ -260,6 +277,38 @@ class FlyingBoatVehicle:
         self._mode = "STANDBY"
         self.throttle = 0.0
 
+    def wave_elevation(self, x=None, y=None, t=None):
+        x = self.x if x is None else x
+        y = self.y if y is None else y
+        t = self.t if t is None else t
+        if self.spatial and isinstance(self.sea, DirectionalOcean):
+            return float(self.sea.eta([x], [y], t)[0, 0])
+        return float(sea_eta_1d(self.sea, np.array([x]), t)[0])
+
+    def wave_preview(self):
+        if not self.spatial:
+            return wave_preview(self.sea, self.x, self.t, self.Vx)
+        speed = max(math.hypot(self.Vx, self.Vy), 1.0)
+        track = math.atan2(self.Vy, self.Vx)
+        return np.array([self.wave_elevation(
+            self.x + dx * math.cos(track), self.y + dx * math.sin(track),
+            self.t + dx / speed) for dx in (5., 15., 30.)])
+
+    def lateral_setpoint(self, target_y=0.0, target_heading=0.0):
+        """Track a northbound corridor with lateral velocity damping."""
+        desired_vy = float(np.clip(0.4 * (target_y - self.y), -3, 3))
+        bank = float(np.clip(0.12 * (desired_vy - self.Vy),
+                             -math.radians(25), math.radians(25)))
+        error = math.atan2(math.sin(target_heading - self.heading),
+                           math.cos(target_heading - self.heading))
+        rudder = float(np.clip(1.5 * error, -1, 1))
+        return bank, rudder
+
+    def lateral_success(self):
+        return (not self.spatial or
+                (abs(self.y) < 10 and abs(self.Vy) < 1.5
+                 and abs(self.bank) < math.radians(10)))
+
     # ----- MAVLink command interface -----
     def send_command(self, cmd: int, params: dict | None = None):
         """Enqueue a MAV_CMD.  Last command is the active one."""
@@ -273,8 +322,19 @@ class FlyingBoatVehicle:
                 raise ValueError("speed must be finite and positive")
             self._cmd_params = dict(self._cmd_params or {}, speed=speed)
             return
+        if cmd == MAV_CMD_CONDITION_YAW and self.spatial:
+            heading = float(params['heading'])
+            if not math.isfinite(heading):
+                raise ValueError('heading must be finite')
+            self._cmd_params = dict(self._cmd_params or {}, heading=heading)
+            if self._active_cmd not in (MAV_CMD_NAV_TAKEOFF, MAV_CMD_NAV_LAND, MAV_CMD_NAV_WAYPOINT):
+                self._active_cmd = MAV_CMD_NAV_WAYPOINT
+            return
         if cmd not in (MAV_CMD_NAV_TAKEOFF, MAV_CMD_NAV_LAND, MAV_CMD_NAV_WAYPOINT):
             raise ValueError(f"unsupported command: {cmd}")
+        for key in ("alt", "speed", "glide", "x", "y", "heading"):
+            if key in params and not math.isfinite(float(params[key])):
+                raise ValueError(f"{key} must be finite")
         self._cmd_queue.append((cmd, params))
         self._active_cmd = cmd
         self._cmd_params = params
@@ -286,7 +346,7 @@ class FlyingBoatVehicle:
 
     def send_servo(self, servo: int, pwm: int):
         """Direct actuator command (MAV_CMD_DO_SET_SERVO)."""
-        if servo not in (1, 2) or not math.isfinite(pwm):
+        if servo not in ((1, 2, 3, 4) if self.spatial else (1, 2)) or not math.isfinite(pwm):
             raise ValueError("invalid servo or PWM")
         self._active_cmd = MAV_CMD_DO_SET_SERVO
         self._cmd_params = None
@@ -298,6 +358,11 @@ class FlyingBoatVehicle:
             self.alpha = np.clip((pwm - 1500) / 500.0 * math.radians(15.0),
                                  math.radians(-15.0), math.radians(15.0))
 
+        elif servo == 3:
+            self.bank_command = float(np.clip((pwm - 1500) / 500, -1, 1)) * math.radians(45)
+        elif servo == 4:
+            self.rudder_command = float(np.clip((pwm - 1500) / 500, -1, 1))
+
     # ----- one inner loop step -----
     def step(self, dt: float | None = None, action=None):
         dt = self.dt if dt is None else dt
@@ -305,8 +370,9 @@ class FlyingBoatVehicle:
             raise ValueError("dt must be finite and positive")
         if action is not None:
             action = np.asarray(action)
-            if action.shape != (2,) or not np.isfinite(action).all():
-                raise ValueError("action must have shape (2,) and be finite")
+            expected = (4,) if self.spatial else (2,)
+            if action.shape != expected or not np.isfinite(action).all():
+                raise ValueError(f"action must have shape {expected} and be finite")
         # 1) Translate active command into low-level setpoints
         if self._armed:
             if self._active_cmd == MAV_CMD_NAV_TAKEOFF:
@@ -320,8 +386,11 @@ class FlyingBoatVehicle:
                 p = self._cmd_params or {}
                 tgt_alt = float(p.get("alt", 0.0))
                 glide = float(p.get("glide", 8.0))
+                eta = self.wave_elevation()
+                preview = self.wave_preview()
                 self.alpha, self.throttle = self.ctl.landing_setpoint(
-                    {"z": self.z, "Vx": self.Vx, "Vz": self.Vz},
+                    {"z": self.z, "Vx": self.Vx, "Vz": self.Vz,
+                     "eta": eta, "wave_preview": preview},
                     tgt_alt, math.radians(glide))
             elif self._active_cmd == MAV_CMD_NAV_WAYPOINT:
                 # Simple loiter: hold current altitude with light throttle
@@ -335,22 +404,34 @@ class FlyingBoatVehicle:
                 # Hold current setpoints
                 pass
 
+        if self.spatial and self._armed and self._active_cmd in (
+                MAV_CMD_NAV_TAKEOFF, MAV_CMD_NAV_LAND, MAV_CMD_NAV_WAYPOINT):
+            p = self._cmd_params or {}
+            target_heading = math.radians(float(p.get('heading', 0.0)))
+            if self._active_cmd == MAV_CMD_NAV_WAYPOINT and 'x' in p and 'heading' not in p:
+                target_heading = math.atan2(float(p.get('y', 0)) - self.y,
+                                            float(p['x']) - self.x)
+            self.bank_command, self.rudder_command = self.lateral_setpoint(
+                float(p.get('y', 0.0)), target_heading)
         if action is not None and self._armed:
             self.throttle = float(np.clip(action[0], 0.0, 1.0))
             # RL action envelope [-8, 12] deg, shared with EnvConfig
             self.alpha = math.radians(2.0 + 10.0 * float(np.clip(action[1], -1, 1)))
+            if self.spatial:
+                self.bank_command = float(np.clip(action[2], -1, 1)) * math.radians(45)
+                self.rudder_command = float(np.clip(action[3], -1, 1))
         if not self._armed:
             self.throttle = 0.0
 
         # 2) Integrate dynamics
-        eta = float(sea_eta_1d(self.sea, np.array([self.x]), self.t)[0])
-        eta_next = float(sea_eta_1d(self.sea, np.array([self.x]), self.t + dt)[0])
+        eta = self.wave_elevation()
+        eta_next = self.wave_elevation(t=self.t + dt)
         Veta = (eta_next - eta) / dt
         V = math.hypot(self.Vx, self.Vz)
 
         # ---- Damage update ----
         self.damage = update_damage(self.damage, dt,
-                                    self.z, self.Vx, eta, Veta,
+                                    self.z, math.hypot(self.Vx, self.Vy) if self.spatial else self.Vx, eta, Veta,
                                     self.hull.h_keel,
                                     self.spray, self.ingress)
         if self.damage.failed:
@@ -364,6 +445,9 @@ class FlyingBoatVehicle:
                                            self.z, eta, Veta)
         T_i = self.ac.prop.thrust(V, self.throttle) * T_factor
         extra_mass = effective_mass_increase(self.damage, self.ingress)
+        if self.spatial:
+            self._step_spatial(dt, T_factor, extra_mass)
+            return
         W_eff = (self.ac.mass.total + extra_mass) * G
         q = 0.5 * RHO * V ** 2
         gamma = math.atan2(self.Vz, self.Vx)
@@ -394,10 +478,32 @@ class FlyingBoatVehicle:
         self._emit_telemetry(eta, T_i, L_i, D_i, wf.N,
                              T_factor, extra_mass, a_x, a_z)
 
+    def _step_spatial(self, dt, thrust_factor, extra_mass):
+        from spatial_dynamics import integrate
+        old = np.array([self.x, self.y, self.z, self.Vx, self.Vy, self.Vz,
+                        self.bank, self.heading])
+        state, forces = integrate(
+            self.ac, self.hull, self.hd, self.atmosphere,
+            lambda x, y, t: self.wave_elevation(x, y, t), old,
+            dt=dt, t=self.t, pitch=self.alpha, throttle=self.throttle,
+            bank_command=self.bank_command, rudder_command=self.rudder_command,
+            extra_mass=extra_mass, thrust_factor=thrust_factor)
+        self.x, self.y, self.z, self.Vx, self.Vy, self.Vz, self.bank, self.heading = state
+        self.rollspeed = (self.bank - old[6]) / dt
+        self.yawspeed = math.atan2(math.sin(self.heading - old[7]),
+                                   math.cos(self.heading - old[7])) / dt
+        self.pitchspeed = (self.alpha - self._last_pitch) / dt
+        self._last_pitch = self.alpha
+        self.t += dt
+        acceleration = (state[3:6] - old[3:6]) / dt
+        self._emit_telemetry(self.wave_elevation(), forces['T'], forces['L'],
+                             forces['D'], forces['N_water'], thrust_factor,
+                             extra_mass, acceleration[0], acceleration[2], acceleration[1], forces["force_budget"])
+
     # ----- telemetry -----
     def _emit_telemetry(self, eta, T, L, D, N_water,
                         T_factor=1.0, extra_mass=0.0,
-                        a_x=0.0, a_z=0.0):
+                        a_x=0.0, a_z=0.0, a_y=0.0, force_budget=None):
         # Snapshot state at the moment of telemetry emission.
         snap = dict(x=self.x, z=self.z, Vx=self.Vx, Vz=self.Vz,
                     alpha=self.alpha, throttle=self.throttle,
@@ -407,11 +513,23 @@ class FlyingBoatVehicle:
                     water_mass=self.damage.water_mass,
                     spray_severity=self.damage.cumulative_spray,
                     sling_events=self.damage.cumulative_sling_events,
+                    prop_clearance_m=self.spray.prop_top_clearance(self.z, eta),
+                    prop_bottom_clearance_m=(self.z + self.spray.prop_z_offset
+                                             - self.spray.D_prop / 2.0 - eta),
                     damage_status="OK" if not self.damage.failed else
                                   self.damage.failure_reason)
+        wind = self.atmosphere.wind(self.t) if self.spatial else np.zeros(3)
+        airspeed = float(np.linalg.norm(np.array([self.Vx, self.Vy, self.Vz]) - wind))
+        snap.update(t=self.t, y=self.y, Vy=self.Vy, bank=self.bank, heading=self.heading,
+                    rollspeed=self.rollspeed, yawspeed=self.yawspeed,
+                    bank_command=self.bank_command, rudder=self.rudder_command,
+                    wind=wind.tolist(), airspeed=airspeed,
+                    density=self.atmosphere.density(self.z) if self.spatial else RHO)
+        if force_budget is not None:
+            snap["force_budget"] = dict(force_budget)
         # Convert local NED position to lat/lon (simple linear mapping)
         lat = self.origin_lat + self.x / 111000.0
-        lon = self.origin_lon + self.x / (111000.0 * math.cos(math.radians(self.origin_lat)))
+        lon = self.origin_lon + self.y / (111000.0 * math.cos(math.radians(self.origin_lat)))
         alt_mm = int(self.z * 1000.0)
         vx = self.Vx
         vz = self.Vz
@@ -420,23 +538,30 @@ class FlyingBoatVehicle:
         hil = MAVLinkMessage(
             self.MSG_HIL_STATE, "HIL_STATE",
             dict(timestamp_us=int(self.t * 1e6),
-                 roll=0.0, pitch=self.alpha, yaw=0.0,
-                 rollspeed=0.0, pitchspeed=0.0,
-                 yawspeed=0.0,
+                 roll=self.bank, pitch=self.alpha, yaw=self.heading,
+                 rollspeed=self.rollspeed, pitchspeed=self.pitchspeed,
+                 yawspeed=self.yawspeed,
                  lat=int(lat * 1e7), lon=int(lon * 1e7),
-                 alt=alt_mm, vx=vx, vy=0.0, vz=vz,
-                 ind_airspeed=vx,
-                 true_airspeed=vx,
-                 xacc=a_x, yacc=0.0, zacc=a_z - 9.81))
+                 alt=alt_mm, vx=vx, vy=self.Vy, vz=-vz,
+                 ind_airspeed=airspeed * math.sqrt(snap["density"] / RHO),
+                 true_airspeed=airspeed,
+                 xacc=a_x, yacc=a_y, zacc=a_z - 9.81))
         # GLOBAL_POSITION_INT
         gpi = MAVLinkMessage(
             self.MSG_GLOBAL_POSITION_INT, "GLOBAL_POSITION_INT",
             dict(time_boot_ms=int(self.t * 1000),
                  lat=int(lat * 1e7), lon=int(lon * 1e7),
                  alt=alt_mm, relative_alt=alt_mm,
-                 vx=int(vx * 100), vy=0, vz=int(vz * 100),
-                 hdg=0))
+                 vx=int(vx * 100), vy=int(self.Vy * 100), vz=int(-vz * 100),
+                 hdg=int(math.degrees(self.heading) % 360 * 100)))
+        self._attitude = MAVLinkMessage(self.MSG_ATTITUDE, "ATTITUDE",
+            dict(time_boot_ms=int(self.t * 1000), roll=self.bank, pitch=self.alpha,
+                 yaw=self.heading, rollspeed=self.rollspeed,
+                 pitchspeed=self.pitchspeed, yawspeed=self.yawspeed))
         self._msg_log.append((self.t, hil, gpi, snap))
+
+    def read_attitude(self):
+        return self._attitude
 
     def read_telemetry(self):
         if not self._msg_log:

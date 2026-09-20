@@ -1,0 +1,159 @@
+Local model: takeoff_policy.npz
+t=0.00 policy: throttle=0.990 pitch=3.61
+t=0.05 policy: throttle=0.990 pitch=3.85
+t=0.10 policy: throttle=0.990 pitch=3.89
+t=0.15 policy: throttle=0.991 pitch=3.84
+t=0.20 policy: throttle=0.991 pitch=3.84
+t=0.25 policy: throttle=0.991 pitch=3.80
+t=0.30 policy: throttle=0.991 pitch=3.78
+t=0.35 policy: throttle=0.991 pitch=3.78
+t=0.40 policy: throttle=0.991 pitch=3.78
+t=0.45 policy: throttle=0.991 pitch=3.80
+t=0.50 policy: throttle=0.991 pitch=3.83
+t=0.55 policy: throttle=0.991 pitch=3.86
+t=0.60 policy: throttle=0.991 pitch=3.88
+t=0.65 policy: throttle=0.991 pitch=3.90
+t=0.70 policy: throttle=0.991 pitch=3.91
+t=0.75 policy: throttle=0.991 pitch=3.92
+t=0.80 policy: throttle=0.991 pitch=3.93
+t=0.85 policy: throttle=0.991 pitch=3.94
+t=0.90 policy: throttle=0.991 pitch=3.95
+t=0.95 policy: throttle=0.991 pitch=3.95
+t=1.00 policy: throttle=0.991 pitch=3.96
+t=1.05 policy: throttle=0.991 pitch=3.96
+t=1.10 policy: throttle=0.991 pitch=3.97
+t=1.15 policy: throttle=0.991 pitch=3.97
+t=1.20 policy: throttle=0.991 pitch=3.97
+t=1.25 policy: throttle=0.991 pitch=3.98
+t=1.30 policy: throttle=0.991 pitch=3.98
+t=1.35 policy: throttle=0.991 pitch=3.98
+t=1.40 policy: throttle=0.991 pitch=3.98
+t=1.45 policy: throttle=0.991 pitch=3.97
+t=1.50 policy: throttle=0.991 pitch=3.97
+t=1.55 policy: throttle=0.991 pitch=3.96
+t=1.60 policy: throttle=0.991 pitch=3.96
+t=1.65 policy: throttle=0.991 pitch=3.96
+t=1.70 policy: throttle=0.991 pitch=3.96
+t=1.75 policy: throttle=0.991 pitch=3.95
+t=1.80 policy: throttle=0.991 pitch=3.95
+t=1.85 policy: throttle=0.991 pitch=3.95
+t=1.90 policy: throttle=0.991 pitch=3.95
+t=1.95 policy: throttle=0.991 pitch=3.95
+t=2.00 policy: throttle=0.991 pitch=3.96
+t=2.05 policy: throttle=0.991 pitch=3.96
+t=2.10 policy: throttle=0.991 pitch=3.97
+t=2.15 policy: throttle=0.991 pitch=3.98
+t=2.20 policy: throttle=0.991 pitch=4.00
+t=2.25 policy: throttle=0.991 pitch=4.02
+t=2.30 policy: throttle=0.991 pitch=4.03
+t=2.35 policy: throttle=0.991 pitch=4.04
+t=2.40 policy: throttle=0.991 pitch=4.05
+t=2.45 policy: throttle=0.991 pitch=4.07
+t=2.50 policy: throttle=0.991 pitch=4.08
+t=2.55 policy: throttle=0.991 pitch=4.09
+t=2.60 policy: throttle=0.991 pitch=4.10
+t=2.65 policy: throttle=0.991 pitch=4.11
+t=2.70 policy: throttle=0.991 pitch=4.12
+t=2.75 policy: throttle=0.991 pitch=4.13
+t=2.80 policy: throttle=0.991 pitch=4.13
+t=2.85 policy: throttle=0.991 pitch=4.14
+t=2.90 policy: throttle=0.991 pitch=4.14
+t=2.95 policy: throttle=0.991 pitch=4.14
+t=3.00 policy: throttle=0.991 pitch=4.14
+t=3.05 policy: throttle=0.991 pitch=4.15
+t=3.10 policy: throttle=0.991 pitch=4.14
+t=3.15 policy: throttle=0.991 pitch=4.14
+t=3.20 policy: throttle=0.991 pitch=4.14
+t=3.25 policy: throttle=0.991 pitch=4.14
+t=3.30 policy: throttle=0.991 pitch=4.13
+t=3.35 policy: throttle=0.991 pitch=4.13
+t=3.40 policy: throttle=0.991 pitch=4.13
+t=3.45 policy: throttle=0.991 pitch=4.12
+t=3.50 policy: throttle=0.991 pitch=4.12
+t=3.55 policy: throttle=0.991 pitch=4.11
+t=3.60 policy: throttle=0.991 pitch=4.10
+t=3.65 policy: throttle=0.991 pitch=4.10
+t=3.70 policy: throttle=0.991 pitch=4.09
+t=3.75 policy: throttle=0.991 pitch=4.08
+t=3.80 policy: throttle=0.991 pitch=4.07
+t=3.85 policy: throttle=0.991 pitch=4.06
+t=3.90 policy: throttle=0.991 pitch=4.06
+t=3.95 policy: throttle=0.991 pitch=4.05
+t=4.00 policy: throttle=0.991 pitch=4.05
+t=4.05 policy: throttle=0.991 pitch=4.04
+t=4.10 policy: throttle=0.991 pitch=4.04
+t=4.15 policy: throttle=0.991 pitch=4.04
+t=4.20 policy: throttle=0.991 pitch=4.04
+t=4.25 policy: throttle=0.991 pitch=4.04
+t=4.30 policy: throttle=0.991 pitch=4.04
+t=4.35 policy: throttle=0.991 pitch=4.05
+t=4.40 policy: throttle=0.991 pitch=4.05
+t=4.45 policy: throttle=0.991 pitch=4.05
+t=4.50 policy: throttle=0.991 pitch=4.06
+t=4.55 policy: throttle=0.991 pitch=4.06
+t=4.60 policy: throttle=0.991 pitch=4.07
+t=4.65 policy: throttle=0.991 pitch=4.07
+t=4.70 policy: throttle=0.991 pitch=4.07
+t=4.75 policy: throttle=0.991 pitch=4.08
+t=4.80 policy: throttle=0.991 pitch=4.08
+t=4.85 policy: throttle=0.991 pitch=4.08
+t=4.90 policy: throttle=0.991 pitch=4.08
+t=4.95 policy: throttle=0.991 pitch=4.08
+{
+  "status": "time_limit",
+  "error": null,
+  "lateral_assist": true,
+  "model": "takeoff_policy.npz",
+  "decisions": 100,
+  "fallback_decisions": 0,
+  "physics_steps": 100,
+  "simulation_seconds": 4.99999999999999,
+  "wall_seconds": 0.20693028399546165,
+  "final_observation": {
+    "t": 4.99999999999999,
+    "x_m": 12.346825124504091,
+    "altitude_m": 0.3341954869929125,
+    "forward_speed_m_s": 2.57672397261912,
+    "vertical_speed_m_s": 0.0594110106212852,
+    "wave_elevation_m": 0.0670539652836504,
+    "wave_rate_m_s": 0.08974486877726007,
+    "wave_preview_m": [
+      0.06647427149115397,
+      -0.06624414372283927,
+      -0.08010759937597689
+    ],
+    "keel_clearance_m": -0.032858478290737875,
+    "water_mass_kg": 0.12254305868911751,
+    "failed": false,
+    "applied_throttle": 0.0,
+    "lateral_position_m": 1.440060256638122,
+    "lateral_speed_m_s": 0.07272136621000141,
+    "bank_deg": -4.808469392339384,
+    "heading_deg": 0.0,
+    "wind_m_s": [
+      -0.385604368662733,
+      2.447067808227617,
+      0.6018347418818888
+    ],
+    "airspeed_m_s": 3.834988100700976,
+    "density_kg_m3": 1.224951837479569
+  },
+  "output": "/home/intel/\u30c7\u30b9\u30af\u30c8\u30c3\u30d7/HAMA/results/takeoff_diagnostic_run_001",
+  "timing": "synchronous: simulation pauses during inference",
+  "takeoff_diagnostics": {
+    "low_speed_plateau": true,
+    "sufficient_history": true,
+    "window_seconds": 2.9999999999999893,
+    "min_speed_m_s": 2.392466722307434,
+    "max_speed_m_s": 2.868687335041647,
+    "speed_change_m_s": 0.18425725031168572,
+    "mean_force_budget": {
+      "thrust_x_N": 433.088919244471,
+      "aerodynamic_x_N": 19.508711936520108,
+      "water_x_N": -447.6841169885504,
+      "net_x_N": 4.913514192440859,
+      "mean_ax_m_s2": 0.061419083437228565,
+      "total_mass_kg": 80.08635783913583
+    }
+  }
+}

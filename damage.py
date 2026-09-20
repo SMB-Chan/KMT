@@ -50,7 +50,7 @@ class SprayModel:
     critical_clearance : clearance below which spray severity rises
                          sharply (typically 0.5 - 1 m for small props)
     """
-    prop_z_offset:      float = 0.30    # propeller above CG (positive up)
+    prop_z_offset:      float = 0.90    # propeller above CG (positive up)
     D_prop:             float = 0.71    # propeller diameter, m
     critical_clearance: float = 1.5     # m
     # efficiency factor when prop is fully wetted

@@ -1,0 +1,48 @@
+{
+  "config": {
+    "scenario": "landing",
+    "model": "phi3.5:latest",
+    "student": null,
+    "policy": "results/spatial_001/landing_policy.npz",
+    "spatial": true,
+    "directional": true,
+    "theta_mean_deg": 0.0,
+    "wind": [
+      0.0,
+      3.0,
+      0.0
+    ],
+    "gust_rms": 0.5,
+    "render": true,
+    "host": "http://127.0.0.1:11434",
+    "duration": 3.0,
+    "interval": 0.05,
+    "timeout": 60,
+    "dt": 0.05,
+    "hs": 0.3,
+    "tp": 6,
+    "seed": 42,
+    "ndbc": false,
+    "target_alt": 8,
+    "target_speed": 8.5,
+    "output": "results/spatial_connected_rl_001",
+    "check": false,
+    "strict": false
+  },
+  "model": {
+    "name": "landing_policy.npz",
+    "source": "local_rl",
+    "spatial": true,
+    "sha256": "50db3642b39678a4ddae97081e3b3a6169ca7e6f284945625471596f92d9e49c"
+  },
+  "atmosphere": {
+    "wind": [
+      0.0,
+      3.0,
+      0.0
+    ],
+    "gust_rms": 0.5,
+    "gust_period": 6.0,
+    "density_scale_height": 8500.0
+  }
+}

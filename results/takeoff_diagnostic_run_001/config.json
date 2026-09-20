@@ -1,0 +1,78 @@
+{
+  "config": {
+    "scenario": "takeoff",
+    "model": "phi3.5:latest",
+    "student": null,
+    "policy": "results/spatial_001/takeoff_policy.npz",
+    "spatial": true,
+    "lateral_assist": true,
+    "directional": true,
+    "theta_mean_deg": 0.0,
+    "wind": [
+      0.0,
+      3.0,
+      0.0
+    ],
+    "gust_rms": 0.5,
+    "render": true,
+    "host": "http://127.0.0.1:11434",
+    "duration": 5.0,
+    "interval": 0.05,
+    "timeout": 60,
+    "dt": 0.05,
+    "hs": 0.3,
+    "tp": 6,
+    "seed": 42,
+    "ndbc": false,
+    "target_alt": 8,
+    "target_speed": 8.5,
+    "output": "results/takeoff_diagnostic_run_001",
+    "check": false,
+    "strict": false
+  },
+  "model": {
+    "name": "takeoff_policy.npz",
+    "source": "local_rl",
+    "spatial": true,
+    "sha256": "b35439f4c91cad16861cc924dc112a07210a8382df68b7254a12fd8a2fa6df38"
+  },
+  "atmosphere": {
+    "wind": [
+      0.0,
+      3.0,
+      0.0
+    ],
+    "gust_rms": 0.5,
+    "gust_period": 6.0,
+    "density_scale_height": 8500.0
+  },
+  "source_sha256": {
+    "ocean.py": "dccef25da4b38289fb903c338233d009e0ebe357725eb46b755318f7c3b4f5cc",
+    "visual3d.py": "b760f632d30bf8f41545fa27bddfe2ea3b9662e1ecad8f4e3aeb7353876f4cab",
+    "ocean_real.py": "9c31102e1e1b52845c5d67ce0cf6163f8315f3bc02b37c6faecaaa1a0d001b77",
+    "damage.py": "3f8d0c039369a65de1e81afd2f1cfb6e1cf97292c4f8ada0ce0474003c8a3825",
+    "env.py": "31752f3e124d69dfff6bbcbb7903743310ea042b7caa19b7628a5a64b7280350",
+    "policy.py": "28b69edbbb88a861989c56644339b71ec03263d6de56d3e77855af42a6fdf609",
+    "audit.py": "e7e283d1691df312cd464353b7aacc72747cf3068e8cddbc26bbc32dd9528bb3",
+    "ollama_pilot.py": "db4fd43e73f13c3dde61063bac8ac7b706a337438df2a42892cdc67da06b3c23",
+    "fly_ollama.py": "74929169f9b7928c96cef1c780277fca43ac6c1e82953d91a662dce2bb82b964",
+    "spatial_dynamics.py": "026955202c701b11085cf68da3e270962f3400d1a55cc88945ebba87e842f551",
+    "educate.py": "08f8753171073e1f7d43cf315cbab90fcbb7809d206206d5ccad3e60dd381e39",
+    "policy_pilot.py": "a98c76002d5dd7284f5c751c98203dfd818fe7f9beac3e888b8d4d34b6fe4597",
+    "accelerate.py": "548e733cda3611a813a7af5b1c4be3646b608aa8c1b7574460b7642fdccff608",
+    "teacher_student.py": "7654b285cc5c475e62d7dcf2aa5c4b2dd5ad4f0e619fce56d16d7cd7f3118fe0",
+    "dynamics.py": "c93c22b50a76b2846cd799247cd4322655b4964dee06679273d262c6954b47b9",
+    "evaluate.py": "d64dab6bfb5f3d1a8a17073768aab3deadd0550b3822cc6c12f89f774001d3b8",
+    "flight_diagnostics.py": "cfd1948ee0150615b7cd9eaea8cba130fd87f46102746452c5a8913f6d291279",
+    "vectorized.py": "62d7a33cede5022f92d19f7838ac8dbf59e6add9c78e8a79e19cd7e0d3d0d435",
+    "validate.py": "8ddd118124cd52f7646ed2986a679a9a792174275bf4f353a655a3804e057eb9",
+    "advisor.py": "1a7e52eb49504f6d88005a6f488b522fb327fada53581e083cdb1a8f2991754d",
+    "main.py": "9b5a6232ef1dab4f49547fc0b2a4af924ccf663b25d1f333bafa025bc52f874f",
+    "mavlink_if.py": "2332b783111cbadc84611c9108a851d23dbfdc1e11b3dd13863d3d57fb7a1e62",
+    "ocean_directional.py": "56a9ca60a97db9de2115c619a40503e2e9c39aa9af71d8c37a32ace7fe77f004",
+    "atmosphere.py": "b8bd7cb5b409088b214ce2cbd183a6331034af60fc01b316d0c7aa9a972ea49c",
+    "feedback_education.py": "f0c89c94859a95aa33c431aa5dc75d0581f14c351aed55107692897cc3c96094",
+    "aircraft.py": "93079cb53ad25573006317135f3c341ddaa31d67531441faa7152aa82a0890cb",
+    "train.py": "a99900e46ed58c9286728872be44c9989d35aeb2fe3de271b9d5591c51785300"
+  }
+}

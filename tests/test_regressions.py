@@ -10,7 +10,8 @@ from ocean_real import RealOcean
 from env import EnvConfig, FlyingBoatEnv
 from policy import ActorCritic
 from vectorized import VectorizedEnv
-from mavlink_if import FlyingBoatVehicle, MAV_CMD_NAV_TAKEOFF, MAV_CMD_DO_SET_SERVO
+from mavlink_if import (FlyingBoatVehicle, LowLevelController,
+                        MAV_CMD_NAV_TAKEOFF, MAV_CMD_DO_SET_SERVO)
 from damage import DamageState, SprayModel, IngressModel, update_damage
 from dynamics import HullDrag
 
@@ -110,6 +111,71 @@ class RegressionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             FlyingBoatEnv(Aircraft(), EnvConfig(preview_dx_m=(-1.0,)))
 
+    def test_landing_setpoint_uses_wave_preview(self):
+        ctl = LowLevelController()
+        base = {"z": 0.8, "Vx": 12.0, "Vz": -1.0}
+        p0, _ = ctl.landing_setpoint(base, 0.0, math.radians(8))
+        trough, _ = ctl.landing_setpoint(
+            dict(base, eta=0.2, wave_preview=[-0.4, -0.2, 0.0]),
+            0.0, math.radians(8))
+        crest, _ = ctl.landing_setpoint(
+            dict(base, eta=0.2, wave_preview=[0.6, 0.4, 0.1]),
+            0.0, math.radians(8))
+        self.assertAlmostEqual(p0, trough)
+        self.assertGreater(crest, trough)
+
+    def test_bc_imitate_and_load_dim_check(self):
+        from train import landing_teacher_action
+        env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="landing",
+                                                  max_steps=6, Hs=0, Tp=4))
+        s = env.reset(seed=0)
+        a = landing_teacher_action(s, env.cfg)
+        p = ActorCritic(env.state_dim, 2, np.array([0., -1.]),
+                        np.array([1., 1.]), hidden=8, seed=3)
+        xs = np.tile(s, (12, 1)).astype(np.float32)
+        ys = np.tile(a, (12, 1)).astype(np.float32)
+        before = p.imitate(xs, ys, lr=0)["bc_loss"]
+        for _ in range(30):
+            p.imitate(xs, ys, lr=0.05)
+        self.assertLess(p.imitate(xs, ys, lr=0)["bc_loss"], before * 0.5)
+        small = policy(0, 8)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = tmp + "/p.npz"
+            small.save(path)
+            with self.assertRaises(ValueError):
+                p.load(path)
+
+    def test_checkpoint_validation_is_atomic(self):
+        source, target = policy(3), policy(9)
+        state = np.ones(8, dtype=np.float32)
+        before = target.act(state, deterministic=True)[0].copy()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = tmp + "/policy.npz"
+            source.save(path)
+            with np.load(path) as checkpoint:
+                valid = {key: checkpoint[key].copy() for key in checkpoint.files}
+            for defect in ("missing", "shape", "nan", "dtype"):
+                with self.subTest(defect=defect):
+                    values = {key: value.copy() for key, value in valid.items()}
+                    if defect == "missing":
+                        del values["log_std"]
+                    elif defect == "shape":
+                        values["critic_head_W"] = np.zeros((1, 1))
+                    elif defect == "nan":
+                        values["log_std"][0] = np.nan
+                    else:
+                        values["log_std"] = np.array(["bad", "bad"])
+                    np.savez(path, **values)
+                    with self.assertRaises(ValueError):
+                        target.load(path)
+                    np.testing.assert_array_equal(
+                        target.act(state, deterministic=True)[0], before)
+            np.savez(path, **valid)
+            target.load(path)
+            np.testing.assert_array_equal(
+                target.act(state, deterministic=True)[0],
+                source.act(state, deterministic=True)[0])
+
     def test_sweep_passes_conditions_and_sample_count(self):
         import accelerate
         configs = []
@@ -190,10 +256,10 @@ class RegressionTests(unittest.TestCase):
     def test_sling_counts_entries_not_timesteps(self):
         s = DamageState(); spray = SprayModel(); ingress = IngressModel(submersion_rate=0)
         def step(z): update_damage(s, .01, z, 0, 0, 0, .3, spray, ingress)
-        step(-1); step(-1)
+        step(-3); step(-3)
         self.assertEqual(s.cumulative_sling_events, 1)
         self.assertFalse(s.failed)
-        step(2); step(-1)
+        step(2); step(-3)
         self.assertTrue(s.failed)
 
     def test_no_airborne_ingress_and_drag_symmetry(self):

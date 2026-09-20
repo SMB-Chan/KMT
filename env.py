@@ -22,9 +22,10 @@ State vector (8 + n_preview features, all normalised):
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
+from atmosphere import Atmosphere, AtmosphereConfig
 from aircraft import Aircraft
 from ocean import Ocean
 from ocean_directional import DirectionalOcean, PREVIEW_DX_M, sea_eta_1d, wave_preview
@@ -34,6 +35,8 @@ from dynamics import HullContact, HullDrag, hull_force
 # ---------------------------------------------------------------------
 @dataclass
 class EnvConfig:
+    spatial: bool = False
+    atmosphere: AtmosphereConfig = field(default_factory=AtmosphereConfig)
     scenario: str = "takeoff"          # "takeoff" or "landing"
     dt: float = 0.05                   # control step
     max_steps: int = 200
@@ -70,8 +73,10 @@ class FlyingBoatEnv:
                 or dx.ndim != 1 or not np.isfinite(dx).all()
                 or np.any(dx <= 0)):
             raise ValueError("invalid environment configuration")
-        self.action_dim = 2
-        self.state_dim = 8 + int(dx.size)
+        if not self.cfg.spatial and self.cfg.atmosphere != AtmosphereConfig():
+            raise ValueError("atmosphere configuration requires spatial=True")
+        self.action_dim = 4 if self.cfg.spatial else 2
+        self.state_dim = 8 + int(dx.size) + (8 if self.cfg.spatial else 0)
         self._build_state_scales()
         self._sea = None
         self._state = None
@@ -96,6 +101,9 @@ class FlyingBoatEnv:
     n_sub: int = 5
 
     def _physics_step(self, x, z, Vx, Vz, alpha, throttle, sea, t):
+        if self.cfg.spatial:
+            from spatial_dynamics import advance
+            return advance(self, x, z, Vx, Vz, alpha, throttle, sea, t)
         eta = float(sea_eta_1d(sea, np.array([x]), t)[0])
         # Rate of change of eta (use central difference)
         eta_next = float(sea_eta_1d(sea, np.array([x]), t + self.cfg.dt)[0])
@@ -142,6 +150,9 @@ class FlyingBoatEnv:
                                          s=self.cfg.spread_s, seed=seed)
         else:
             self._sea = Ocean(Hs=self.cfg.Hs, Tp=self.cfg.Tp, seed=seed)
+        self._y = self._Vy = self._bank = self._heading = 0.0
+        self._bank_command = self._rudder_command = 0.0
+        self._atmosphere = Atmosphere(self.cfg.atmosphere, seed=seed)
         self._t = 0.0
         if self.cfg.scenario == "takeoff":
             # Place hull at hydrostatic equilibrium on the wave surface
@@ -167,10 +178,14 @@ class FlyingBoatEnv:
         self._state = self._build_state()
         return self._state.copy()
 
+    def _eta(self, x, t, y=None):
+        if self.cfg.spatial and isinstance(self._sea, DirectionalOcean):
+            return float(self._sea.eta([x], [self._y if y is None else y], t)[0, 0])
+        return float(sea_eta_1d(self._sea, np.array([x]), t)[0])
+
     def _build_state(self):
-        eta = float(sea_eta_1d(self._sea, np.array([self._x]), self._t)[0])
-        eta_next = float(sea_eta_1d(self._sea, np.array([self._x]),
-                                    self._t + self.cfg.dt)[0])
+        eta = self._eta(self._x, self._t)
+        eta_next = self._eta(self._x, self._t + self.cfg.dt)
         Veta = (eta_next - eta) / self.cfg.dt
         hull_in_water = 1.0 if (eta + self.hull.h_keel > self._z) else 0.0
         if self.cfg.scenario == "takeoff":
@@ -179,6 +194,13 @@ class FlyingBoatEnv:
             speed_metric = max(0.0, 1.0 - self._z / self.cfg.z_goal)
         preview = wave_preview(self._sea, self._x, self._t, self._Vx,
                                dxs=self.cfg.preview_dx_m) / self.eta_scale
+        if self.cfg.spatial:
+            speed = max(math.hypot(self._Vx, self._Vy), 1.0)
+            direction = math.atan2(self._Vy, self._Vx)
+            preview = np.array([self._eta(
+                self._x + dx * math.cos(direction), self._t + dx / speed,
+                self._y + dx * math.sin(direction))
+                for dx in self.cfg.preview_dx_m]) / self.eta_scale
         s = np.concatenate((
             np.array([
                 self._z / self.z_scale,
@@ -192,14 +214,24 @@ class FlyingBoatEnv:
             ], dtype=np.float32),
             preview.astype(np.float32),
         ))
+        if self.cfg.spatial:
+            s = np.concatenate((s, np.array([
+                self._y / 10.0, self._Vy / self.V_scale,
+                self._bank / math.radians(45), math.sin(self._heading),
+                math.cos(self._heading),
+                *(self._atmosphere.wind(self._t) / self.V_scale),
+            ], dtype=np.float32)))
         return s
 
     def step(self, action):
         if self._state is None or self._done:
             raise RuntimeError("reset() is required before stepping")
         action = np.asarray(action)
-        if action.shape != (2,) or not np.isfinite(action).all():
-            raise ValueError("action must be a finite vector of shape (2,)")
+        if action.shape != (self.action_dim,) or not np.isfinite(action).all():
+            raise ValueError(f"action must be a finite vector of shape ({self.action_dim},)")
+        if self.cfg.spatial:
+            self._bank_command = float(np.clip(action[2], -1, 1)) * math.radians(45)
+            self._rudder_command = float(np.clip(action[3], -1, 1))
         throttle = float(np.clip(action[0], 0.0, 1.0))
         pitch    = float(action[1]) * (self.cfg.pitch_hi - self.cfg.pitch_lo)/2.0 \
                  + (self.cfg.pitch_hi + self.cfg.pitch_lo)/2.0
@@ -214,18 +246,34 @@ class FlyingBoatEnv:
         self._Vx, self._Vz = Vxn, Vzn
         self._steps += 1
 
-        eta = float(sea_eta_1d(self._sea, np.array([xn]), self._t)[0])
-        Veta = float((sea_eta_1d(self._sea, np.array([xn]),
-                                 self._t + self.cfg.dt)[0]
-                      - eta) / self.cfg.dt)
+        eta = self._eta(xn, self._t)
+        Veta = float((self._eta(xn, self._t + self.cfg.dt) - eta) / self.cfg.dt)
         r, done, info = self._reward_and_done(eta, Veta, N_water,
                                               T_i, L_i, D_i)
+        if self.cfg.spatial:
+            r -= 0.01 * self._y ** 2 + 0.05 * self._Vy ** 2
+            lateral_ok = abs(self._y) < 10 and abs(self._Vy) < 1.5 and abs(self._bank) < math.radians(10)
+            if info.get("success") and not lateral_ok:
+                info["success"] = False
+                r -= 100.0
+            if abs(self._y) > 50:
+                done = True
+                info.update(success=False, lateral_limit=True)
+                r -= 100.0
         self._done = done
         info.update({"t": self._t, "x": self._x, "z": self._z,
                      "Vx": self._Vx, "Vz": self._Vz,
                      "throttle": throttle, "alpha": pitch,
                      "eta": eta, "Veta": Veta, "N_water": N_water,
                      "T": T_i, "L": L_i, "D": D_i})
+        if self.cfg.spatial:
+            wind = self._atmosphere.wind(self._t)
+            info.update(force_budget=dict(self._last_force_budget),
+                        y=self._y, Vy=self._Vy, bank=self._bank,
+                        heading=self._heading, wind=wind.tolist(),
+                        airspeed=float(np.linalg.norm(
+                            np.array([self._Vx, self._Vy, self._Vz]) - wind)),
+                        density=self._atmosphere.density(self._z))
         self._traj.append(info)
         self._state = self._build_state()
         return self._state.copy(), float(r), bool(done), info

@@ -51,6 +51,16 @@ def _hull_polygon(Lwl: float, Bwl: float):
     ])
 
 
+def attitude_matrix(pitch, bank=0.0, heading=0.0):
+    """Body x-forward/y-right/z-up to world north/east/up."""
+    forward = np.array([math.cos(pitch) * math.cos(heading),
+                        math.cos(pitch) * math.sin(heading), math.sin(pitch)])
+    right = np.array([-math.sin(heading), math.cos(heading), 0.0])
+    up = np.cross(forward, right)
+    return np.column_stack((forward, right * math.cos(bank) - up * math.sin(bank),
+                            up * math.cos(bank) + right * math.sin(bank)))
+
+
 # ---------------------------------------------------------------------
 def render_scene(traj, sea, *, time_index: int = -1,
                  output: str = "results/scene_static.png",
@@ -64,8 +74,14 @@ def render_scene(traj, sea, *, time_index: int = -1,
     sea  : Ocean / RealOcean
     """
     # State at the chosen moment
+    if not traj:
+        raise ValueError("trajectory must not be empty")
+    time_index = time_index % len(traj)
     info = traj[time_index]
     x_a = info["x"]; z_a = info["z"]; alpha = info["alpha"]
+    y_a = info.get("y", 0.0)
+    rotation = attitude_matrix(alpha, info.get("bank", 0), info.get("heading", 0))
+    offset = np.array([x_a, y_a, z_a])
 
     # Window:  centred on the aircraft
     if window_x is None:
@@ -75,10 +91,13 @@ def render_scene(traj, sea, *, time_index: int = -1,
 
     # Build a wider wave surface mesh on the window
     xs = np.linspace(window_x[0], window_x[1], 161)
-    ys = np.linspace(-30.0, 30.0, 11)
+    ys = np.linspace(y_a - 30.0, y_a + 30.0, 31)
     X, Y = np.meshgrid(xs, ys, indexing="xy")
-    eta_x = sea.eta(xs, info["t"])
-    Z = np.tile(eta_x, (Y.shape[0], 1))
+    from ocean_directional import DirectionalOcean, sea_eta_1d
+    if isinstance(sea, DirectionalOcean):
+        Z = sea.eta(xs, ys, info["t"])
+    else:
+        Z = np.tile(sea_eta_1d(sea, xs, info["t"]), (Y.shape[0], 1))
 
     fig = plt.figure(figsize=(18, 9.5))
     gs = fig.add_gridspec(5, 2, width_ratios=[2.4, 1.0], height_ratios=[3, 1, 1, 1, 1])
@@ -97,7 +116,7 @@ def render_scene(traj, sea, *, time_index: int = -1,
     # Trajectory
     tx = np.array([d["x"] for d in traj])
     tz = np.array([d["z"] for d in traj])
-    ty = np.zeros_like(tx)
+    ty = np.array([d.get("y", 0.0) for d in traj])
     ax.plot(tx, ty, tz, color="tab:orange", lw=2.5, label="flight path")
     mark_idx = np.arange(0, len(traj), max(1, len(traj) // 12))
     ax.scatter(tx[mark_idx], ty[mark_idx], tz[mark_idx],
@@ -108,25 +127,15 @@ def render_scene(traj, sea, *, time_index: int = -1,
             color="tab:red", lw=3.0, alpha=0.85)
 
     # Aircraft model
-    span  = 30.0
-    chord =  3.0
-    wing  = _wing_polygon(span, chord, alpha=alpha)
-    wing[:, 0] += x_a
-    wing[:, 2] += z_a
-    hull = _hull_polygon(5.2, 1.1)
-    hull[:, 0] += x_a
-    hull[:, 2] += z_a - 0.40
+    span, chord = 15.0, 1.5
+    wing = _wing_polygon(span, chord) @ rotation.T + offset
+    hull = (_hull_polygon(2.6, 0.55) + np.array([0, 0, -0.3])) @ rotation.T + offset
 
     wing_coll = Poly3DCollection([wing], alpha=0.65,
                                 facecolor="steelblue",
                                 edgecolor="black", linewidth=1.2)
     ax.add_collection3d(wing_coll)
-    R = np.array([[math.cos(alpha), 0, math.sin(alpha)],
-                  [0, 1, 0],
-                  [-math.sin(alpha), 0, math.cos(alpha)]])
-    chord_line = np.array([[-chord / 2, 0, 0], [chord / 2, 0, 0]]) @ R.T
-    chord_line[:, 0] += x_a
-    chord_line[:, 2] += z_a
+    chord_line = np.array([[-chord / 2, 0, 0], [chord / 2, 0, 0]]) @ rotation.T + offset
     ax.plot(chord_line[:, 0], chord_line[:, 1], chord_line[:, 2],
             color="red", lw=2.0)
     hull_coll = Poly3DCollection([hull], alpha=0.90,
@@ -134,20 +143,20 @@ def render_scene(traj, sea, *, time_index: int = -1,
                                 edgecolor="black", linewidth=1.0)
     ax.add_collection3d(hull_coll)
 
-    ax.plot([x_a, x_a], [0, 0], [z_a, z_a - 8],
+    ax.plot([x_a, x_a], [y_a, y_a], [z_a, z_a - 8],
             color="gray", lw=1, ls="--", alpha=0.5)
-    ax.plot([x_a - 10, x_a + 10], [0, 0], [0, 0],
+    ax.plot([x_a - 10, x_a + 10], [y_a, y_a], [0, 0],
             color="navy", lw=0.8, alpha=0.4)
 
     ax.set_xlim(window_x)
-    ax.set_ylim(-30, 30)
+    ax.set_ylim(y_a - 30, y_a + 30)
     ax.set_zlim(window_z)
     ax.set_xlabel("Distance, m")
     ax.set_ylabel("Lateral, m")
     ax.set_zlabel("Altitude, m")
     ax.set_title(
         f"t = {info['t']:.1f} s    "
-        f"x = {x_a:.1f} m    z = {z_a:.2f} m    "
+        f"x = {x_a:.1f} m    y = {y_a:.1f} m    z = {z_a:.2f} m    "
         f"Vx = {info['Vx']:.2f} m/s    "
         f"mode = {info.get('mode', 'N/A')}"
     )
@@ -186,7 +195,10 @@ def render_scene(traj, sea, *, time_index: int = -1,
     ax_pit.scatter([t_now], [math.degrees(info["alpha"])],
                    color="tab:blue", s=70, zorder=5, edgecolor="k",
                    linewidth=1.4)
-    ax_pit.set_ylim(-20, 20)
+    if "bank" in info:
+        ax_pit.plot(t_all, [math.degrees(d.get("bank", 0)) for d in traj], label="bank", color="orange")
+        ax_pit.legend(fontsize=7)
+    ax_pit.set_ylim(-50 if "bank" in info else -20, 50 if "bank" in info else 20)
     ax_pit.set_ylabel("Pitch α, deg")
     ax_pit.set_title("Autopilot pitch (servo 2, elevator)")
     ax_pit.grid(True, alpha=0.3)
@@ -216,7 +228,10 @@ def render_scene(traj, sea, *, time_index: int = -1,
                    color="tab:purple", s=70, zorder=5, edgecolor="k",
                    linewidth=1.4)
     ax_spd.set_ylabel("Vx, m/s")
-    ax_spd.set_title("Forward speed vs setpoint")
+    if "airspeed" in info:
+        ax_spd.plot(t_all, [d["airspeed"] for d in traj], label="airspeed", color="orange")
+        ax_spd.plot(t_all, [d.get("Vy", 0) for d in traj], label="Vy", color="gray")
+    ax_spd.set_title("Ground / air speed vs setpoint")
     ax_spd.grid(True, alpha=0.3)
     ax_spd.legend(loc="upper right", fontsize=8)
 
