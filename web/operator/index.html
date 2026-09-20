@@ -37,6 +37,13 @@
       width: 100%;
       height: 100%;
     }
+    #scene-container canvas#osd {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      display: none;
+    }
     .hud {
       position: absolute;
       top: 0.4rem;
@@ -112,6 +119,7 @@
     <section class="panel" id="scene-panel">
       <div id="scene-container">
         <canvas id="scene"></canvas>
+        <canvas id="osd"></canvas>
       </div>
       <div class="hud">
         <div class="instrument"><div class="label">Altitude (m)</div><div class="value" id="i_alt">0.00</div></div>
@@ -129,9 +137,10 @@
       <label>視点 <select id="camera_mode">
         <option value="chase">追従</option>
         <option value="observer">船上の操作者（発進位置に固定）</option>
+        <option value="fpv">FPV（機上カメラ+OSD）</option>
       </select></label>
       <label style="display:block">視野角（小さいほど拡大）
-        <input id="camera_zoom" type="range" min="20" max="80" value="60" aria-label="カメラ視野角">
+        <input id="camera_zoom" type="range" min="20" max="100" value="60" aria-label="カメラ視野角">
       </label>
       <h2 style="margin-top:1rem">Controls</h2>
       <div class="controls">
@@ -162,7 +171,8 @@
       <div class="hint" id="help">
         キーボード: W/S ピッチ · E/D または ↑↓ スロットル · A/F または ←→ バンク · Q/C ラダー<br>
         Xbox: 左スティック ピッチ/バンク、右スティック横 ラダー、RT スロットル<br>
-        Take Control は自動値にスティックを合わせて 0.5 秒保持（ボタンで自動合わせ）
+        Take Control は自動値にスティックを合わせて 0.5 秒保持（ボタンで自動合わせ）<br>
+        視点「FPV」で機首カメラ+OSD（姿勢・対気速度・高度・方位・スロットル・警報）
       </div>
       <div class="sticks" id="sticks">
         <div class="stick-row"><span>Throttle</span><div class="bar" id="b_thr"><span></span></div><span id="v_thr">0.00</span></div>

@@ -40,6 +40,11 @@ let seaParent = null;
 let oceanMesh = null;
 let lastVehiclePos = { x: 0, y: 0, z: 0 };
 let lastHeadingRad = 0;
+let lastAttitude = { heading_deg: 0, pitch_deg: 0, bank_deg: 0 };
+let lastTelemetry = null;
+let osdCanvas = null;
+let osdCtx = null;
+let osdDpr = 1;
 
 let patchSize = 0;
 let patchSpacing = 0;
@@ -122,15 +127,19 @@ function openWS() {
     if (obj.type === "hello") {
       epoch = obj.epoch;
       if (obj.initial_telemetry) {
+        lastTelemetry = obj.initial_telemetry;
         updateInstruments(obj.initial_telemetry);
         updateScene(obj.initial_telemetry);
         updateSticks(obj.initial_telemetry);
+        drawOsd(obj.initial_telemetry);
       }
       statusEl.innerHTML = `<span class="ok">connected (epoch ${epoch})</span>`;
     } else if (obj.type === "telemetry") {
+      lastTelemetry = obj;
       updateInstruments(obj);
       updateScene(obj);
       updateSticks(obj);
+      drawOsd(obj);
     } else if (obj.type === "ack") {
       const id = String(obj.event_id || "");
       if (!id.startsWith("input-")) {
@@ -331,6 +340,7 @@ function initScene() {
       camera.aspect = w / Math.max(1, h);
       camera.updateProjectionMatrix();
     }
+    sizeOsd();
   };
 
   camera = new THREE.PerspectiveCamera(70, 1, 0.5, 8000);
@@ -407,6 +417,11 @@ function updateScene(t) {
   const pitchRad = THREE.MathUtils.degToRad(t.attitude.pitch_deg);
   const bankRad = THREE.MathUtils.degToRad(t.attitude.bank_deg);
   lastHeadingRad = headingRad;
+  lastAttitude = {
+    heading_deg: t.attitude.heading_deg,
+    pitch_deg: t.attitude.pitch_deg,
+    bank_deg: t.attitude.bank_deg,
+  };
   vehicleMesh.rotation.set(pitchRad, -headingRad, -bankRad, "YXZ");
 
   if (oceanMesh) oceanMesh.position.set(sceneX, -0.15, sceneZ);
@@ -431,6 +446,21 @@ function updateScene(t) {
 function updateCamera(dt) {
   if (!vehicleMesh || !cameraTarget || !observerPosition) return;
   const pos = vehicleMesh.position;
+  const fov = Number($("camera_zoom")?.value || 60);
+  if (cameraMode === "fpv") {
+    // Rigid nose camera: no smoothing so the horizon tracks attitude 1:1.
+    const pose = fpvCameraPose(pos.x, pos.y, pos.z,
+      lastAttitude.heading_deg, lastAttitude.pitch_deg, lastAttitude.bank_deg, FPV_OFFSET);
+    camera.position.set(pose.position.x, pose.position.y, pose.position.z);
+    camera.up.set(pose.up.x, pose.up.y, pose.up.z);
+    camera.lookAt(pos.x + pose.forward.x * 100,
+      pos.y + pose.forward.y * 100, pos.z + pose.forward.z * 100);
+    cameraTarget.copy(pos);
+    cameraReady = true;
+    if (camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    return;
+  }
+  camera.up.set(0, 1, 0);
   const desired = cameraMode === "observer" ? observerPosition.clone() :
     new THREE.Vector3(-Math.sin(lastHeadingRad) * 32, 12, Math.cos(lastHeadingRad) * 32).add(pos);
   const target = pos.clone();
@@ -440,11 +470,283 @@ function updateCamera(dt) {
   cameraTarget.lerp(target, alpha);
   camera.lookAt(cameraTarget);
   cameraReady = true;
-  const fov = Number($("camera_zoom")?.value || 60);
   if (camera.fov !== fov) {
     camera.fov = fov;
     camera.updateProjectionMatrix();
   }
+}
+
+// ---- FPV nose camera + canvas OSD ----
+// Canopy mount in model space: nose points along -Z, so offset is up and forward.
+const FPV_OFFSET = { x: 0, y: 0.62, z: -0.9 };
+const OSD_PITCH_PX_PER_DEG = 5;
+
+// Pure: replicate vehicleMesh.rotation.set(pitchRad,-headingRad,-bankRad,"YXZ")
+// i.e. R = Ry(h)·Rx(p)·Rz(b) with h=-heading, p=pitch, b=-bank. Returns world
+// camera position, forward (-Z column) and up (+Y column) as plain vectors.
+function fpvCameraPose(px, py, pz, headingDeg, pitchDeg, bankDeg, offset) {
+  const h = -headingDeg * Math.PI / 180;
+  const p = pitchDeg * Math.PI / 180;
+  const b = -bankDeg * Math.PI / 180;
+  const ch = Math.cos(h), sh = Math.sin(h);
+  const cp = Math.cos(p), sp = Math.sin(p);
+  const cb = Math.cos(b), sb = Math.sin(b);
+  const m00 = ch * cb + sh * sp * sb;
+  const m01 = -ch * sb + sh * sp * cb;
+  const m02 = sh * cp;
+  const m10 = cp * sb;
+  const m11 = cp * cb;
+  const m12 = -sp;
+  const m20 = -sh * cb + ch * sp * sb;
+  const m21 = sh * sb + ch * sp * cb;
+  const m22 = ch * cp;
+  const ox = offset.x, oy = offset.y, oz = offset.z;
+  return {
+    position: {
+      x: px + m00 * ox + m01 * oy + m02 * oz,
+      y: py + m10 * ox + m11 * oy + m12 * oz,
+      z: pz + m20 * ox + m21 * oy + m22 * oz,
+    },
+    forward: { x: -m02, y: -m12, z: -m22 },
+    up: { x: m01, y: m11, z: m21 },
+  };
+}
+
+// Pure: horizon geometry for the OSD. roll rotates the canvas so a right bank
+// (bank>0) drops the right horizon; pitchOffset shifts the horizon down on nose-up.
+function osdHorizonGeometry(w, h, pitchDeg, bankDeg) {
+  const roll = -bankDeg * Math.PI / 180;
+  const pitchOffset = pitchDeg * OSD_PITCH_PX_PER_DEG;
+  const rungs = [];
+  for (let p = -60; p <= 60; p += 10) {
+    if (p === 0) continue;
+    rungs.push({ pitch: p, dy: pitchOffset - p * OSD_PITCH_PX_PER_DEG });
+  }
+  return { cx: w / 2, cy: h / 2, roll, pitchOffset, rungs };
+}
+
+// Pure: vertical tape ticks. dy>0 places smaller values below centre.
+function osdTicks(center, step, pxPerUnit, spanPx) {
+  const half = spanPx / 2;
+  const out = [];
+  const start = Math.ceil((center - half) / step) * step;
+  for (let v = start; v <= center + half + 1e-9; v += step) {
+    out.push({ value: v, dy: (center - v) * pxPerUnit });
+  }
+  return out;
+}
+
+// Pure: heading strip ticks every 10°, labels wrapped to [0,360).
+function osdHeadingTicks(headingDeg, pxPerDeg, spanPx) {
+  const half = spanPx / 2;
+  const out = [];
+  const start = Math.ceil((headingDeg - half / pxPerDeg) / 10) * 10;
+  for (let d = start; (d - headingDeg) * pxPerDeg <= half + 1e-9; d += 10) {
+    out.push({ label: ((d % 360) + 360) % 360, dx: (d - headingDeg) * pxPerDeg });
+  }
+  return out;
+}
+
+// Pure: derive warning strings from a telemetry frame.
+function osdWarnings(t) {
+  const out = [];
+  const dmg = t.damage || {};
+  if (dmg.failed) out.push(`FAILURE ${dmg.failure_reason || ""}`.trim());
+  if ((dmg.water_kg || 0) > 0.5) out.push(`FLOODING ${dmg.water_kg.toFixed(1)}kg`);
+  if (Number.isFinite(t.wave_clearance_m) && t.wave_clearance_m < 0.35
+      && t.position_neu_m && t.position_neu_m.z > 1.0) {
+    out.push("LOW CLEARANCE");
+  }
+  if (["PAUSED", "FINISHED", "ABORTED"].includes(t.lifecycle)) out.push(t.lifecycle);
+  for (const w of t.warnings || []) out.push(String(w));
+  return out;
+}
+
+function initOsd() {
+  osdCanvas = document.getElementById("osd");
+  if (!osdCanvas) return;
+  osdCtx = osdCanvas.getContext("2d");
+  osdDpr = Math.min(window.devicePixelRatio || 1, 2);
+  sizeOsd();
+}
+
+function sizeOsd() {
+  if (!osdCanvas) return;
+  const container = document.getElementById("scene-container");
+  const w = (container && container.clientWidth) || osdCanvas.clientWidth || 600;
+  const h = (container && container.clientHeight) || osdCanvas.clientHeight || 400;
+  osdCanvas.width = Math.round(w * osdDpr);
+  osdCanvas.height = Math.round(h * osdDpr);
+  osdCanvas.style.width = w + "px";
+  osdCanvas.style.height = h + "px";
+  if (lastTelemetry) drawOsd(lastTelemetry);
+}
+
+function applyCameraMode(mode) {
+  cameraMode = mode;
+  cameraReady = false;
+  if (vehicleMesh) vehicleMesh.visible = mode !== "fpv";
+  if (osdCanvas) osdCanvas.style.display = mode === "fpv" ? "block" : "none";
+  if (mode === "fpv" && lastTelemetry) drawOsd(lastTelemetry);
+}
+
+const OSD_GREEN = "rgba(120,255,150,0.9)";
+const OSD_DIM = "rgba(120,255,150,0.55)";
+const OSD_WARN = "rgba(255,120,90,0.95)";
+
+function drawOsd(t) {
+  if (!osdCtx || cameraMode !== "fpv" || !t) return;
+  const w = osdCanvas.width / osdDpr;
+  const h = osdCanvas.height / osdDpr;
+  const ctx = osdCtx;
+  ctx.save();
+  ctx.setTransform(osdDpr, 0, 0, osdDpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  ctx.font = "12px monospace";
+  ctx.textBaseline = "middle";
+
+  // Artificial horizon + pitch ladder + roll pointer.
+  const g = osdHorizonGeometry(w, h, t.attitude.pitch_deg, t.attitude.bank_deg);
+  const span = Math.hypot(w, h);
+  ctx.save();
+  ctx.translate(g.cx, g.cy);
+  ctx.rotate(g.roll);
+  ctx.strokeStyle = OSD_GREEN;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-span / 2, g.pitchOffset);
+  ctx.lineTo(span / 2, g.pitchOffset);
+  ctx.stroke();
+  ctx.lineWidth = 1;
+  ctx.fillStyle = OSD_DIM;
+  ctx.textAlign = "center";
+  for (const r of g.rungs) {
+    const wide = r.pitch % 30 === 0;
+    const half = wide ? 34 : 20;
+    ctx.beginPath();
+    ctx.moveTo(-half, r.dy);
+    ctx.lineTo(half, r.dy);
+    ctx.stroke();
+    if (wide) {
+      ctx.fillText(String(r.pitch), half + 14, r.dy);
+      ctx.fillText(String(r.pitch), -half - 14, r.dy);
+    }
+  }
+  // Roll pointer at top of the rotated frame.
+  const rp = Math.min(w, h) * 0.34;
+  ctx.fillStyle = OSD_GREEN;
+  ctx.beginPath();
+  ctx.moveTo(0, -rp + 12);
+  ctx.lineTo(-7, -rp);
+  ctx.lineTo(7, -rp);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // Fixed aircraft symbol at screen centre.
+  ctx.strokeStyle = OSD_GREEN;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(g.cx - 26, g.cy);
+  ctx.lineTo(g.cx - 8, g.cy);
+  ctx.moveTo(g.cx + 8, g.cy);
+  ctx.lineTo(g.cx + 26, g.cy);
+  ctx.moveTo(g.cx, g.cy - 4);
+  ctx.lineTo(g.cx, g.cy + 4);
+  ctx.stroke();
+
+  // Left airspeed tape, right altitude tape.
+  drawTape(ctx, 70, g.cy, t.airspeed_m_s, 5, 4, h * 0.5, "m/s", 0);
+  drawTape(ctx, w - 70, g.cy, t.position_neu_m.z, 5, 4, h * 0.5, "m", 1);
+
+  // Top heading strip.
+  drawHeadingStrip(ctx, g.cx, 30, t.attitude.heading_deg, w * 0.5);
+
+  // Throttle bar (bottom-left) and keel clearance (bottom-centre).
+  const thr = (t.applied_control && t.applied_control.throttle) || 0;
+  const barH = h * 0.22;
+  const bx = 24, by = h - 40 - barH;
+  ctx.strokeStyle = OSD_DIM;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(bx, by, 12, barH);
+  ctx.fillStyle = OSD_GREEN;
+  ctx.fillRect(bx, by + barH * (1 - thr), 12, barH * thr);
+  ctx.textAlign = "left";
+  ctx.fillStyle = OSD_DIM;
+  ctx.fillText("THR", bx - 4, by - 12);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = OSD_GREEN;
+  ctx.fillText(`KEEL ${t.wave_clearance_m.toFixed(2)} m`, g.cx, h - 24);
+
+  // Phase / authority (top-left) and warnings (top-centre).
+  ctx.textAlign = "left";
+  ctx.fillStyle = OSD_DIM;
+  ctx.fillText(`${t.lifecycle} · ${t.phase} · ${t.authority}`, 16, 54);
+  const warns = osdWarnings(t);
+  ctx.textAlign = "center";
+  ctx.fillStyle = OSD_WARN;
+  warns.slice(0, 4).forEach((msg, i) => ctx.fillText(msg, g.cx, 70 + i * 16));
+
+  ctx.restore();
+}
+
+function drawTape(ctx, x, cy, center, step, pxPerUnit, spanPx, unit, digits) {
+  const ticks = osdTicks(center, step, pxPerUnit, spanPx);
+  ctx.strokeStyle = OSD_DIM;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(x, cy - spanPx / 2);
+  ctx.lineTo(x, cy + spanPx / 2);
+  ctx.stroke();
+  ctx.fillStyle = OSD_GREEN;
+  ctx.textAlign = "center";
+  for (const tk of ticks) {
+    const y = cy + tk.dy;
+    const major = Math.round(tk.value) % (step * 2) === 0;
+    ctx.beginPath();
+    ctx.moveTo(x - (major ? 10 : 5), y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    if (major) ctx.fillText(tk.value.toFixed(digits), x + 16, y);
+  }
+  ctx.fillStyle = OSD_GREEN;
+  ctx.fillRect(x - 22, cy - 9, 44, 18);
+  ctx.fillStyle = "#04120a";
+  ctx.fillText(center.toFixed(digits), x, cy);
+  ctx.fillStyle = OSD_DIM;
+  ctx.fillText(unit, x, cy + spanPx / 2 + 14);
+}
+
+function drawHeadingStrip(ctx, cx, y, headingDeg, spanPx) {
+  const pxPerDeg = 2;
+  const ticks = osdHeadingTicks(headingDeg, pxPerDeg, spanPx);
+  ctx.strokeStyle = OSD_DIM;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cx - spanPx / 2, y);
+  ctx.lineTo(cx + spanPx / 2, y);
+  ctx.stroke();
+  ctx.fillStyle = OSD_GREEN;
+  ctx.textAlign = "center";
+  for (const tk of ticks) {
+    const x = cx + tk.dx;
+    const major = tk.label % 30 === 0;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + (major ? 8 : 4));
+    ctx.stroke();
+    if (major) ctx.fillText(String(tk.label), x, y - 10);
+  }
+  ctx.fillStyle = OSD_GREEN;
+  ctx.beginPath();
+  ctx.moveTo(cx, y + 12);
+  ctx.lineTo(cx - 5, y + 20);
+  ctx.lineTo(cx + 5, y + 20);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = "#04120a";
+  ctx.fillText(Math.round(((headingDeg % 360) + 360) % 360) + "°", cx, y + 34);
 }
 
 function updateSeaMesh() {
@@ -656,8 +958,7 @@ document.addEventListener("visibilitychange", () => {
 });
 
 $("camera_mode").onchange = (e) => {
-  cameraMode = e.target.value;
-  cameraReady = false;
+  applyCameraMode(e.target.value);
 };
 $("btn_start").onclick = () => sendEvent("start_takeoff");
 $("btn_manual").onclick = () => sendEvent("start_manual");
@@ -682,6 +983,7 @@ $("curve").onchange = (e) => { curve = e.target.value; };
 (async () => {
   try {
     initScene();
+    initOsd();
     await createSession();
     openWS();
   } catch (e) {
