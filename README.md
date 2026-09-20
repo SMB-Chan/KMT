@@ -30,6 +30,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `advisor.py` | Phi助言＋短horizon試行によるカリキュラム生成（Ollama不在時は規則スタブ） |
 | `ocean_directional.py` | 方向分散付き2D不規則波（cos^2s、NDBCのMWD対応） |
 | `atmosphere.py` | ISA大気・対数風・シード固定突風 |
+| `design_optimize.py` | 機体設計の決定論的パラメトリック最適化（コンパス探索） |
+| `wind_tunnel.py` | 大気モデル駆動の仮想風洞（ポーラ・速度スイープ・突風荷重計測と空力設計最適化） |
 | `spatial_dynamics.py` | 横運動・バンク・フロート復原の空間動力学 |
 | `accelerate.py` | ベクトル化訓練・海況スイープ |
 | `vectorized.py` | 並列環境ロールアウト |
@@ -163,6 +165,12 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 `results/model_fidelity_002/`、`results/landing_settle_001/`、
 `results/wing_floats_001/`、`results/new_airframe_001/`、
 `results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/envelope_002/`、`results/lateral_001/`、`results/land_phase_001/`、`results/audit_fixes_001/`、`results/remaining_001/`、`results/size_001/` を参照。
+
+設計最適化系の結果は `results/design_opt_001/`（ミッション目的関数 J を 39.8% 改善、
+1.068→0.643）と `results/wind_tunnel_001/`（`atmosphere.py` の ISA・対数シアー・突風を
+使う仮想風洞で空力5変数を探索し、風洞目的関数 J を 26.2% 改善、1.000→0.738。
+巡航電力 1082→658 W、(L/D)max 16.3→21.2、突風荷重 n_std 1.031→1.007）を参照。
+再実行は `python3 design_optimize.py` / `python3 wind_tunnel.py`（どちらも決定論的）。
 
 ## 注意点・限界
 

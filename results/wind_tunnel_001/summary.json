@@ -1,0 +1,134 @@
+{
+  "study": "大気モデル (atmosphere.py) 駆動の仮想風洞実験と空力設計最適化",
+  "train": {
+    "tunnel": "ISA 高度別条件 + 対数シアー平均風 + sum4/dryden 突風",
+    "search": "compass/pattern (first-improvement, deterministic)",
+    "vars": [
+      "S_scale",
+      "b_scale",
+      "margin_kg",
+      "CL_max",
+      "CD0"
+    ],
+    "evals": 74,
+    "rounds": 16,
+    "objective": {
+      "weights": {
+        "P_cruise": 0.45,
+        "inv_LDmax": 0.35,
+        "n_gust_rms": 0.2
+      },
+      "limits": {
+        "V_stall_max": 13.0,
+        "mass_max": 95.0
+      },
+      "penalty": 10.0,
+      "cruise_altitude_m": 30.0,
+      "gust_model": "dryden",
+      "gust_rms_m_s": 1.0,
+      "gust_seed": 42
+    },
+    "quick": false
+  },
+  "eval": {
+    "J_baseline": 1.0,
+    "J_best": 0.738224346530816,
+    "improvement_pct": 26.177565346918396,
+    "metrics_baseline": {
+      "P_cruise": 1082.3132644379575,
+      "inv_LDmax": 0.06119495731274835,
+      "n_gust_rms": 1.0311597808114574,
+      "LD_max": 16.341215745756823,
+      "CL_max_meas": 1.4,
+      "alpha_stall_deg": 14.0,
+      "CD0_meas": 0.025000000000000026,
+      "K_meas": 0.037448221903975364,
+      "CL_alpha_rad": 4.56066220371429,
+      "CL_trim_cruise": 0.46801310007628383,
+      "V_stall": 6.534188476591339,
+      "V_cruise": 11.317546427687281,
+      "mass": 84.0,
+      "S": 22.5,
+      "AR": 10.0
+    },
+    "metrics_best": {
+      "P_cruise": 658.2540167015517,
+      "inv_LDmax": 0.04705905279841379,
+      "n_gust_rms": 1.007377649376014,
+      "LD_max": 21.249896471220662,
+      "CL_max_meas": 1.7,
+      "alpha_stall_deg": 17.0,
+      "CD0_meas": 0.019999999999999997,
+      "K_meas": 0.027679120537720942,
+      "CL_alpha_rad": 4.773331153931321,
+      "CL_trim_cruise": 0.568301621521202,
+      "V_stall": 5.839736351464121,
+      "V_cruise": 10.114720063542759,
+      "mass": 79.63795578360757,
+      "S": 21.99375,
+      "AR": 13.529411764705884
+    },
+    "sensitivity_top": [
+      {
+        "var": "CD0",
+        "J_range": 0.15505705717977736
+      },
+      {
+        "var": "CL_max",
+        "J_range": 0.14691405237810828
+      },
+      {
+        "var": "S_scale",
+        "J_range": 0.125787583148687
+      }
+    ],
+    "cross_check_design_opt_001": {
+      "J": 0.8396612879912962,
+      "metrics": {
+        "P_cruise": 838.879060175939,
+        "inv_LDmax": 0.05261838292690224,
+        "n_gust_rms": 0.9792331164176079,
+        "LD_max": 19.004764958079495,
+        "CL_max_meas": 1.7,
+        "alpha_stall_deg": 17.0,
+        "CD0_meas": 0.02500000000000002,
+        "K_meas": 0.027679120537720942,
+        "CL_alpha_rad": 4.773331153931321,
+        "CL_trim_cruise": 0.5683016215212018,
+        "V_stall": 6.003764736259826,
+        "V_cruise": 10.398825559892378,
+        "mass": 84.1745792578841,
+        "S": 21.99375,
+        "AR": 13.529411764705884
+      }
+    }
+  },
+  "finding": "風洞目的関数 J を 26.2% 改善 (1.000 -> 0.738, 評価 74 回 / 16 ラウンド)。巡航電力 1082 -> 658 W, (L/D)max 16.3 -> 21.2, 突風荷重 RMS 1.0312 -> 1.0074。感度上位は CD0, CL_max, S_scale。",
+  "artifacts": [
+    "results/wind_tunnel_001/REPORT.md",
+    "results/wind_tunnel_001/summary.json",
+    "results/wind_tunnel_001/best_design.json",
+    "results/wind_tunnel_001/altitude_conditions.csv",
+    "results/wind_tunnel_001/shear_profile.csv",
+    "results/wind_tunnel_001/polars.csv",
+    "results/wind_tunnel_001/velocity_sweep.csv",
+    "results/wind_tunnel_001/ground_effect.csv",
+    "results/wind_tunnel_001/gust_runs.csv",
+    "results/wind_tunnel_001/convergence.csv",
+    "results/wind_tunnel_001/sensitivity.csv",
+    "results/wind_tunnel_001/wind_tunnel.py",
+    "results/wind_tunnel_001/polars.png",
+    "results/wind_tunnel_001/power.png",
+    "results/wind_tunnel_001/gust.png",
+    "results/wind_tunnel_001/sensitivity.png"
+  ],
+  "caveats": [
+    "空力モデルはレイノルズ数非依存 (CD0/CLα は Re・マッハで不変と仮定)",
+    "突風荷重は準定常 (有効迎え角のみ変動、空力遅れ・構造弾性は不含)",
+    "トリム固定の荷重計測 (操縦応答・安定性は対象外)",
+    "最適化は空力系 5 変数のみ (プロペラ/船体変数は design_optimize.py 管轄)",
+    "質量結合は design_optimize.py と同一のヒューリスティック"
+  ],
+  "git_head": "831f1b8cf6f71bd52bd0796c990d8f528415c97b",
+  "runtime_s": 1.8
+}
