@@ -1,0 +1,272 @@
+{
+  "config": {
+    "out": "results/weather_real_001",
+    "data": "/home/intel/デスクトップ/HAMA/data/ndbc_46012_realtime.txt",
+    "seed": 42,
+    "quick": false,
+    "plots": true
+  },
+  "data": {
+    "records": 1096,
+    "span_hours": 1096.0,
+    "start_utc": "2026-08-05 00:00",
+    "end_utc": "2026-09-19 16:00",
+    "label": "NDBC met replay (ndbc_46012_realtime.txt, 1096 records)",
+    "pres_hPa": {
+      "min": 1010.5,
+      "mean": 1015.7915145985402,
+      "max": 1021.9
+    },
+    "atmp_C": {
+      "min": 13.4,
+      "mean": 15.584215328467153,
+      "max": 18.1
+    },
+    "dewp_C": {
+      "min": 12.8,
+      "mean": 14.47536496350365,
+      "max": 17.1
+    },
+    "rh": {
+      "min": 0.8094120142815455,
+      "mean": 0.9318907656234307,
+      "max": 1.0
+    },
+    "wspd_m_s": {
+      "min": 1.0,
+      "mean": 4.66970802919708,
+      "max": 10.0
+    },
+    "gust_m_s": {
+      "min": 1.0,
+      "mean": 5.773722627737226,
+      "max": 12.0
+    },
+    "gust_excess_m_s": {
+      "mean": 1.104014598540146,
+      "max": 3.0
+    },
+    "rho_sealevel": {
+      "min": 1.2053779366049078,
+      "mean": 1.2180890251897412,
+      "max": 1.2302083258796697
+    },
+    "wdir_top8": [
+      {
+        "center_deg": 315.0,
+        "count": 281
+      },
+      {
+        "center_deg": 305.0,
+        "count": 204
+      },
+      {
+        "center_deg": 325.0,
+        "count": 143
+      },
+      {
+        "center_deg": 295.0,
+        "count": 83
+      },
+      {
+        "center_deg": 285.0,
+        "count": 41
+      },
+      {
+        "center_deg": 275.0,
+        "count": 39
+      },
+      {
+        "center_deg": 255.0,
+        "count": 30
+      },
+      {
+        "center_deg": 265.0,
+        "count": 27
+      }
+    ],
+    "extremes": {
+      "lowest_pressure": {
+        "hour": 193.0,
+        "stamp": "2026-08-13 01:00",
+        "pres_hPa": 1010.5
+      },
+      "highest_gust": {
+        "hour": 965.0,
+        "stamp": "2026-09-14 05:00",
+        "gust_m_s": 12.0
+      },
+      "storm_window": {
+        "start_hour": 964.0,
+        "start_stamp": "2026-09-14 04:00"
+      },
+      "calm_window": {
+        "start_hour": 302.0,
+        "start_stamp": "2026-08-17 14:00"
+      }
+    },
+    "supersaturated_records": 0,
+    "direction_wraps_gt90": 6
+  },
+  "fidelity": {
+    "node_max_abs_err_T_K": 0.0,
+    "node_max_abs_err_p_Pa": 0.0,
+    "node_max_abs_err_rho_kg_m3": 0.0,
+    "node_max_abs_err_wind_m_s": 0.0,
+    "midpoint_max_abs_err_T_K": 0.0,
+    "midpoint_max_abs_err_p_Pa": 0.0,
+    "midpoint_max_abs_err_rh": 0.0,
+    "midpoint_max_abs_err_wind_m_s": 4.440892098500626e-16,
+    "chord_speed_deficit_mean_m_s": 0.03248651007849746,
+    "chord_speed_deficit_max_m_s": 3.0487269072289593
+  },
+  "gust_calibration": {
+    "stats": {
+      "naive": {
+        "k": 1.0,
+        "peak_bias_m_s": 2.9973906516696154,
+        "peak_rmse_m_s": 3.18324808813361,
+        "mean_bias_m_s": 0.377112696965942,
+        "mean_rmse_m_s": 0.43275876188813717,
+        "records": 24
+      },
+      "calibrated": {
+        "k": 0.363,
+        "peak_bias_m_s": 0.2512406968562897,
+        "peak_rmse_m_s": 0.28004752593638615,
+        "mean_bias_m_s": 0.04982472755684222,
+        "mean_rmse_m_s": 0.05725360108127017,
+        "records": 24
+      }
+    },
+    "driver_check": {
+      "stamp": "2026-09-14 04:00",
+      "model_mean_m_s": 9.532330176129436,
+      "model_peak_m_s": 12.313818934059032,
+      "obs_mean_m_s": 9.5,
+      "obs_peak_m_s": 12.0,
+      "mean_err_m_s": 0.03233017612943634,
+      "peak_err_m_s": 0.3138189340590323
+    }
+  },
+  "trim_tracking": {
+    "n": 1096,
+    "rho0_max_abs_dev_vs_obs": 0.0,
+    "rho30": {
+      "min": 1.20198528443377,
+      "max": 1.226768965455417
+    },
+    "v_stall_m_s": {
+      "min": 6.529475721429545,
+      "max": 6.596447744044678
+    },
+    "drag_N": {
+      "min": 57.86942496543037,
+      "max": 58.46244571746241
+    },
+    "thrust_avail_N": {
+      "min": 413.02381007215496,
+      "max": 421.5399296085067
+    },
+    "margin": {
+      "min": 7.137168035087341,
+      "max": 7.210439529774839,
+      "worst_stamp": "2026-09-09 01:00"
+    },
+    "corr_rho0_pres": 0.5451994564179571,
+    "corr_rho0_atmp": -0.8360454894130906,
+    "corr_vstall_rho30": -0.9999940543551112,
+    "corr_drag_rho30": 0.9999973598719716,
+    "corr_thrust_rho30": 0.9999999999999998
+  },
+  "response_windows": {
+    "storm": {
+      "start_stamp": "2026-09-14 04:00",
+      "start_hour": 964.0,
+      "obs_wspd_range": [
+        9.0,
+        10.0
+      ],
+      "obs_gust_max": 12.0,
+      "n_mean": 3.124754241266543,
+      "n_std": 1.3991392123097552,
+      "n_peak": 7.630591109668802,
+      "n_min": -0.8828300909464268,
+      "alpha_peak_deg": 9.956358465247922,
+      "alpha_min_deg": -5.796489184384081
+    },
+    "calm": {
+      "start_stamp": "2026-08-17 14:00",
+      "start_hour": 302.0,
+      "obs_wspd_range": [
+        1.0,
+        1.0
+      ],
+      "obs_gust_max": 2.0,
+      "n_mean": 0.8778004883821885,
+      "n_std": 0.2781920692078226,
+      "n_peak": 1.9505179030267317,
+      "n_min": -0.06875654191518567,
+      "alpha_peak_deg": 8.435633565526402,
+      "alpha_min_deg": -4.304147333475062
+    },
+    "n_std_ratio_storm_over_calm": 5.029400069865156,
+    "obs_excess_ratio_storm_over_calm": 3.0
+  },
+  "env_replay": {
+    "steps": 200,
+    "t0_hours": 964.0,
+    "rate": 360.0,
+    "first_record": "2026-09-14 04:00",
+    "last_record": "2026-09-14 05:00",
+    "max_abs_dev_T_C": 1.0658141036401503e-14,
+    "max_abs_dev_p_hPa": 0.0,
+    "final_z": -0.3396378382632901,
+    "final_airspeed": 7.629182146361984
+  },
+  "corrections": [
+    {
+      "title": "突風変換の校正",
+      "detail": "sigma = GST-WSPD の素朴な写像では1時間ピーク風速を平均 +3.00 m/s 過大 (RMSE 3.18 m/s)。sum4 突風過程の1時間ピーク実測 (2.755 x gust_rms) に基づき GUST_SIGMA_FACTOR = 0.363 を採用 -> バイアス +0.25 m/s, RMSE 0.28 m/s (91% 改善)。"
+    },
+    {
+      "title": "風向の成分補間",
+      "detail": "記録中に |dtheta|>90 deg の時刻対が 6 件。風向をスカラーで線形補間すると 350 deg -> 10 deg で逆回りする偽の回転が生じるため、(u,v) 成分で補間 (中点のコード短縮は平均 0.032 m/s, 最大 3.05 m/s と小さい)。"
+    },
+    {
+      "title": "過飽和のクリップ",
+      "detail": "DEWP > ATMP の記録が 0 件 (センサー丸め)。RH = es(Td)/es(T) を [0, 1] にクリップし、湿度検証 (WeatherConfig) との整合を保証。"
+    },
+    {
+      "title": "スカラー平均風速の残差",
+      "detail": "校正後の1時間平均スカラー風速は実測 WSPD に対し +0.05 m/s (RMSE 0.06 m/s)。突風振幅の非線形 (|mean+gust| の凸性) による既知の残差で、風速計の精度 (±0.5 m/s) 未満のため補正しない。"
+    },
+    {
+      "title": "変換チェーンの厳密性",
+      "detail": "全 1096 ノードで観測値との最大偏差: 気温 0.0e+00 K, 気圧 0.0e+00 Pa, 密度 0.0e+00 kg/m3, 風ベクトル 0.0e+00 m/s — 補間・単位変換に誤差はなく、残る近似は時間分解能 (1時間刻みの線形補間) のみ。"
+    }
+  ],
+  "artifacts": [
+    "results/weather_real_001/REPORT.md",
+    "results/weather_real_001/summary.json",
+    "results/weather_real_001/fidelity_nodes.csv",
+    "results/weather_real_001/gust_calibration.csv",
+    "results/weather_real_001/trim_tracking.csv",
+    "results/weather_real_001/response_windows.csv",
+    "results/weather_real_001/env_replay.csv",
+    "results/weather_real_001/weather_study.py",
+    "results/weather_real_001/overview.png",
+    "results/weather_real_001/fidelity_zoom.png",
+    "results/weather_real_001/gust_calibration.png",
+    "results/weather_real_001/trim_tracking.png",
+    "results/weather_real_001/response_windows.png"
+  ],
+  "caveats": [
+    "観測は1時間分解能・ノード間線形補間 (前線の急峻化は平滑化)",
+    "降水・雲・視程は記録に無く既定は乾燥リプレイ",
+    "鉛直風は観測されず gust_rms と base config のみ",
+    "動的反応は準定常 (wind_tunnel.py と同一手法)"
+  ],
+  "git_head": "1e8fc69c3314032ec18fe687544713dd7dfa150d",
+  "runtime_s": 6.6
+}

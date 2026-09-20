@@ -46,6 +46,12 @@ def parser():
     p.add_argument('--gust-rms', type=float, default=None)
     p.add_argument('--weather', choices=sorted(PRESETS), default=None,
                    help='weather preset; brings recommended wind/gusts unless --wind/--gust-rms given')
+    p.add_argument('--weather-real', default=None,
+                   help='NDBC realtime2 file to replay as time-varying weather (requires --spatial)')
+    p.add_argument('--weather-real-t0', type=float, default=0.0,
+                   help='start offset within the record, hours from its first observation')
+    p.add_argument('--weather-real-rate', type=float, default=1.0,
+                   help='real seconds per simulation second for the replay')
     p.add_argument('--render', action='store_true', help='save scene.png after flight')
     p.add_argument('--host', default='http://127.0.0.1:11434')
     p.add_argument('--duration', type=positive, default=12)
@@ -84,6 +90,8 @@ def run(args, pilot=None):
         raise ValueError('wind configuration requires --spatial')
     if weather is not None and not args.spatial:
         raise ValueError('--weather requires --spatial')
+    if args.weather_real is not None and not args.spatial:
+        raise ValueError('--weather-real requires --spatial')
     if args.ndbc and args.directional:
         raise ValueError('--ndbc and --directional cannot be combined in this runner')
     if pilot is None:
@@ -115,7 +123,10 @@ def run(args, pilot=None):
                                theta_mean=math.radians(args.theta_mean_deg))
     vehicle = FlyingBoatVehicle(Aircraft(), sea, spatial=args.spatial,
                                 atmosphere=atmosphere, seed=args.seed,
-                                weather=weather)
+                                weather=weather,
+                                weather_real=args.weather_real,
+                                weather_real_t0=args.weather_real_t0,
+                                weather_real_rate=args.weather_real_rate)
     vehicle.dt = args.dt
     if args.scenario == 'landing':
         vehicle.z = 25

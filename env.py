@@ -40,6 +40,9 @@ class EnvConfig:
     spatial: bool = False
     atmosphere: AtmosphereConfig = field(default_factory=AtmosphereConfig)
     weather: WeatherConfig | None = None  # preset weather layer (spatial only)
+    weather_real: str | None = None  # NDBC realtime2 file to replay (spatial)
+    weather_real_t0: float = 0.0     # replay start offset in the record, hours
+    weather_real_rate: float = 1.0   # real seconds per simulation second
     scenario: str = "takeoff"          # "takeoff" or "landing"
     dt: float = 0.05                   # control step
     max_steps: int = 200
@@ -107,6 +110,13 @@ class FlyingBoatEnv:
             raise ValueError("atmosphere configuration requires spatial=True")
         if self.cfg.weather is not None and not self.cfg.spatial:
             raise ValueError("weather configuration requires spatial=True")
+        if self.cfg.weather_real is not None:
+            if not self.cfg.spatial:
+                raise ValueError("weather_real replay requires spatial=True")
+            if (not math.isfinite(self.cfg.weather_real_t0)
+                    or not math.isfinite(self.cfg.weather_real_rate)
+                    or self.cfg.weather_real_rate < 0.0):
+                raise ValueError("invalid weather_real replay parameters")
         self.action_dim = 4 if self.cfg.spatial else 2
         self.state_dim = 8 + int(dx.size) + (8 if self.cfg.spatial else 0)
         self._build_state_scales()
@@ -202,7 +212,12 @@ class FlyingBoatEnv:
                                        finite_depth=bool(self.cfg.finite_depth),
                                        current=[float(c) for c in self.cfg.current],
                                        weather=(weather_asdict(self.cfg.weather)
-                                                if self.cfg.weather is not None else None))
+                                                if self.cfg.weather is not None else None),
+                                       weather_real=(
+                                           None if self.cfg.weather_real is None else
+                                           dict(path=str(self.cfg.weather_real),
+                                                t0_hours=float(self.cfg.weather_real_t0),
+                                                rate=float(self.cfg.weather_real_rate))))
         if self.cfg.directional:
             self._sea = DirectionalOcean(Hs=hs, Tp=tp,
                                          theta_mean=math.radians(direction),
@@ -216,7 +231,18 @@ class FlyingBoatEnv:
                               finite_depth=self.cfg.finite_depth)
         self._y = self._Vy = self._bank = self._heading = 0.0
         self._bank_command = self._rudder_command = 0.0
-        if self.cfg.weather is not None:
+        if self.cfg.weather_real is not None:
+            # Historical replay: observed PRES/ATMP/DEWP/WIND/GST evolve the
+            # weather with sim time; cfg.weather supplies the phenomena the
+            # record does not carry (rain/cloud/visibility), default dry.
+            from weather_real import HistoricalWeather
+            self._weather = HistoricalWeather(
+                self.cfg.weather_real, weather=self.cfg.weather,
+                atmosphere=atmosphere, seed=seed,
+                t0_hours=self.cfg.weather_real_t0,
+                time_scale=self.cfg.weather_real_rate)
+            self._atmosphere = self._weather
+        elif self.cfg.weather is not None:
             # Weather implements the Atmosphere interface, so it replaces the
             # bare atmosphere object; wind/density then carry the weather.
             self._weather = Weather(self.cfg.weather, atmosphere, seed=seed)

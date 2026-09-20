@@ -243,7 +243,9 @@ class FlyingBoatVehicle:
     def __init__(self, aircraft: Aircraft, sea,
                  origin_lat: float = 36.0, origin_lon: float = -122.0,
                  *, spatial: bool = False, atmosphere=None, seed: int = 42,
-                 current=(0.0, 0.0), weather=None):
+                 current=(0.0, 0.0), weather=None,
+                 weather_real=None, weather_real_t0: float = 0.0,
+                 weather_real_rate: float = 1.0):
         self.spatial = spatial
         self.atmosphere_config = atmosphere or AtmosphereConfig()
         if not spatial and self.atmosphere_config != AtmosphereConfig():
@@ -254,6 +256,19 @@ class FlyingBoatVehicle:
             raise TypeError("weather must be a WeatherConfig")
         if weather is not None and not spatial:
             raise ValueError("weather requires spatial=True")
+        # Optional historical replay (NDBC realtime2 file): observed
+        # PRES/ATMP/DEWP/WIND/GST drive the weather as sim time advances;
+        # `weather` then supplies the unreported phenomena (rain/cloud).
+        if weather_real is not None:
+            if not spatial:
+                raise ValueError("weather_real replay requires spatial=True")
+            if (not math.isfinite(weather_real_t0)
+                    or not math.isfinite(weather_real_rate)
+                    or weather_real_rate < 0.0):
+                raise ValueError("invalid weather_real replay parameters")
+        self.weather_real = weather_real
+        self.weather_real_t0 = float(weather_real_t0)
+        self.weather_real_rate = float(weather_real_rate)
         self.weather_config = weather
         self.weather = None
         self.ice_mass = 0.0
@@ -300,7 +315,15 @@ class FlyingBoatVehicle:
         self._attitude = None
         if seed is not None:
             self._wind_seed = seed
-        if self.weather_config is not None:
+        if self.weather_real is not None:
+            from weather_real import HistoricalWeather
+            self.weather = HistoricalWeather(
+                self.weather_real, weather=self.weather_config,
+                atmosphere=self.atmosphere_config, seed=self._wind_seed,
+                t0_hours=self.weather_real_t0,
+                time_scale=self.weather_real_rate)
+            self.atmosphere = self.weather
+        elif self.weather_config is not None:
             # Weather implements the Atmosphere interface; it carries wind,
             # density and the rain/icing penalties for the spatial integrator.
             self.weather = Weather(self.weather_config, self.atmosphere_config,

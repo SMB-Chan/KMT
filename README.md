@@ -31,6 +31,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `ocean_directional.py` | 方向分散付き2D不規則波（cos^2s、NDBCのMWD対応） |
 | `atmosphere.py` | ISA大気・対数風・シード固定突風 |
 | `weather.py` | 決定論的気象層（湿り空気密度・降雨/雲/霧・着氷・下降気流・天候プリセット） |
+| `weather_real.py` | NDBCブイ実測毎時気象のリプレイ（`HistoricalWeather`、`Weather` 互換の時間変動気象） |
+| `weather_study.py` | 実測リプレイの定量解析（忠実度・突風校正・エンベロープ追従・動的反応・Env端到端） |
 | `design_optimize.py` | 機体設計の決定論的パラメトリック最適化（コンパス探索） |
 | `wind_tunnel.py` | 大気モデル駆動の仮想風洞（ポーラ・速度スイープ・突風荷重計測と空力設計最適化） |
 | `spatial_dynamics.py` | 横運動・バンク・フロート復原の空間動力学 |
@@ -409,6 +411,46 @@ python3 train.py --scenario takeoff --spatial --weather snow --seed-per-episode
 プリセットは `weather.PRESETS`、任意条件は `WeatherConfig` の13フィールド
 （気温/気圧 offset、湿度、降水強度、雪、視程、雲底/雲頂/雲量/雲LWC、
 下降気流、雷リスク）で構成します。
+
+
+### 過去気象リプレイ（weather_real.py）
+
+`weather_real.py` は NOAA NDBC ブイの実測毎時データ（realtime2 `.txt` の気象列
+WDIR/WSPD/GST/PRES/ATMP/DEWP）を読み、`HistoricalWeather`（`Weather` のサブクラスで
+`Atmosphere` 互換）としてシミュレーション時間に沿ってリプレイします。プリセットではなく
+実データで観測された気象経過をたどれます（同梱 `data/ndbc_46012_realtime.txt` は
+Humboldt Bay, CA の1096時間＝45.7日分）。
+
+| 観測列 | モデル量 | 変換 |
+|---|---|---|
+| PRES [hPa] | `pressure_offset_Pa` | (PRES−1013.25)×100 を ISA 高度分布に加算 |
+| ATMP [°C] | `temp_offset_K` | ATMP−15.0 を ISA 減率に沿って高度展開 |
+| DEWP [°C] | `humidity` | RH = es(Td)/es(T)（Magnus）を [0,1] クリップ |
+| WDIR+WSPD | `wind` (m/s) | −WSPD·(cosθ, sinθ)、+x=北 +y=東、z_ref≈10 m |
+| GST−WSPD | `gust_rms` | ×0.363（校正値、下記） |
+
+- 風向はスカラーでなく (u,v) 成分で補間するため、359°→1° の折返しで逆回りの偽回転が起きません。
+- GST は「1時間内のピーク風速」です。sum4 突風過程の1時間ピークは実測で ≈2.755×gust_rms
+  だったため、`gust_rms = GUST_SIGMA_FACTOR×(GST−WSPD)`（係数0.363）でピーク風速を再現します
+  （`weather_study.py` で校正：ピークRMSE 3.18→0.28 m/s、約91%改善）。
+- 記録に無い降水・雲・視程はベース `WeatherConfig`（既定: 乾燥リプレイ）から重ねます。
+- 記録の前後は端値を保持。`time_scale=0` で観測状態を凍結（乱流のみ時間変動）。すべて解析的・決定論的です。
+
+```bash
+# 実測リプレイで飛行（rate=360 なら実1時間をシミュレーション10秒で消化）
+python3 fly_ollama.py --spatial --weather-real data/ndbc_46012_realtime.txt \
+    --weather-real-t0 964 --weather-real-rate 360 --duration 10
+
+# 解析スタディ（忠実度・突風校正・エンベロープ追従・動的反応・Env端到端）
+python3 weather_study.py            # -> results/weather_real_001/
+```
+
+`EnvConfig(weather_real=…, weather_real_t0=…, weather_real_rate=…)`（spatial=True 必須）と
+`FlyingBoatVehicle(…, weather_real=…)` の両方から利用でき、`info["weather"]["record_utc"]` に
+リプレイ中の観測時刻、`episode_conditions["weather_real"]` に設定が記録されます。
+検証結果は `results/weather_real_001/REPORT.md`：全1096ノードで気温・気圧・密度・風ベクトルの
+最大偏差 0（変換チェーン厳密）、突風ピークRMSE 0.28 m/s、荒天/静穏窓の動的反応比が実測
+ガスト強度比と向き・オーダーで整合、Env端到端リプレイのテレメトリ偏差 0.000 °C / 0.000 hPa。
 
 
 ## 空間運動の機体・操縦・表示への接続
