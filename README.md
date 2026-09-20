@@ -148,7 +148,7 @@ Vx=2.5 m/s でハンプ停滞（失敗）、着水は成功。下記が修正後
 `results/spatial_takeoff_001/`、`results/model_fidelity_001/`、
 `results/model_fidelity_002/`、`results/landing_settle_001/`、
 `results/wing_floats_001/`、`results/new_airframe_001/`、
-`results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/lateral_001/`、`results/size_001/` を参照。
+`results/new_airframe_long_001/`、`results/takeoff_bc_001/`、`results/flight_jev_001/`、`results/envelope_001/`、`results/envelope_002/`、`results/lateral_001/`、`results/land_phase_001/`、`results/size_001/` を参照。
 
 ## 注意点・限界
 

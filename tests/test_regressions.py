@@ -128,6 +128,26 @@ class RegressionTests(unittest.TestCase):
         self.assertLess(balloon, 0.0)
         self.assertEqual(thr, 0.0)
 
+    def test_landing_commit_zone_times_wave_phase(self):
+        from mavlink_if import LowLevelController
+        ctl = LowLevelController()
+        base = {"z": 0.4, "Vx": 11.0, "Vz": -0.3, "eta": 0.0}
+        commit, thr = ctl.landing_setpoint(
+            dict(base, wave_preview=[0.0, 0.0, 0.0]), 0.0, math.radians(8))
+        self.assertAlmostEqual(commit, math.radians(-3.0))
+        self.assertEqual(thr, 0.0)
+        hold, _ = ctl.landing_setpoint(
+            dict(base, wave_preview=[0.5, 0.3, 0.0]), 0.0, math.radians(8))
+        self.assertAlmostEqual(hold, math.radians(2.0))
+        arrest, _ = ctl.landing_setpoint(
+            dict(base, Vz=-1.5, wave_preview=[0.0, 0.0, 0.0]),
+            0.0, math.radians(8))
+        self.assertAlmostEqual(arrest, math.radians(4.0))
+        edge, _ = ctl.landing_setpoint(
+            {"z": 0.8, "Vx": 11.0, "Vz": -0.3, "eta": 0.2,
+             "wave_preview": [0.2, 0.2, 0.2]}, 0.0, math.radians(8))
+        self.assertAlmostEqual(edge, 0.0)
+
     def test_takeoff_teacher_in_unit_box(self):
         from train import takeoff_teacher_action
         env = FlyingBoatEnv(Aircraft(), EnvConfig(scenario="takeoff", max_steps=4, Hs=0))

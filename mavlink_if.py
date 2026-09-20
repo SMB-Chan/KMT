@@ -162,12 +162,26 @@ class LowLevelController:
         surface = float(eta) if eta is not None and math.isfinite(float(eta)) else 0.0
         e_alt = z - max(target_alt, 0.0) - surface
         crest_ahead = False
+        eta_ahead = None
         if preview is not None and eta is not None:
-            eta_ahead = float(np.atleast_1d(preview)[0])
-            crest_ahead = eta_ahead > float(eta) + 0.15
+            head = np.atleast_1d(preview)
+            if head.size > 0 and np.isfinite(head).all():
+                eta_ahead = float(head[0])
+                crest_ahead = eta_ahead > float(eta) + 0.15
         if e_alt > 1.0:
             target_pitch = math.radians(-2.0 if crest_ahead else -5.0)
             throttle = 0.10
+        elif eta_ahead is not None and e_alt < 0.6:
+            # Committed zone: steady gentle descent timed to wave phase.
+            # Hold only for a fast-rising face; otherwise sink so the
+            # touchdown happens instead of skimming in ground effect.
+            throttle = 0.0
+            if Vz < -1.0:
+                target_pitch = math.radians(4.0)
+            elif eta_ahead - float(eta) > 0.35:
+                target_pitch = math.radians(2.0)
+            else:
+                target_pitch = math.radians(-3.0)
         else:
             # Idle in ground effect. Arrest a fast sink; dump lift if ballooning.
             throttle = 0.0
