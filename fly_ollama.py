@@ -52,6 +52,12 @@ def parser():
                    help='start offset within the record, hours from its first observation')
     p.add_argument('--weather-real-rate', type=float, default=1.0,
                    help='real seconds per simulation second for the replay')
+    p.add_argument('--weather-forecast', default=None,
+                   help='NDBC realtime2 file to forecast from (VAR model; requires --spatial)')
+    p.add_argument('--weather-forecast-issue', type=float, default=0.0,
+                   help='forecast issue time, hours from the record start')
+    p.add_argument('--weather-forecast-rate', type=float, default=1.0,
+                   help='real seconds per simulation second along the forecast lead')
     p.add_argument('--render', action='store_true', help='save scene.png after flight')
     p.add_argument('--host', default='http://127.0.0.1:11434')
     p.add_argument('--duration', type=positive, default=12)
@@ -92,6 +98,10 @@ def run(args, pilot=None):
         raise ValueError('--weather requires --spatial')
     if args.weather_real is not None and not args.spatial:
         raise ValueError('--weather-real requires --spatial')
+    if args.weather_forecast is not None and not args.spatial:
+        raise ValueError('--weather-forecast requires --spatial')
+    if args.weather_real is not None and args.weather_forecast is not None:
+        raise ValueError('--weather-real and --weather-forecast are exclusive')
     if args.ndbc and args.directional:
         raise ValueError('--ndbc and --directional cannot be combined in this runner')
     if pilot is None:
@@ -126,7 +136,10 @@ def run(args, pilot=None):
                                 weather=weather,
                                 weather_real=args.weather_real,
                                 weather_real_t0=args.weather_real_t0,
-                                weather_real_rate=args.weather_real_rate)
+                                weather_real_rate=args.weather_real_rate,
+                                weather_forecast=args.weather_forecast,
+                                weather_forecast_issue=args.weather_forecast_issue,
+                                weather_forecast_rate=args.weather_forecast_rate)
     vehicle.dt = args.dt
     if args.scenario == 'landing':
         vehicle.z = 25

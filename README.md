@@ -33,6 +33,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `weather.py` | 決定論的気象層（湿り空気密度・降雨/雲/霧・着氷・下降気流・天候プリセット） |
 | `weather_real.py` | NDBCブイ実測毎時気象のリプレイ（`HistoricalWeather`、`Weather` 互換の時間変動気象） |
 | `weather_study.py` | 実測リプレイの定量解析（忠実度・突風校正・エンベロープ追従・動的反応・Env端到端） |
+| `weather_forecast.py` | 天気予報モデル（`VarForecastModel`: 実測初期値から将来を予報、`forecast_weather` で予報下飛行） |
+| `weather_forecast_study.py` | 予報モデルの検証（次数選択・スキル・減衰・嵐ケース・予報下飛行） |
 | `design_optimize.py` | 機体設計の決定論的パラメトリック最適化（コンパス探索） |
 | `wind_tunnel.py` | 大気モデル駆動の仮想風洞（ポーラ・速度スイープ・突風荷重計測と空力設計最適化） |
 | `spatial_dynamics.py` | 横運動・バンク・フロート復原の空間動力学 |
@@ -451,6 +453,48 @@ python3 weather_study.py            # -> results/weather_real_001/
 検証結果は `results/weather_real_001/REPORT.md`：全1096ノードで気温・気圧・密度・風ベクトルの
 最大偏差 0（変換チェーン厳密）、突風ピークRMSE 0.28 m/s、荒天/静穏窓の動的反応比が実測
 ガスト強度比と向き・オーダーで整合、Env端到端リプレイのテレメトリ偏差 0.000 °C / 0.000 hPa。
+
+
+### 天気予報モデル（weather_forecast.py）
+
+リプレイが「観測された過去をなぞる」のに対し、`weather_forecast.py` は同じ実測記録から
+**将来を予報する統計モデル**へ気象層を成長させます。`VarForecastModel` は日周期気候値
+（UTC時刻別の平均、学習窓のみでフィット）からの異常ベクトル
+y = (PRES, ATMP, DEWP, u, v, GST−WSPD) 上に VAR(p)（線形逆モデル）をリッジ最小二乗で
+フィットし、発行時刻の実測状態を初期条件として再帰予測します。コンパニオン行列の
+スペクトル半径をチェックし、全モードが減衰するまで係数を縮小するため（半径 < 1 保証）、
+予報はリードとともに必ず気候値へ緩和する有界な誘導曲線になります。lead 0 は解析値
+（実測）そのものです。
+
+- **学習の誠実性**: `train_stop` の既定は発行時刻＝モデルは発行より前の記録だけで学習します。
+  `MIN_TRAIN_HOURS = 336`（2週間）未満の履歴しかない発行時刻は `ValueError`。
+- `forecast_series()` は予報軌道を `MetSeries` に戻し変換（u,v→風速/風向、ガスト=風速+超過、
+  RHクリップ）、`forecast_weather()` はそれを `HistoricalWeather` に渡すため、
+  env / mavlink_if / fly_ollama の既存消費者は無変更で「予報の下」を飛べます。
+  シミュレーション時刻 0 が発行時刻、`time_scale` はリプレイ同様リード時間へ対応。
+- 基準予報 `persistence_forecast`（解析値保持）/ `climatology_forecast`（日周期のみ）と
+  `rmse_vs_lead` / `skill_score` を同梱。すべて解析的・決定論的です。
+
+```bash
+# 予報下飛行（発行700h＝2026-09-03 04:00 UTC の実測から48h先まで予報、rate=360）
+python3 fly_ollama.py --spatial --weather-forecast data/ndbc_46012_realtime.txt \
+    --weather-forecast-issue 700 --weather-forecast-rate 360 --duration 10
+
+# 検証スタディ（次数選択・スキル・減衰・嵐ケース・予報下飛行）
+python3 weather_forecast_study.py     # -> results/weather_forecast_001/
+```
+
+`EnvConfig(weather_forecast=…, weather_forecast_issue=…, weather_forecast_rate=…)` と
+`FlyingBoatVehicle(…, weather_forecast=…)`（いずれも spatial=True 必須、`weather_real` と
+排他）から利用でき、`episode_conditions["weather_forecast"]` に設定が記録されます。
+
+検証結果は `results/weather_forecast_001/REPORT.md`：全予報が発行前の記録のみで学習する
+expanding window プロトコル（順序選択窓14件・検証窓24件・H=48h）で選択された VAR(6) は、
+検証窓平均で lead 48 h に全6変数で永続予報を上回ります（スキル +0.14〜+0.42）。
+短リード（1〜6h）は実況慣性が強く永続予報が優位、という実務どおりの使い分けが現れ、
+正規化異常ノルムは lead 0→48 h で比 0.40 へ単調減衰。嵐ケース（発行 2026-09-05 23:00 UTC）
+でも風速・気圧・気温を実測追跡し、`FlyingBoatEnv` 端到端エピソードのテレメトリは
+予報系列と偏差 0.000 °C / 0.000 hPa で一致します。
 
 
 ## 空間運動の機体・操縦・表示への接続

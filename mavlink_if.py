@@ -245,7 +245,9 @@ class FlyingBoatVehicle:
                  *, spatial: bool = False, atmosphere=None, seed: int = 42,
                  current=(0.0, 0.0), weather=None,
                  weather_real=None, weather_real_t0: float = 0.0,
-                 weather_real_rate: float = 1.0):
+                 weather_real_rate: float = 1.0,
+                 weather_forecast=None, weather_forecast_issue: float = 0.0,
+                 weather_forecast_rate: float = 1.0):
         self.spatial = spatial
         self.atmosphere_config = atmosphere or AtmosphereConfig()
         if not spatial and self.atmosphere_config != AtmosphereConfig():
@@ -266,9 +268,22 @@ class FlyingBoatVehicle:
                     or not math.isfinite(weather_real_rate)
                     or weather_real_rate < 0.0):
                 raise ValueError("invalid weather_real replay parameters")
+        if weather_forecast is not None:
+            if not spatial:
+                raise ValueError("weather_forecast requires spatial=True")
+            if weather_real is not None:
+                raise ValueError("weather_real and weather_forecast "
+                                 "cannot be combined")
+            if (not math.isfinite(weather_forecast_issue)
+                    or not math.isfinite(weather_forecast_rate)
+                    or weather_forecast_rate < 0.0):
+                raise ValueError("invalid weather_forecast parameters")
         self.weather_real = weather_real
         self.weather_real_t0 = float(weather_real_t0)
         self.weather_real_rate = float(weather_real_rate)
+        self.weather_forecast = weather_forecast
+        self.weather_forecast_issue = float(weather_forecast_issue)
+        self.weather_forecast_rate = float(weather_forecast_rate)
         self.weather_config = weather
         self.weather = None
         self.ice_mass = 0.0
@@ -322,6 +337,17 @@ class FlyingBoatVehicle:
                 atmosphere=self.atmosphere_config, seed=self._wind_seed,
                 t0_hours=self.weather_real_t0,
                 time_scale=self.weather_real_rate)
+            self.atmosphere = self.weather
+        elif self.weather_forecast is not None:
+            from weather_forecast import forecast_weather, issue_index
+            from weather_real import parse_ndbc_met
+            series = parse_ndbc_met(self.weather_forecast)
+            issue = issue_index(series, self.weather_forecast_issue)
+            horizon = max(24, len(series) - 1 - issue)
+            self.weather, _ = forecast_weather(
+                series, issue, horizon, weather=self.weather_config,
+                atmosphere=self.atmosphere_config, seed=self._wind_seed,
+                time_scale=self.weather_forecast_rate, train_stop=issue)
             self.atmosphere = self.weather
         elif self.weather_config is not None:
             # Weather implements the Atmosphere interface; it carries wind,

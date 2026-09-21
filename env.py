@@ -43,6 +43,9 @@ class EnvConfig:
     weather_real: str | None = None  # NDBC realtime2 file to replay (spatial)
     weather_real_t0: float = 0.0     # replay start offset in the record, hours
     weather_real_rate: float = 1.0   # real seconds per simulation second
+    weather_forecast: str | None = None   # NDBC file to *forecast* from (spatial)
+    weather_forecast_issue: float = 0.0   # issue time offset in record, hours
+    weather_forecast_rate: float = 1.0    # real seconds per simulation second
     scenario: str = "takeoff"          # "takeoff" or "landing"
     dt: float = 0.05                   # control step
     max_steps: int = 200
@@ -117,6 +120,16 @@ class FlyingBoatEnv:
                     or not math.isfinite(self.cfg.weather_real_rate)
                     or self.cfg.weather_real_rate < 0.0):
                 raise ValueError("invalid weather_real replay parameters")
+        if self.cfg.weather_forecast is not None:
+            if not self.cfg.spatial:
+                raise ValueError("weather_forecast requires spatial=True")
+            if self.cfg.weather_real is not None:
+                raise ValueError("weather_real and weather_forecast "
+                                 "cannot be combined")
+            if (not math.isfinite(self.cfg.weather_forecast_issue)
+                    or not math.isfinite(self.cfg.weather_forecast_rate)
+                    or self.cfg.weather_forecast_rate < 0.0):
+                raise ValueError("invalid weather_forecast parameters")
         self.action_dim = 4 if self.cfg.spatial else 2
         self.state_dim = 8 + int(dx.size) + (8 if self.cfg.spatial else 0)
         self._build_state_scales()
@@ -217,7 +230,12 @@ class FlyingBoatEnv:
                                            None if self.cfg.weather_real is None else
                                            dict(path=str(self.cfg.weather_real),
                                                 t0_hours=float(self.cfg.weather_real_t0),
-                                                rate=float(self.cfg.weather_real_rate))))
+                                                rate=float(self.cfg.weather_real_rate))),
+                                       weather_forecast=(
+                                           None if self.cfg.weather_forecast is None else
+                                           dict(path=str(self.cfg.weather_forecast),
+                                                issue_hours=float(self.cfg.weather_forecast_issue),
+                                                rate=float(self.cfg.weather_forecast_rate))))
         if self.cfg.directional:
             self._sea = DirectionalOcean(Hs=hs, Tp=tp,
                                          theta_mean=math.radians(direction),
@@ -241,6 +259,20 @@ class FlyingBoatEnv:
                 atmosphere=atmosphere, seed=seed,
                 t0_hours=self.cfg.weather_real_t0,
                 time_scale=self.cfg.weather_real_rate)
+            self._atmosphere = self._weather
+        elif self.cfg.weather_forecast is not None:
+            # Forecast replay: a VAR model initialised on the observed state
+            # at the issue time supplies the hourly trajectory; sim time 0 is
+            # the issue time and the weather evolves along the forecast lead.
+            from weather_forecast import forecast_weather, issue_index
+            from weather_real import parse_ndbc_met
+            series = parse_ndbc_met(self.cfg.weather_forecast)
+            issue = issue_index(series, self.cfg.weather_forecast_issue)
+            horizon = max(24, len(series) - 1 - issue)
+            self._weather, _ = forecast_weather(
+                series, issue, horizon, weather=self.cfg.weather,
+                atmosphere=atmosphere, seed=seed,
+                time_scale=self.cfg.weather_forecast_rate, train_stop=issue)
             self._atmosphere = self._weather
         elif self.cfg.weather is not None:
             # Weather implements the Atmosphere interface, so it replaces the
