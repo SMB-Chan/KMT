@@ -364,6 +364,32 @@ def main(argv: list[str] | None = None) -> int:
     p_serve.add_argument("--mavlink-gcs", default="127.0.0.1:14550",
                          help="GCS listen address host:port (default 127.0.0.1:14550)")
 
+    p_app = sub.add_parser(
+        "app", help="register the human-operation cockpit as a desktop app")
+    p_app.add_argument("action",
+                       choices=["install", "uninstall", "launch", "stop",
+                                "status"],
+                       help="install/uninstall manage the .desktop entry, "
+                            "launch starts the server and opens the browser, "
+                            "stop/status manage the detached server")
+    p_app.add_argument("--host", default=None,
+                       help="bind address (default 127.0.0.1 or "
+                            "$KMT_OPERATOR_HOST)")
+    p_app.add_argument("--port", type=int, default=None,
+                       help="listen port (default 8766 or $KMT_OPERATOR_PORT)")
+    p_app.add_argument("--home", type=Path, default=None,
+                       help="override $HOME (used by the tests)")
+    p_app.add_argument("--python", default=None,
+                       help="python executable baked into the launcher")
+    p_app.add_argument("--desktop", action="store_true",
+                       help="install: also place a launcher on the desktop")
+    p_app.add_argument("--no-browser", action="store_true",
+                       help="launch: start the server without opening a browser")
+    p_app.add_argument("--remove-runtime", action="store_true",
+                       help="uninstall: also delete var/app (pid and log)")
+    p_app.add_argument("--timeout", type=float, default=20.0,
+                       help="seconds to wait for /health or SIGTERM (default 20)")
+
     p_mav = sub.add_parser("mavlink",
                            help="MAVLink UDP SITL for QGroundControl / MAVProxy")
     p_mav.add_argument("--bind", default="127.0.0.1")
@@ -415,6 +441,8 @@ def main(argv: list[str] | None = None) -> int:
             return 0
     if args.cmd == "report":
         return _report(args)
+    if args.cmd == "app":
+        return _app(args)
     parser.error(f"unknown command: {args.cmd}")
     return 1
 
@@ -464,6 +492,35 @@ def _report(args) -> int:
             _json.dumps(asdict(m), indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
+    return 0
+
+
+def _app(args) -> int:
+    """Desktop-application registration handler (see desktop_app.py)."""
+    from . import desktop_app as da
+
+    host = args.host or da.default_host()
+    port = args.port if args.port is not None else da.default_port()
+    paths = da.resolve_paths(home=args.home)
+    python_exe = args.python or sys.executable
+    try:
+        if args.action == "install":
+            info = da.install(paths, host, port, python_exe=python_exe,
+                              with_desktop_link=args.desktop)
+        elif args.action == "uninstall":
+            info = da.uninstall(paths, remove_runtime=args.remove_runtime)
+        elif args.action == "launch":
+            info = da.launch(paths, host, port, python_exe=python_exe,
+                             open_browser=not args.no_browser,
+                             timeout_s=args.timeout)
+        elif args.action == "stop":
+            info = da.stop_server(paths, timeout_s=args.timeout)
+        else:
+            info = da.status(paths, host, port)
+    except (RuntimeError, FileNotFoundError, OSError) as exc:
+        print(f"app {args.action}: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(info, indent=2, ensure_ascii=False))
     return 0
 
 

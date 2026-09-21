@@ -705,6 +705,9 @@ python3 train.py --scenario takeoff --directional \
 # 5. ブラウザコックピットで操縦
 python3 -m operator_training serve --port 8766
 # → http://127.0.0.1:8766/cockpit/
+# アプリ登録（app install）済みなら、メニュー起動と同じ経路で
+# サーバ起動とブラウザ表示までを一行で行える
+python3 -m operator_training app launch
 
 # 6. QGroundControl / MAVProxy から SITL 操縦
 python3 -m operator_training mavlink --port 14551 --gcs 127.0.0.1:14550

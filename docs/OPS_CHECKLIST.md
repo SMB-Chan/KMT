@@ -110,6 +110,10 @@ python3 -m operator_training serve --port 8766
 - `Start Manual` / `Start Takeoff` / `Take Control` / `Pause` / `Resume` ボタン
 - W/S: ピッチ、E/D・↑/↓: スロットル、A/F・←/→: バンク、Q/C: ラダー
 - ゲームパッド: 左スティック＝ピッチ・バンク、右スティック横＝ラダー、RT＝スロットル
+- アプリ登録: `python3 -m operator_training app install --desktop` で OS のアプリメニューと
+  デスクトップに「KMT 人間操作コックピット」を登録。以降はランチャーから
+  `app launch` 相当（サーバ起動＋ブラウザ表示）を実行。管理は
+  `app status` / `app stop` / `app uninstall`
 - 通信断からの自動再接続は同じセッションを再利用します
 
 ### 2.5 物理サニティ
@@ -395,6 +399,7 @@ ls -1 results/ | head
 - [ ] `python3 evaluate.py` で MAVLink 経路を実行
 - [ ] `python3 -m operator_training mavlink` を起動し、QGroundControl / MAVProxy から接続確認
 - [ ] `python3 -m operator_training serve --port 8766` でブラウザコックピットを開く
+- [ ] `python3 -m operator_training app status` でアプリ登録とコックピットサーバの状態を確認
 - [ ] `python3 -m operator_training report var/operator_sessions/<id>` でフライトレポートを確認
 - [ ] Ollama 環境があれば `fly_ollama.py --check` で接続
 - [ ] 同梱 `results/phi_student_v1/student.npz` で学生モデルを試走

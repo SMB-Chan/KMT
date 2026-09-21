@@ -50,7 +50,8 @@ MAVLink風のローカル・コマンドインターフェースを実装し、�
 | `teacher_student.py` | 教師模倣の生徒学習 |
 | `educate.py` | Phi教材 cycles（カリキュラム・検証） |
 | `feedback_education.py` | フィードバック付き教材 cycles |
-| `operator_training/` | ブラウザ操縦コックピット・MAVLink UDP SITL・フライトレポート |
+| `operator_training/` | ブラウザ操縦コックピット・MAVLink UDP SITL・フライトレポート・デスクトップアプリ登録（`desktop_app.py`） |
+| `make_app_icon.py` | 操縦コックピットのアプリアイコン生成（Pillow による決定的描画） |
 | `web/operator/` | QGC 代替のローカル操縦 UI |
 | `docs/` | 運用マニュアル・MAVLink参照・チェックリスト |
 | `tests/` | 学習・評価・故障処理の回帰テスト |
@@ -643,6 +644,38 @@ python3 -m operator_training serve --port 8766
 
 通信断からの自動再接続では同じセッションを使用します。ページ再読み込みは新規セッションを作成します。
 Pythonコードを変更した場合はサーバーを再起動してください。
+
+### デスクトップアプリとしての登録（人間操作モード）
+
+人間操作モードは freedesktop 準拠の `.desktop` エントリとして OS のアプリメニューへ登録できます。
+登録すると起動ランチャー・アイコン・ポート設定がユーザプロファイルへ書き出され、
+アプリメニュー（またはデスクトップのランチャー）から起動するだけで
+`operator_training serve` の起動と `http://127.0.0.1:8766/cockpit/` のブラウザ表示までを行います。
+
+```bash
+python3 -m operator_training app install             # アプリメニューへ登録
+python3 -m operator_training app install --desktop   # デスクトップにもランチャーを置く
+python3 -m operator_training app launch              # サーバ起動＋ブラウザでコックピットを開く
+python3 -m operator_training app status              # 登録とサーバの状態を表示
+python3 -m operator_training app stop                # launch が起動したサーバを停止
+python3 -m operator_training app uninstall           # 登録をすべて削除
+```
+
+書き出されるファイル:
+
+| 場所 | 内容 |
+| --- | --- |
+| `~/.local/share/applications/kmt-operator-cockpit.desktop` | アプリメニューのエントリ（`Name[ja]`・`Icon`・`Exec`・`Categories`） |
+| `~/.local/share/icons/hicolor/<size>x<size>/apps/kmt-operator-cockpit.png` | アプリアイコン（256/128/64/48 px） |
+| `~/.local/bin/kmt-operator-cockpit` | 起動ラッパー（リポジトリへ `cd` して `app launch` を実行） |
+| `var/app/server.pid`・`var/app/server.log` | 分離起動したサーバの PID とログ（git 管理外） |
+
+`--port` / `--host` で登録するポートとアドレスを変えられます（既定 8766。
+環境変数 `KMT_OPERATOR_PORT` / `KMT_OPERATOR_HOST` も同様に有効）。
+`app launch` は `/health` を先に確認し、既に起動済みのサーバがあれば再利用します。
+ポートが他プロセスに占有されている場合は起動せずエラーを返します。
+アイコンは `make_app_icon.py` が決定的に生成します（`python3 make_app_icon.py --all-sizes`）。
+登録内容は `desktop-file-validate` で検証済みです。
 
 操縦モードの回帰テスト:
 
