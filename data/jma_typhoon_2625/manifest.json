@@ -1,0 +1,27 @@
+{
+ "fetched_utc": "2026-09-21T00:32:36Z",
+ "tc_id": "TC2630",
+ "typhoon_number": "2625",
+ "bulletins": 133,
+ "denbun_files": 133,
+ "amedas_rows": 1008,
+ "amedas_stations": 14,
+ "amedas_window_utc": [
+  "2026-09-18T01:20:00Z",
+  "2026-09-21T00:20:00Z"
+ ],
+ "prefecture_R1_xml": 9,
+ "sources": {
+  "targetTc.json": "https://www.jma.go.jp/bosai/typhoon/data/targetTc.json",
+  "pastTracks.json": "https://www.jma.go.jp/bosai/typhoon/data/pastTracks.json",
+  "TC2630_forecast.json": "https://www.jma.go.jp/bosai/typhoon/data/TC2630/forecast.json",
+  "TC2630_specifications.json": "https://www.jma.go.jp/bosai/typhoon/data/TC2630/specifications.json",
+  "TC2630_forecastPreviousIssue.json": "https://www.jma.go.jp/bosai/typhoon/data/TC2630/forecastPreviousIssue.json",
+  "TC2630_probabilityThrough.json": "https://www.jma.go.jp/bosai/typhoon/data/TC2630/probabilityThrough.json",
+  "TC2630_probabilityTimeseries.json": "https://www.jma.go.jp/bosai/typhoon/data/TC2630/probabilityTimeseries.json",
+  "information_typhoon.json": "https://www.jma.go.jp/bosai/information/data/r8/information.json",
+  "denbun/": "https://www.jma.go.jp/bosai/information/data/r8/denbun/{jsonName}.json",
+  "amedas_stations.csv": "https://www.jma.go.jp/bosai/amedas/data/map/{YYYYMMDDHHMMSS}.json",
+  "feed_prefecture_R1/": "https://www.data.jma.go.jp/developer/xml/feed/regular_l.xml"
+ }
+}

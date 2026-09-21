@@ -1,0 +1,226 @@
+{
+ "44263": {
+  "type": "B",
+  "elems": "11111011",
+  "lat": [
+   33,
+   7.3
+  ],
+  "lon": [
+   139,
+   46.7
+  ],
+  "alt": 151,
+  "kjName": "八丈島",
+  "knName": "ハチジョウジマ",
+  "enName": "Hachijojima Island"
+ },
+ "44226": {
+  "type": "B",
+  "elems": "11111011",
+  "lat": [
+   34,
+   7.4
+  ],
+  "lon": [
+   139,
+   31.2
+  ],
+  "alt": 38,
+  "kjName": "三宅島",
+  "knName": "ミヤケジマ",
+  "enName": "Miyakejima Island"
+ },
+ "44172": {
+  "type": "B",
+  "elems": "11111011",
+  "lat": [
+   34,
+   44.9
+  ],
+  "lon": [
+   139,
+   21.7
+  ],
+  "alt": 74,
+  "kjName": "大島",
+  "knName": "オオシマ",
+  "enName": "Oshima Island"
+ },
+ "45148": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   35,
+   44.3
+  ],
+  "lon": [
+   140,
+   51.4
+  ],
+  "alt": 20,
+  "kjName": "銚子",
+  "knName": "チョウシ",
+  "enName": "Choshi"
+ },
+ "44132": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   35,
+   41.5
+  ],
+  "lon": [
+   139,
+   45.0
+  ],
+  "alt": 25,
+  "kjName": "東京",
+  "knName": "トウキョウ",
+  "enName": "Tokyo"
+ },
+ "46106": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   35,
+   26.3
+  ],
+  "lon": [
+   139,
+   39.1
+  ],
+  "alt": 39,
+  "kjName": "横浜",
+  "knName": "ヨコハマ",
+  "enName": "Yokohama"
+ },
+ "45212": {
+  "type": "B",
+  "elems": "11111111",
+  "lat": [
+   35,
+   36.1
+  ],
+  "lon": [
+   140,
+   6.2
+  ],
+  "alt": 3,
+  "kjName": "千葉",
+  "knName": "チバ",
+  "enName": "Chiba"
+ },
+ "49142": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   35,
+   40.0
+  ],
+  "lon": [
+   138,
+   33.2
+  ],
+  "alt": 273,
+  "kjName": "甲府",
+  "knName": "コウフ",
+  "enName": "Kofu"
+ },
+ "50331": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   34,
+   58.5
+  ],
+  "lon": [
+   138,
+   24.2
+  ],
+  "alt": 14,
+  "kjName": "静岡",
+  "knName": "シズオカ",
+  "enName": "Shizuoka"
+ },
+ "40201": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   36,
+   22.8
+  ],
+  "lon": [
+   140,
+   28.0
+  ],
+  "alt": 29,
+  "kjName": "水戸",
+  "knName": "ミト",
+  "enName": "Mito"
+ },
+ "34392": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   38,
+   15.7
+  ],
+  "lon": [
+   140,
+   53.8
+  ],
+  "alt": 39,
+  "kjName": "仙台",
+  "knName": "センダイ",
+  "enName": "Sendai"
+ },
+ "33472": {
+  "type": "B",
+  "elems": "11111111",
+  "lat": [
+   39,
+   38.8
+  ],
+  "lon": [
+   141,
+   57.9
+  ],
+  "alt": 43,
+  "kjName": "宮古",
+  "knName": "ミヤコ",
+  "enName": "Miyako"
+ },
+ "74182": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   33,
+   34.0
+  ],
+  "lon": [
+   133,
+   32.9
+  ],
+  "alt": 1,
+  "kjName": "高知",
+  "knName": "コウチ",
+  "enName": "Kochi"
+ },
+ "62078": {
+  "type": "A",
+  "elems": "11111111",
+  "lat": [
+   34,
+   40.9
+  ],
+  "lon": [
+   135,
+   31.1
+  ],
+  "alt": 23,
+  "kjName": "大阪",
+  "knName": "オオサカ",
+  "enName": "Osaka"
+ }
+}

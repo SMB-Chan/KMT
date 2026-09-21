@@ -1,0 +1,6489 @@
+[
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-16T13:26:44Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-16T22:26:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260916132645_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-23T13:26:00+00:00",
+  "validMap": "2026-09-17T15:26:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-16T22:26:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-16T21:42:38Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-17T06:42:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260916214239_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-23T21:42:00+00:00",
+  "validMap": "2026-09-17T23:42:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-17T06:42:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-17T07:51:22Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-17T16:51:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260917075122_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-24T07:51:00+00:00",
+  "validMap": "2026-09-18T09:51:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-17T16:51:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-17T08:01:37Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-17T17:01:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260917080137_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-24T08:01:00+00:00",
+  "validMap": "2026-09-18T10:01:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-17T17:01:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風 大雨"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-17T19:45:03Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T04:45:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260917194504_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-24T19:45:00+00:00",
+  "validMap": "2026-09-18T21:45:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T04:45:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風 大雨"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-17T20:49:22Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T05:49:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260917204923_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-24T20:49:00+00:00",
+  "validMap": "2026-09-18T22:49:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T05:49:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 大雨 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-17T21:29:56Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T06:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260917212957_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-24T21:29:00+00:00",
+  "validMap": "2026-09-18T23:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T06:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-17T21:43:07Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T06:43:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260917214308_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-24T21:43:00+00:00",
+  "validMap": "2026-09-18T23:43:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T06:43:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-18T02:29:08Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T11:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260918022909_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-25T02:29:00+00:00",
+  "validMap": "2026-09-19T04:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T11:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 暴風 大雨"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T02:47:53Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T11:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260918024753_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T02:47:00+00:00",
+  "validMap": "2026-09-19T04:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T11:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T03:00:40Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T12:00:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260918030040_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T03:00:00+00:00",
+  "validMap": "2026-09-19T05:00:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T12:00:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T03:05:12Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T12:05:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260918030513_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T03:05:00+00:00",
+  "validMap": "2026-09-19T05:05:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T12:05:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T07:05:07Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:05:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260918070507_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T07:05:00+00:00",
+  "validMap": "2026-09-19T09:05:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:05:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:17:13Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:17:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260918071714_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:17:00+00:00",
+  "validMap": "2026-09-19T09:17:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:17:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T07:21:01Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:20:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260918072101_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T07:20:00+00:00",
+  "validMap": "2026-09-19T09:20:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:20:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:32:15Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:32:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260918073215_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:32:00+00:00",
+  "validMap": "2026-09-19T09:32:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:32:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:32:24Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:32:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260918073225_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:32:00+00:00",
+  "validMap": "2026-09-19T09:32:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:32:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T07:36:12Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:36:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260918073613_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T07:36:00+00:00",
+  "validMap": "2026-09-19T09:36:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:36:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:41:06Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:41:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260918074107_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:41:00+00:00",
+  "validMap": "2026-09-19T09:41:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:41:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:44:33Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:44:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260918074433_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:44:00+00:00",
+  "validMap": "2026-09-19T09:44:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:44:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:47:25Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260918074726_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:47:00+00:00",
+  "validMap": "2026-09-19T09:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:47:34Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260918074735_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:47:00+00:00",
+  "validMap": "2026-09-19T09:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-18T07:48:38Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:48:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260918074838_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-25T07:48:00+00:00",
+  "validMap": "2026-09-19T09:48:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:48:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:54:10Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:54:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260918075410_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:54:00+00:00",
+  "validMap": "2026-09-19T09:54:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:54:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T07:59:07Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T16:59:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260918075907_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T07:59:00+00:00",
+  "validMap": "2026-09-19T09:59:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T16:59:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:08:11Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:08:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260918080811_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:08:00+00:00",
+  "validMap": "2026-09-19T10:08:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:08:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:09:33Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:09:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260918080934_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:09:00+00:00",
+  "validMap": "2026-09-19T10:09:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:09:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:10:50Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:10:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260918081050_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:10:00+00:00",
+  "validMap": "2026-09-19T10:10:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:10:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:17:52Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:17:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "1",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260918081752_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:17:00+00:00",
+  "validMap": "2026-09-19T10:17:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:17:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:29:36Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260918082936_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:29:00+00:00",
+  "validMap": "2026-09-19T10:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 暴風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T08:33:05Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-18T17:33:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260918083306_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T08:33:00+00:00",
+  "validMap": "2026-09-19T10:33:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-18T17:33:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T20:05:40Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:05:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260918200540_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T20:05:00+00:00",
+  "validMap": "2026-09-19T22:05:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:05:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T20:30:10Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:30:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260918203011_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T20:30:00+00:00",
+  "validMap": "2026-09-19T22:30:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:30:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T20:30:14Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:30:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260918203014_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T20:30:00+00:00",
+  "validMap": "2026-09-19T22:30:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:30:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T20:30:23Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:30:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260918203023_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T20:30:00+00:00",
+  "validMap": "2026-09-19T22:30:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:30:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-18T20:39:21Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:39:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260918203922_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-25T20:39:00+00:00",
+  "validMap": "2026-09-19T22:39:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:39:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T20:39:30Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T05:39:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260918203930_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T20:39:00+00:00",
+  "validMap": "2026-09-19T22:39:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T05:39:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-18T21:08:22Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:08:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260918210822_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-25T21:08:00+00:00",
+  "validMap": "2026-09-19T23:08:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:08:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:12:34Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:12:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260918211234_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:12:00+00:00",
+  "validMap": "2026-09-19T23:12:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:12:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:22:13Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:22:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260918212213_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:22:00+00:00",
+  "validMap": "2026-09-19T23:22:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:22:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:25:18Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:25:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260918212519_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:25:00+00:00",
+  "validMap": "2026-09-19T23:25:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:25:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 高い潮位"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:28:40Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:28:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260918212841_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:28:00+00:00",
+  "validMap": "2026-09-19T23:28:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:28:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:29:13Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260918212913_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:29:00+00:00",
+  "validMap": "2026-09-19T23:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:33:05Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:33:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260918213306_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:33:00+00:00",
+  "validMap": "2026-09-19T23:33:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:33:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:33:38Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:33:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260918213339_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:33:00+00:00",
+  "validMap": "2026-09-19T23:33:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:33:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:35:06Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:35:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "7",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260918213506_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:35:00+00:00",
+  "validMap": "2026-09-19T23:35:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:35:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 暴風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:43:23Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:43:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260918214324_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:43:00+00:00",
+  "validMap": "2026-09-19T23:43:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:43:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T21:53:52Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T06:53:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260918215352_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T21:53:00+00:00",
+  "validMap": "2026-09-19T23:53:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T06:53:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T22:06:46Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T07:06:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "2",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260918220647_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T22:06:00+00:00",
+  "validMap": "2026-09-20T00:06:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T07:06:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-18T22:31:16Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T07:31:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260918223117_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-25T22:31:00+00:00",
+  "validMap": "2026-09-20T00:31:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T07:31:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:07:07Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:07:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260919070708_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:07:00+00:00",
+  "validMap": "2026-09-20T09:07:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:07:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T07:23:00Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:22:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260919072300_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T07:22:00+00:00",
+  "validMap": "2026-09-20T09:22:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:22:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T07:28:06Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:28:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260919072806_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T07:28:00+00:00",
+  "validMap": "2026-09-20T09:28:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:28:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T07:28:16Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:28:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260919072817_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T07:28:00+00:00",
+  "validMap": "2026-09-20T09:28:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:28:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:32:40Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:32:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260919073240_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:32:00+00:00",
+  "validMap": "2026-09-20T09:32:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:32:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-19T07:45:10Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:45:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "7",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260919074511_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-26T07:45:00+00:00",
+  "validMap": "2026-09-20T09:45:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:45:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:49:17Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:49:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260919074917_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:49:00+00:00",
+  "validMap": "2026-09-20T09:49:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:49:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:51:30Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:51:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260919075131_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:51:00+00:00",
+  "validMap": "2026-09-20T09:51:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:51:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:51:34Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:51:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260919075134_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:51:00+00:00",
+  "validMap": "2026-09-20T09:51:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:51:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:55:04Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:55:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260919075504_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:55:00+00:00",
+  "validMap": "2026-09-20T09:55:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:55:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:56:17Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:56:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260919075618_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:56:00+00:00",
+  "validMap": "2026-09-20T09:56:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:56:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T07:57:20Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T16:57:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260919075720_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T07:57:00+00:00",
+  "validMap": "2026-09-20T09:57:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T16:57:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:11:02Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:11:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260919081102_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:11:00+00:00",
+  "validMap": "2026-09-20T10:11:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:11:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:14:07Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:14:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260919081408_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:14:00+00:00",
+  "validMap": "2026-09-20T10:14:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:14:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 高い潮位"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:14:32Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:14:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "8",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260919081432_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:14:00+00:00",
+  "validMap": "2026-09-20T10:14:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:14:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 暴風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:19:43Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:19:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260919081944_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:19:00+00:00",
+  "validMap": "2026-09-20T10:19:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:19:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:41:34Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:41:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260919084135_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:41:00+00:00",
+  "validMap": "2026-09-20T10:41:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:41:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:46:40Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:46:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260919084640_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:46:00+00:00",
+  "validMap": "2026-09-20T10:46:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:46:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T08:47:05Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-19T17:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "3",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260919084705_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T08:47:00+00:00",
+  "validMap": "2026-09-20T10:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-19T17:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-19T20:05:27Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:04:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "8",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260919200527_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-26T20:04:00+00:00",
+  "validMap": "2026-09-20T22:04:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:04:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T20:20:38Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:20:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260919202039_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T20:20:00+00:00",
+  "validMap": "2026-09-20T22:20:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:20:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T20:24:16Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:24:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260919202416_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T20:24:00+00:00",
+  "validMap": "2026-09-20T22:24:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:24:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T20:46:46Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:46:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260919204647_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T20:46:00+00:00",
+  "validMap": "2026-09-20T22:46:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:46:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T20:47:03Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260919204704_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T20:47:00+00:00",
+  "validMap": "2026-09-20T22:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T20:47:12Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:47:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260919204712_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T20:47:00+00:00",
+  "validMap": "2026-09-20T22:47:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:47:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T20:57:18Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T05:57:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260919205719_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T20:57:00+00:00",
+  "validMap": "2026-09-20T22:57:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T05:57:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷 高い潮位"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:00:09Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:00:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260919210009_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:00:00+00:00",
+  "validMap": "2026-09-20T23:00:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:00:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-19T21:02:39Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:02:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260919210239_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-26T21:02:00+00:00",
+  "validMap": "2026-09-20T23:02:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:02:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:06:21Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:06:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260919210622_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:06:00+00:00",
+  "validMap": "2026-09-20T23:06:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:06:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:09:40Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:09:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260919210941_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:09:00+00:00",
+  "validMap": "2026-09-20T23:09:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:09:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:17:07Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:17:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260919211708_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:17:00+00:00",
+  "validMap": "2026-09-20T23:17:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:17:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:22:18Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:22:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260919212218_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:22:00+00:00",
+  "validMap": "2026-09-20T23:22:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:22:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:24:32Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:24:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "9",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260919212433_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:24:00+00:00",
+  "validMap": "2026-09-20T23:24:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:24:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:27:02Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:27:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260919212702_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:27:00+00:00",
+  "validMap": "2026-09-20T23:27:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:27:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:32:08Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:32:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260919213208_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:32:00+00:00",
+  "validMap": "2026-09-20T23:32:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:32:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 暴風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:36:23Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:36:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260919213623_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:36:00+00:00",
+  "validMap": "2026-09-20T23:36:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:36:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T21:49:38Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T06:49:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "4",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260919214938_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T21:49:00+00:00",
+  "validMap": "2026-09-20T23:49:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T06:49:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-19T22:10:26Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T07:10:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260919221027_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-26T22:10:00+00:00",
+  "validMap": "2026-09-21T00:10:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T07:10:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ],
+  "mapValidOut": true
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-20T02:00:09Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T11:00:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "9",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260920020010_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-27T02:00:00+00:00",
+  "validMap": "2026-09-21T04:00:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T11:00:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T02:29:27Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T11:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260920022927_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T02:29:00+00:00",
+  "validMap": "2026-09-21T04:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T11:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T02:33:15Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T11:33:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "7",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260920023316_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T02:33:00+00:00",
+  "validMap": "2026-09-21T04:33:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T11:33:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T02:45:13Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T11:45:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "10",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260920024513_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T02:45:00+00:00",
+  "validMap": "2026-09-21T04:45:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T11:45:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T07:17:17Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:17:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260920071717_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T07:17:00+00:00",
+  "validMap": "2026-09-21T09:17:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:17:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T07:24:54Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:24:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260920072454_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T07:24:00+00:00",
+  "validMap": "2026-09-21T09:24:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:24:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T07:28:37Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:28:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260920072838_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T07:28:00+00:00",
+  "validMap": "2026-09-21T09:28:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:28:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 暴風 大雨 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T07:29:09Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:29:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "7",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260920072909_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T07:29:00+00:00",
+  "validMap": "2026-09-21T09:29:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:29:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T07:32:41Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:32:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260920073242_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T07:32:00+00:00",
+  "validMap": "2026-09-21T09:32:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:32:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T07:35:19Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:35:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260920073519_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T07:35:00+00:00",
+  "validMap": "2026-09-21T09:35:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:35:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T07:38:18Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T16:38:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260920073819_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T07:38:00+00:00",
+  "validMap": "2026-09-21T09:38:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T16:38:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:02:35Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:02:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260920080236_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:02:00+00:00",
+  "validMap": "2026-09-21T10:02:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:02:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷 高い潮位"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T08:06:40Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:06:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "8",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260920080641_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T08:06:00+00:00",
+  "validMap": "2026-09-21T10:06:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:06:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:07:29Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:07:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260920080730_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:07:00+00:00",
+  "validMap": "2026-09-21T10:07:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:07:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-20T08:08:14Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:08:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "10",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260920080815_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-27T08:08:00+00:00",
+  "validMap": "2026-09-21T10:08:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:08:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷 氾濫"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:13:49Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:13:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260920081349_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:13:00+00:00",
+  "validMap": "2026-09-21T10:13:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:13:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:14:43Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:14:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260920081443_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:14:00+00:00",
+  "validMap": "2026-09-21T10:14:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:14:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:19:16Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:19:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "11",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260920081916_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:19:00+00:00",
+  "validMap": "2026-09-21T10:19:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:19:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:22:08Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:22:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260920082209_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:22:00+00:00",
+  "validMap": "2026-09-21T10:22:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:22:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:25:20Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:25:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260920082521_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:25:00+00:00",
+  "validMap": "2026-09-21T10:25:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:25:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:31:09Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:31:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260920083110_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:31:00+00:00",
+  "validMap": "2026-09-21T10:31:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:31:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:36:37Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:36:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "8",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260920083637_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:36:00+00:00",
+  "validMap": "2026-09-21T10:36:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:36:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:51:09Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:51:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260920085110_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:51:00+00:00",
+  "validMap": "2026-09-21T10:51:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:51:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 暴風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T08:51:20Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T17:50:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "5",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260920085120_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T08:50:00+00:00",
+  "validMap": "2026-09-21T10:50:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T17:50:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T13:05:35Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T22:05:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "7",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260920130535_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T13:05:00+00:00",
+  "validMap": "2026-09-21T15:05:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T22:05:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T14:33:20Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-20T23:33:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "12",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260920143320_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T14:33:00+00:00",
+  "validMap": "2026-09-21T16:33:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-20T23:33:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 氾濫 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "全般気象解説情報",
+  "datetime": "2026-09-20T20:11:08Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "全般気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:11:00+09:00",
+  "validDatetime": null,
+  "eventId": "ZJPTK260057",
+  "infoType": "発表",
+  "serial": "11",
+  "areaType": "japan",
+  "areaCode": "010000",
+  "areaCodes": [
+   "010000"
+  ],
+  "jsonName": "20260920201108_0_VPZJ51_010000",
+  "header": "VPZJ51",
+  "valid": "2026-09-27T20:11:00+00:00",
+  "validMap": "2026-09-21T22:11:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:11:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷 氾濫"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "全国",
+    "code": "010000"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T20:18:45Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "東北地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:18:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPSN260025",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "centers",
+  "areaCode": "010200",
+  "areaCodes": [
+   "010200"
+  ],
+  "jsonName": "20260920201846_0_VPCJ51_010200",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T20:18:00+00:00",
+  "validMap": "2026-09-21T22:18:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:18:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東北地方",
+    "code": "010200"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T20:30:49Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "東海地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:30:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPGY260022",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "centers",
+  "areaCode": "010400",
+  "areaCodes": [
+   "010400"
+  ],
+  "jsonName": "20260920203049_0_VPCJ51_010400",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T20:30:00+00:00",
+  "validMap": "2026-09-21T22:30:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:30:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東海地方",
+    "code": "010400"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T20:40:08Z",
+  "editorialOffice": "盛岡地方気象台",
+  "publishingOffice": "盛岡地方気象台",
+  "headTitle": "岩手県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:40:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDC260024",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "030000",
+  "areaCodes": [
+   "030000"
+  ],
+  "jsonName": "20260920204008_0_VPFJ51_030000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T20:40:00+00:00",
+  "validMap": "2026-09-21T22:40:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:40:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 強風 高波"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "内陸",
+    "code": "030010"
+   },
+   {
+    "name": "沿岸北部",
+    "code": "030020"
+   },
+   {
+    "name": "沿岸南部",
+    "code": "030030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "地方気象解説情報",
+  "datetime": "2026-09-20T20:45:31Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "関東甲信地方気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:45:00+09:00",
+  "validDatetime": null,
+  "eventId": "CJPTK260029",
+  "infoType": "発表",
+  "serial": "9",
+  "areaType": "centers",
+  "areaCode": "010300",
+  "areaCodes": [
+   "010300"
+  ],
+  "jsonName": "20260920204531_0_VPCJ51_010300",
+  "header": "VPCJ51",
+  "valid": "2026-09-27T20:45:00+00:00",
+  "validMap": "2026-09-21T22:45:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:45:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 氾濫 暴風 高波 突風 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "関東甲信地方",
+    "code": "010300"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T20:53:20Z",
+  "editorialOffice": "仙台管区気象台",
+  "publishingOffice": "仙台管区気象台",
+  "headTitle": "宮城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:53:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPSN260020",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "040000",
+  "areaCodes": [
+   "040000"
+  ],
+  "jsonName": "20260920205320_0_VPFJ51_040000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T20:53:00+00:00",
+  "validMap": "2026-09-21T22:53:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:53:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 暴風 大雨 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "040010"
+   },
+   {
+    "name": "西部",
+    "code": "040020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T20:53:23Z",
+  "editorialOffice": "福島地方気象台",
+  "publishingOffice": "福島地方気象台",
+  "headTitle": "福島県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:53:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPDE260024",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "070000",
+  "areaCodes": [
+   "070000"
+  ],
+  "jsonName": "20260920205323_0_VPFJ51_070000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T20:53:00+00:00",
+  "validMap": "2026-09-21T22:53:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:53:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中通り",
+    "code": "070010"
+   },
+   {
+    "name": "浜通り",
+    "code": "070020"
+   },
+   {
+    "name": "会津",
+    "code": "070030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T20:57:48Z",
+  "editorialOffice": "前橋地方気象台",
+  "publishingOffice": "前橋地方気象台",
+  "headTitle": "群馬県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:57:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTB260024",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "100000",
+  "areaCodes": [
+   "100000"
+  ],
+  "jsonName": "20260920205748_0_VPFJ51_100000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T20:57:00+00:00",
+  "validMap": "2026-09-21T22:57:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:57:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "100010"
+   },
+   {
+    "name": "北部",
+    "code": "100020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T20:59:38Z",
+  "editorialOffice": "横浜地方気象台",
+  "publishingOffice": "横浜地方気象台",
+  "headTitle": "神奈川県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T05:59:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTF260021",
+  "infoType": "発表",
+  "serial": "8",
+  "areaType": "offices",
+  "areaCode": "140000",
+  "areaCodes": [
+   "140000"
+  ],
+  "jsonName": "20260920205938_0_VPFJ51_140000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T20:59:00+00:00",
+  "validMap": "2026-09-21T22:59:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T05:59:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 強風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東部",
+    "code": "140010"
+   },
+   {
+    "name": "西部",
+    "code": "140020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:11:25Z",
+  "editorialOffice": "熊谷地方気象台",
+  "publishingOffice": "熊谷地方気象台",
+  "headTitle": "埼玉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:11:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTC260022",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "110000",
+  "areaCodes": [
+   "110000"
+  ],
+  "jsonName": "20260920211125_0_VPFJ51_110000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:11:00+00:00",
+  "validMap": "2026-09-21T23:11:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:11:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "110010"
+   },
+   {
+    "name": "北部",
+    "code": "110020"
+   },
+   {
+    "name": "秩父地方",
+    "code": "110030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:13:28Z",
+  "editorialOffice": "静岡地方気象台",
+  "publishingOffice": "静岡地方気象台",
+  "headTitle": "静岡県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:13:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGA260018",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "220000",
+  "areaCodes": [
+   "220000"
+  ],
+  "jsonName": "20260920211328_0_VPFJ51_220000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:13:00+00:00",
+  "validMap": "2026-09-21T23:13:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:13:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 突風 落雷 高い潮位"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中部",
+    "code": "220010"
+   },
+   {
+    "name": "伊豆",
+    "code": "220020"
+   },
+   {
+    "name": "東部",
+    "code": "220030"
+   },
+   {
+    "name": "西部",
+    "code": "220040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:16:28Z",
+  "editorialOffice": "宇都宮地方気象台",
+  "publishingOffice": "宇都宮地方気象台",
+  "headTitle": "栃木県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:16:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTA260018",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "090000",
+  "areaCodes": [
+   "090000"
+  ],
+  "jsonName": "20260920211629_0_VPFJ51_090000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:16:00+00:00",
+  "validMap": "2026-09-21T23:16:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:16:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "南部",
+    "code": "090010"
+   },
+   {
+    "name": "北部",
+    "code": "090020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:16:29Z",
+  "editorialOffice": "長野地方気象台",
+  "publishingOffice": "長野地方気象台",
+  "headTitle": "長野県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:16:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTG260027",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "200000",
+  "areaCodes": [
+   "200000"
+  ],
+  "jsonName": "20260920211629_0_VPFJ51_200000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:16:00+00:00",
+  "validMap": "2026-09-21T23:16:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:16:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 降ひょう"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "200010"
+   },
+   {
+    "name": "中部",
+    "code": "200020"
+   },
+   {
+    "name": "南部",
+    "code": "200030"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:25:27Z",
+  "editorialOffice": "気象庁本庁",
+  "publishingOffice": "気象庁",
+  "headTitle": "東京都気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:25:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTK260027",
+  "infoType": "発表",
+  "serial": "13",
+  "areaType": "offices",
+  "areaCode": "130000",
+  "areaCodes": [
+   "130000"
+  ],
+  "jsonName": "20260920212527_0_VPFJ51_130000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:25:00+00:00",
+  "validMap": "2026-09-21T23:25:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:25:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 氾濫 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "東京地方",
+    "code": "130010"
+   },
+   {
+    "name": "伊豆諸島北部",
+    "code": "130020"
+   },
+   {
+    "name": "伊豆諸島南部",
+    "code": "130030"
+   },
+   {
+    "name": "小笠原諸島",
+    "code": "130040"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:28:46Z",
+  "editorialOffice": "水戸地方気象台",
+  "publishingOffice": "水戸地方気象台",
+  "headTitle": "茨城県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:28:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTD260016",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "080000",
+  "areaCodes": [
+   "080000"
+  ],
+  "jsonName": "20260920212847_0_VPFJ51_080000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:28:00+00:00",
+  "validMap": "2026-09-21T23:28:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:28:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 高波 暴風 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北部",
+    "code": "080010"
+   },
+   {
+    "name": "南部",
+    "code": "080020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:35:10Z",
+  "editorialOffice": "津地方気象台",
+  "publishingOffice": "津地方気象台",
+  "headTitle": "三重県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:35:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGC260017",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "240000",
+  "areaCodes": [
+   "240000"
+  ],
+  "jsonName": "20260920213510_0_VPFJ51_240000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:35:00+00:00",
+  "validMap": "2026-09-21T23:35:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:35:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北中部",
+    "code": "240010"
+   },
+   {
+    "name": "南部",
+    "code": "240020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:38:25Z",
+  "editorialOffice": "甲府地方気象台",
+  "publishingOffice": "甲府地方気象台",
+  "headTitle": "山梨県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:38:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTH260017",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "190000",
+  "areaCodes": [
+   "190000"
+  ],
+  "jsonName": "20260920213826_0_VPFJ51_190000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:38:00+00:00",
+  "validMap": "2026-09-21T23:38:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:38:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "中・西部",
+    "code": "190010"
+   },
+   {
+    "name": "東部・富士五湖",
+    "code": "190020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T21:39:34Z",
+  "editorialOffice": "名古屋地方気象台",
+  "publishingOffice": "名古屋地方気象台",
+  "headTitle": "愛知県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T06:39:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPGY260016",
+  "infoType": "発表",
+  "serial": "6",
+  "areaType": "offices",
+  "areaCode": "230000",
+  "areaCodes": [
+   "230000"
+  ],
+  "jsonName": "20260920213934_0_VPFJ51_230000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T21:39:00+00:00",
+  "validMap": "2026-09-21T23:39:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T06:39:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 高波 強風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "西部",
+    "code": "230010"
+   },
+   {
+    "name": "東部",
+    "code": "230020"
+   }
+  ]
+ },
+ {
+  "controlTitle": "府県気象解説情報",
+  "datetime": "2026-09-20T22:22:22Z",
+  "editorialOffice": "銚子地方気象台",
+  "publishingOffice": "銚子地方気象台",
+  "headTitle": "千葉県気象解説情報（台風第２５号）",
+  "reportDatetime": "2026-09-21T07:22:00+09:00",
+  "validDatetime": null,
+  "eventId": "FJPTE260018",
+  "infoType": "発表",
+  "serial": "9",
+  "areaType": "offices",
+  "areaCode": "120000",
+  "areaCodes": [
+   "120000"
+  ],
+  "jsonName": "20260920222223_0_VPFJ51_120000",
+  "header": "VPFJ51",
+  "valid": "2026-09-27T22:22:00+00:00",
+  "validMap": "2026-09-22T00:22:00+00:00",
+  "dataType": "xml",
+  "targetDatetime": "2026-09-21T07:22:00+09:00",
+  "infoTag": [
+   {
+    "name": "情報タグ",
+    "condition": "台風 大雨 暴風 高波 落雷 突風"
+   },
+   {
+    "name": "台風番号",
+    "condition": "T2625"
+   },
+   {
+    "name": "TC番号",
+    "condition": "TC2630"
+   }
+  ],
+  "areaTag": [
+   {
+    "name": "北西部",
+    "code": "120010"
+   },
+   {
+    "name": "北東部",
+    "code": "120020"
+   },
+   {
+    "name": "南部",
+    "code": "120030"
+   }
+  ]
+ }
+]
