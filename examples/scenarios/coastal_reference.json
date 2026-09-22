@@ -1,0 +1,24 @@
+{
+  "schema": "hama-earth-scenario/v0.1",
+  "name": "coastal-reference",
+  "world": {
+    "origin": {"lat_deg": 34.5, "lon_deg": 133.8, "altitude_m": 0.0},
+    "extent_m": [2000.0, 2000.0, 500.0],
+    "start_time": "2026-09-22T06:00:00Z",
+    "seed": 42
+  },
+  "environment": {
+    "provider": "kmt-coastal",
+    "parameters": {
+      "Hs_m": 0.3,
+      "Tp_s": 6.0,
+      "water_depth_m": 50.0,
+      "wind_m_s": [0.0, 3.0, 0.0],
+      "gust_rms_m_s": 0.5
+    }
+  },
+  "run": {"duration_s": 1.0, "dt_s": 0.05},
+  "objects": [
+    {"id": "probe-10m", "type": "environment_probe", "position_m": [0.0, 0.0, 10.0], "parameters": {}}
+  ]
+}
