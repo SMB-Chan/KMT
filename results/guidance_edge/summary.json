@@ -1,0 +1,296 @@
+{
+  "elapsed_s": 837.9701385498047,
+  "n": 18000,
+  "switch": {
+    "Predictive": {
+      "fixed": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 34.01967010188702,
+        "switches": 0.0,
+        "primary_pk": 0.0,
+        "final_is_primary": 1.0
+      },
+      "first": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 33.26753787032417,
+        "switches": 0.0,
+        "primary_pk": 0.0,
+        "final_is_primary": 1.0
+      },
+      "nearest": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 36.19447032114134,
+        "switches": 2.2644444444444445,
+        "primary_pk": 0.0,
+        "final_is_primary": 0.6288888888888889
+      },
+      "bestpk": {
+        "n": 450,
+        "mean_pk": 0.0044444444444444444,
+        "median_miss": 35.83967134645442,
+        "switches": 1.8755555555555556,
+        "primary_pk": 0.0022222222222222222,
+        "final_is_primary": 0.5644444444444444
+      }
+    },
+    "CrabPredictive airdata": {
+      "fixed": {
+        "n": 450,
+        "mean_pk": 0.016148504348620637,
+        "median_miss": 12.317175067072617,
+        "switches": 0.0,
+        "primary_pk": 0.016148504348620637,
+        "final_is_primary": 1.0
+      },
+      "first": {
+        "n": 450,
+        "mean_pk": 0.02503598706833721,
+        "median_miss": 11.819329063212972,
+        "switches": 0.0,
+        "primary_pk": 0.02503598706833721,
+        "final_is_primary": 1.0
+      },
+      "nearest": {
+        "n": 450,
+        "mean_pk": 0.024510595217303616,
+        "median_miss": 21.016322293399178,
+        "switches": 2.473333333333333,
+        "primary_pk": 0.018748365825839608,
+        "final_is_primary": 0.46
+      },
+      "bestpk": {
+        "n": 450,
+        "mean_pk": 0.01278444721122574,
+        "median_miss": 23.531857024326207,
+        "switches": 2.171111111111111,
+        "primary_pk": 0.01315298824139289,
+        "final_is_primary": 0.5
+      }
+    },
+    "CrabPredictive oracle": {
+      "fixed": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 34.621708413860915,
+        "switches": 0.0,
+        "primary_pk": 0.0,
+        "final_is_primary": 1.0
+      },
+      "first": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 35.32213114866707,
+        "switches": 0.0,
+        "primary_pk": 0.0,
+        "final_is_primary": 1.0
+      },
+      "nearest": {
+        "n": 450,
+        "mean_pk": 0.0038493405603579715,
+        "median_miss": 38.29550649905015,
+        "switches": 2.431111111111111,
+        "primary_pk": 0.0,
+        "final_is_primary": 0.37777777777777777
+      },
+      "bestpk": {
+        "n": 450,
+        "mean_pk": 0.002257626422647232,
+        "median_miss": 39.152773739297615,
+        "switches": 1.8444444444444446,
+        "primary_pk": 0.0032770632228490736,
+        "final_is_primary": 0.4666666666666667
+      }
+    },
+    "PN raw": {
+      "fixed": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 34.71783419293929,
+        "switches": 0.0,
+        "primary_pk": 0.0,
+        "final_is_primary": 1.0
+      },
+      "first": {
+        "n": 450,
+        "mean_pk": 0.0022222222222222222,
+        "median_miss": 34.34778407952565,
+        "switches": 0.0,
+        "primary_pk": 0.0022222222222222222,
+        "final_is_primary": 1.0
+      },
+      "nearest": {
+        "n": 450,
+        "mean_pk": 0.004057827075893956,
+        "median_miss": 38.533560997741404,
+        "switches": 2.628888888888889,
+        "primary_pk": 0.0,
+        "final_is_primary": 0.4688888888888889
+      },
+      "bestpk": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 39.96379359998235,
+        "switches": 1.8111111111111111,
+        "primary_pk": 0.0,
+        "final_is_primary": 0.46444444444444444
+      }
+    }
+  },
+  "wind": {
+    "Predictive": {
+      "0.0": {
+        "n": 450,
+        "mean_pk": 0.6580146624895954,
+        "median_miss": 1.7278344794524036,
+        "switches": 0.0
+      },
+      "5.0": {
+        "n": 450,
+        "mean_pk": 0.0022222222222222222,
+        "median_miss": 21.773606171685643,
+        "switches": 0.0
+      },
+      "10.0": {
+        "n": 450,
+        "mean_pk": 0.0,
+        "median_miss": 40.35919689339329,
+        "switches": 0.0
+      },
+      "15.0": {
+        "n": 450,
+        "mean_pk": 7.983829000024798e-05,
+        "median_miss": 43.17519840518351,
+        "switches": 0.0
+      },
+      "20.0": {
+        "n": 450,
+        "mean_pk": 0.03476973806856957,
+        "median_miss": 17.261632388569613,
+        "switches": 0.0
+      },
+      "25.0": {
+        "n": 450,
+        "mean_pk": 0.041465174215504275,
+        "median_miss": 14.555045222345132,
+        "switches": 0.0
+      }
+    },
+    "CrabPredictive airdata": {
+      "0.0": {
+        "n": 450,
+        "mean_pk": 0.7065869809146281,
+        "median_miss": 1.594870472511706,
+        "switches": 0.0
+      },
+      "5.0": {
+        "n": 450,
+        "mean_pk": 0.5724400712562189,
+        "median_miss": 2.4576791890781777,
+        "switches": 0.0
+      },
+      "10.0": {
+        "n": 450,
+        "mean_pk": 0.4436840920399185,
+        "median_miss": 3.464490531392552,
+        "switches": 0.0
+      },
+      "15.0": {
+        "n": 450,
+        "mean_pk": 0.41034445231695493,
+        "median_miss": 3.8165061956572055,
+        "switches": 0.0
+      },
+      "20.0": {
+        "n": 450,
+        "mean_pk": 0.4066101390950925,
+        "median_miss": 3.463339823688453,
+        "switches": 0.0
+      },
+      "25.0": {
+        "n": 450,
+        "mean_pk": 0.49999668557592963,
+        "median_miss": 2.68105830836358,
+        "switches": 0.0
+      }
+    },
+    "CrabPredictive oracle": {
+      "0.0": {
+        "n": 450,
+        "mean_pk": 0.6422576134326692,
+        "median_miss": 1.7955298390894499,
+        "switches": 0.0
+      },
+      "5.0": {
+        "n": 450,
+        "mean_pk": 0.38104727582864634,
+        "median_miss": 4.739265680786438,
+        "switches": 0.0
+      },
+      "10.0": {
+        "n": 450,
+        "mean_pk": 0.3579072824851715,
+        "median_miss": 5.578255769383968,
+        "switches": 0.0
+      },
+      "15.0": {
+        "n": 450,
+        "mean_pk": 0.39840818022260344,
+        "median_miss": 4.720098112182766,
+        "switches": 0.0
+      },
+      "20.0": {
+        "n": 450,
+        "mean_pk": 0.3896624575364859,
+        "median_miss": 4.714378791985702,
+        "switches": 0.0
+      },
+      "25.0": {
+        "n": 450,
+        "mean_pk": 0.3965284284999948,
+        "median_miss": 4.858854071424839,
+        "switches": 0.0
+      }
+    },
+    "PN raw": {
+      "0.0": {
+        "n": 450,
+        "mean_pk": 0.6987887112842952,
+        "median_miss": 1.678444506811984,
+        "switches": 0.0
+      },
+      "5.0": {
+        "n": 450,
+        "mean_pk": 0.3362739678248008,
+        "median_miss": 4.368765029860981,
+        "switches": 0.0
+      },
+      "10.0": {
+        "n": 450,
+        "mean_pk": 0.23471085156233232,
+        "median_miss": 6.789072316443871,
+        "switches": 0.0
+      },
+      "15.0": {
+        "n": 450,
+        "mean_pk": 0.2546703920540519,
+        "median_miss": 8.448341144851236,
+        "switches": 0.0
+      },
+      "20.0": {
+        "n": 450,
+        "mean_pk": 0.22907172139115725,
+        "median_miss": 9.583156504152473,
+        "switches": 0.0
+      },
+      "25.0": {
+        "n": 450,
+        "mean_pk": 0.23223325403347575,
+        "median_miss": 8.885870638063047,
+        "switches": 0.0
+      }
+    }
+  }
+}

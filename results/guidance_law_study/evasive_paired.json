@@ -1,0 +1,17 @@
+{
+  "method": "Same jink draw and same sensor seed for every law. Head-on geometry, distances [500, 1000, 2000], speeds [10, 15, 20], 50 trials, both sigmas. The main trials.jsonl draws a new jink per law, so evasive rows there are unpaired.",
+  "n_per_cell": 450,
+  "pk_se": 0.022,
+  "rows": [
+    {"law": "Pure Pursuit", "sigma": 0.5, "median_miss_m": 3.05, "kinetic_pk": 0.477},
+    {"law": "PN raw", "sigma": 0.5, "median_miss_m": 1.86, "kinetic_pk": 0.667},
+    {"law": "PN filtered", "sigma": 0.5, "median_miss_m": 2.02, "kinetic_pk": 0.633},
+    {"law": "APN filtered", "sigma": 0.5, "median_miss_m": 3.33, "kinetic_pk": 0.444},
+    {"law": "Predictive", "sigma": 0.5, "median_miss_m": 1.74, "kinetic_pk": 0.653},
+    {"law": "Pure Pursuit", "sigma": 0.1, "median_miss_m": 2.53, "kinetic_pk": 0.520},
+    {"law": "PN raw", "sigma": 0.1, "median_miss_m": 1.40, "kinetic_pk": 0.707},
+    {"law": "PN filtered", "sigma": 0.1, "median_miss_m": 1.51, "kinetic_pk": 0.665},
+    {"law": "APN filtered", "sigma": 0.1, "median_miss_m": 3.28, "kinetic_pk": 0.456},
+    {"law": "Predictive", "sigma": 0.1, "median_miss_m": 1.28, "kinetic_pk": 0.683}
+  ]
+}

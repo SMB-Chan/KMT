@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台風25号 Dujuan (2625/TC2630) 進路予測 — 09/21 08:00 JST発行 +72h</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<style>
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;margin:0;background:#0f172a;color:#e2e8f0}
+header{padding:20px 24px;background:#1e293b;border-bottom:1px solid #334155}
+h1{margin:0;font-size:20px}h2{font-size:16px;margin:24px 0 8px;color:#7dd3fc}
+main{max-width:1080px;margin:0 auto;padding:0 16px 60px}
+#map{height:560px;border-radius:12px;border:1px solid #334155}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:16px;margin-top:16px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{border:1px solid #475569;padding:5px 7px;text-align:center}
+th{background:#0f172a;position:sticky;top:0}
+.scroll{max-height:340px;overflow:auto;border-radius:8px}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#0369a1;margin:2px 4px 2px 0}
+.warn{background:#713f12;color:#fde68a;padding:8px 12px;border-radius:8px;font-size:13px;margin-top:12px}
+.legend{background:#fff;color:#111827;padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.7}
+small,.dim{color:#94a3b8}
+img.png{width:100%;border-radius:8px;border:1px solid #334155;background:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+a{color:#7dd3fc}
+</style>
+</head>
+<body>
+<header>
+<h1>台風25号 ドゥージェン (Dujuan・2625 / TC2630) 進路予測 <small>発行 09/21 08:00 JST (2026-09-20T23:00Z) → +72h 09/24 08:00 JST</small></h1>
+<div>
+<span class="badge">気象庁 気象通報ベース</span><span class="badge">電文133報・軌跡40点 09/16 21:00〜09/21 08:00</span><span class="badge">data/jma_typhoon_2625 取得2026-09-21T00:32:36Z</span><span class="badge">VAR(3) 窓36h 残差RMS 10.1km</span>
+</div>
+</header>
+<main>
+
+<div class="card">
+<div id="map"></div>
+<p class="dim">青破線=VAR自由運転(track_forecast.csv 3h刻み25点) / 緑実線=製品トラック公式区間(+43hまで)・橙破線=モデル延長 / 赤丸=JMA公式予報点(track_vs_official.csv 9点)+予報円 / ★=実況最終 32.3N 138.3E 965hPa 35m/s。クリックでリード・気圧・風速・予報円を表示。</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>予報終点</h2>
+<table>
+<tr><th>トラック</th><th>09/24 08:00 (+72h)</th><th>気圧/風速</th></tr>
+<tr><td>VAR自由運転</td><td>45.943N, 152.854E</td><td>991.5 hPa / 23.4 m/s (温低化)</td></tr>
+<tr><td>製品トラック</td><td>46.095N, 164.390E</td><td>991.5 hPa / 23.4 m/s (モデル延長)</td></tr>
+<tr><td>JMA公式最長 (+43h 09/23 03:00)</td><td>40.6N, 156.7E</td><td>984 hPa / 25 m/s LOW</td></tr>
+</table>
+<div class="warn">単一stormの点予報・決定論的。予報円の不確実性は円半径として別途提示(下表)。降水ピークは素の場で約1/2過小のためJMA「多い所で」中央値×3.26のアンカーを要した。</div>
+</div>
+<div class="card">
+<h2>JMA公式 vs モデル (track_vs_official.csv)</h2>
+<div class="scroll"><table>
+<tr><th>lead</th><th>JST</th><th>JMA lat/lon</th><th>モデル lat/lon</th><th>距離</th><th>予報円</th><th>圏内</th></tr>
+<tr><td>+1h</td><td>09/21 09:00</td><td>32.5/138.4</td><td>32.50/138.40</td><td>1km</td><td>―</td><td></td></tr>
+<tr><td>+4h</td><td>09/21 12:00</td><td>32.9/138.9</td><td>33.07/138.71</td><td>26km</td><td>35</td><td>○</td></tr>
+<tr><td>+7h</td><td>09/21 15:00</td><td>33.4/139.4</td><td>33.63/139.07</td><td>40km</td><td>40</td><td>○</td></tr>
+<tr><td>+10h</td><td>09/21 18:00</td><td>34.0/140.2</td><td>34.19/139.46</td><td>71km</td><td>45</td><td>×</td></tr>
+<tr><td>+13h</td><td>09/21 21:00</td><td>34.6/141.1</td><td>34.75/139.88</td><td>112km</td><td>50</td><td>×</td></tr>
+<tr><td>+16h</td><td>09/22 00:00</td><td>35.3/142.1</td><td>35.32/140.34</td><td>160km</td><td>55</td><td>×</td></tr>
+<tr><td>+19h</td><td>09/22 03:00</td><td>36.0/143.4</td><td>35.88/140.82</td><td>233km</td><td>60</td><td>×</td></tr>
+<tr><td>+22h</td><td>09/22 06:00</td><td>36.8/144.8</td><td>36.45/141.33</td><td>312km</td><td>65</td><td>×</td></tr>
+<tr><td>+43h</td><td>09/23 03:00</td><td>40.6/156.7</td><td>40.45/145.54</td><td>943km</td><td>155</td><td>×</td></tr>
+</table></div>
+<p class="dim">8時刻中圏内2時刻(+7hまで)。最大偏差943km。強度差: 気圧MAE 3.2hPa相当・風速1.5m/s相当(公式9点)。</p>
+</div>
+</div>
+
+<div class="card">
+<h2>製品トラック 25行 (track_product.csv: 公式15行 + モデル延長10行)</h2>
+<div class="scroll"><table id="prod"></table></div>
+<p class="dim">出典: REPORT.md B2 / summary.json forecast.blend。予報円は公式最終点まで実値、以降は成長率4.3km/hで外挿(+72hで279km)。</p>
+</div>
+
+<div class="card">
+<h2>hindcast検証 (28発行・リード3〜24h、発行より後の実況のみ)</h2>
+<p>VAR RMSE 171km(pooled) &lt; 移動永続 188km &lt; 永続 286km。永続比スキル +0.34〜+0.59。lead0は実況。</p>
+<img class="png" src="hindcast.png" alt="hindcast">
+<img class="png" src="track_forecast.png" alt="track_forecast" style="margin-top:8px">
+<p class="dim">画像は同ディレクトリの既存PNGを相対参照。レポート本体: <a href="REPORT.md">REPORT.md</a> / 数値: <a href="summary.json">summary.json</a> / CSV: track_forecast.csv, track_product.csv, track_vs_official.csv</p>
+</div>
+
+<div class="card">
+<h2>出典・再現性</h2>
+<p class="dim">fetch_typhoon_dujuan.py が気象庁製品を data/jma_typhoon_2625/ に固定取得 (manifest.json fetched_utc: 2026-09-21T00:32:36Z、再取得なし)。予報は発行時刻より前の通報だけで学習、公式予報とAMeDASは検証のみ。GitHub SMB-Chan/KMT arena/01a0bdaa-kmt、commit 5726cfb。本HTMLは results/typhoon_25_001/track_forecast.html (CSV埋め込み・決定論的表示)。</p>
+</div>
+</main>
+<script>
+// track_forecast.csv (VAR自由運転)
+var VF=[ [0,"09/21 08:00",32.3,138.3,965,35.0],[3,"09/21 11:00",32.884,138.594,965.5,34.8],[6,"09/21 14:00",33.444,138.943,966.3,34.5],[9,"09/21 17:00",33.995,139.327,967.2,34.2],[12,"09/21 20:00",34.565,139.736,968.4,33.8],[15,"09/21 23:00",35.13,140.18,969.6,33.3],[18,"09/22 02:00",35.694,140.652,971.0,32.7],[21,"09/22 05:00",36.264,141.151,972.5,32.2],[24,"09/22 08:00",36.833,141.676,974.0,31.5],[27,"09/22 11:00",37.402,142.227,975.6,30.9],[30,"09/22 14:00",37.973,142.8,977.2,30.2],[33,"09/22 17:00",38.544,143.397,978.7,29.6],[36,"09/22 20:00",39.115,144.015,980.3,28.9],[39,"09/22 23:00",39.686,144.654,981.8,28.2],[42,"09/23 02:00",40.258,145.313,983.2,27.6],[45,"09/23 05:00",40.829,145.991,984.4,27.0],[48,"09/23 08:00",41.4,146.688,985.6,26.5],[51,"09/23 11:00",41.97,147.402,986.6,25.9],[54,"09/23 14:00",42.54,148.133,987.5,25.5],[57,"09/23 17:00",43.109,148.881,988.4,25.1],[60,"09/23 20:00",43.678,149.645,989.1,24.7],[63,"09/23 23:00",44.246,150.425,989.8,24.3],[66,"09/24 02:00",44.812,151.22,990.4,24.0],[69,"09/24 05:00",45.378,152.03,991.0,23.7],[72,"09/24 08:00",45.943,152.854,991.5,23.4] ];
+// track_product.csv
+var PR=[ [0,"09/21 08:00",32.3,138.3,965,35,"公式",0],[3,"09/21 11:00",32.767,138.733,965,35,"公式",26.2],[6,"09/21 14:00",33.233,139.233,965,35,"公式",38.3],[9,"09/21 17:00",33.8,139.933,965,35,"公式",43.3],[12,"09/21 20:00",34.4,140.8,965,35,"公式",48.3],[15,"09/21 23:00",35.067,141.767,965,35,"公式",53.3],[18,"09/22 02:00",35.767,142.967,965,35,"公式",58.3],[21,"09/22 05:00",36.533,144.333,965,35,"公式",63.3],[24,"09/22 08:00",37.162,145.933,966.8,34,"公式",73.6],[27,"09/22 11:00",37.705,147.633,969.5,32.6,"公式",86.4],[30,"09/22 14:00",38.248,149.333,972.2,31.2,"公式",99.3],[33,"09/22 17:00",38.79,151.033,975,29.8,"公式",112.1],[36,"09/22 20:00",39.333,152.733,977.7,28.3,"公式",125],[39,"09/22 23:00",39.876,154.433,980.4,26.9,"公式",137.9],[42,"09/23 02:00",40.419,156.133,983.1,25.5,"公式",150.7],[45,"09/23 05:00",40.981,157.154,984.4,27,"モデル延長",163.6],[48,"09/23 08:00",41.552,157.86,985.6,26.5,"モデル延長",176.4],[51,"09/23 11:00",42.122,158.589,986.6,25.9,"モデル延長",189.3],[54,"09/23 14:00",42.692,159.343,987.5,25.5,"モデル延長",202.1],[57,"09/23 17:00",43.261,160.122,988.4,25.1,"モデル延長",215],[60,"09/23 20:00",43.83,160.926,989.1,24.7,"モデル延長",227.9],[63,"09/23 23:00",44.397,161.754,989.8,24.3,"モデル延長",240.7],[66,"09/24 02:00",44.964,162.607,990.4,24,"モデル延長",253.6],[69,"09/24 05:00",45.53,163.485,991,23.7,"モデル延長",266.4],[72,"09/24 08:00",46.095,164.39,991.5,23.4,"モデル延長",279.3] ];
+// JMA official 9 points
+var JMA=[[1,"09/21 09:00",32.5,138.4,null],[4,"09/21 12:00",32.9,138.9,35],[7,"09/21 15:00",33.4,139.4,40],[10,"09/21 18:00",34.0,140.2,45],[13,"09/21 21:00",34.6,141.1,50],[16,"09/22 00:00",35.3,142.1,55],[19,"09/22 03:00",36.0,143.4,60],[22,"09/22 06:00",36.8,144.8,65],[43,"09/23 03:00",40.6,156.7,155]];
+var map=L.map('map').setView([39,147],4);
+var gsi=L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',{attribution:'<a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>',maxZoom:18});
+var carto=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19});
+var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'});
+// デフォルトはCarto(403が出にくい)。ダメなら右上の□から国土地理院/OSMへ切替
+carto.addTo(map);
+L.control.layers({"Carto light":carto,"国土地理院 標準":gsi,"OSM":osm}).addTo(map);
+var vfLL=VF.map(function(r){return [r[2],r[3]]});
+var prOff=PR.filter(function(r){return r[6]==="公式"}).map(function(r){return [r[2],r[3]]});
+var prExt=PR.filter(function(r){return r[6]!=="公式"}).map(function(r){return [r[2],r[3]]});
+prExt=[[40.419,156.133]].concat(prExt);
+L.polyline(vfLL,{color:'#38bdf8',dashArray:'7 6',weight:3}).addTo(map).bindPopup('VAR自由運転 +72h →45.94N 152.85E');
+L.polyline(prOff,{color:'#22c55e',weight:4}).addTo(map).bindPopup('製品トラック公式区間 +0〜+43h');
+L.polyline(prExt,{color:'#fb923c',dashArray:'7 6',weight:3}).addTo(map).bindPopup('製品トラック モデル延長 +43〜+72h');
+VF.forEach(function(r){ if(r[0]%12===0||r[0]===72){ L.circleMarker([r[2],r[3]],{radius:4,color:'#38bdf8',fillOpacity:1}).addTo(map).bindPopup('+'+r[0]+'h '+r[1]+'<br>'+r[2].toFixed(3)+'N '+r[3].toFixed(3)+'E<br>'+r[4]+'hPa '+r[5]+'m/s (VAR)');}});
+PR.forEach(function(r){ if(r[0]%12===0||r[0]===72){ L.circleMarker([r[2],r[3]],{radius:4,color:r[6]==='公式'?'#22c55e':'#fb923c',fillOpacity:1}).addTo(map).bindPopup('+'+r[0]+'h '+r[1]+'<br>'+r[2]+'N '+r[3]+'E<br>'+r[4]+'hPa '+r[5]+'m/s ('+r[6]+'・円'+r[7]+'km)');}});
+JMA.forEach(function(r){ L.circleMarker([r[2],r[3]],{radius:5,color:'red',fillColor:'red',fillOpacity:0.9}).addTo(map).bindPopup('JMA +'+r[0]+'h '+r[1]+'<br>'+r[2]+'N '+r[3]+'E'+(r[4]?' 円'+r[4]+'km':'')); if(r[4]){L.circle([r[2],r[3]],{radius:r[4]*1000,color:'red',weight:1,fillOpacity:0.05}).addTo(map);} });
+L.marker([32.3,138.3]).addTo(map).bindPopup('<b>実況最終 09/21 08:00</b><br>32.3N 138.3E 965hPa 35m/s').openPopup();
+PR.forEach(function(r){ if(r[7]&&r[6]==='公式'){L.circle([r[2],r[3]],{radius:r[7]*1000,color:'green',weight:1,fillOpacity:0.04}).addTo(map);} });
+var legend=L.control({position:'bottomright'});
+legend.onAdd=function(){var d=L.DomUtil.create('div','legend');d.innerHTML='<b>凡例</b><br><span style="color:#38bdf8">┄</span> VAR自由運転<br><span style="color:#22c55e">─</span> 製品(公式+43h迄)<br><span style="color:#fb923c">┄</span> 製品(モデル延長)<br><span style="color:red">●○</span> JMA予報点+予報円';return d;};
+legend.addTo(map);
+map.fitBounds([[30,136],[47.5,166]]);
+// product table
+var t='<tr><th>lead</th><th>JST</th><th>lat</th><th>lon</th><th>hPa</th><th>m/s</th><th>出典</th><th>円km</th></tr>';
+PR.forEach(function(r){t+='<tr><td>+'+r[0]+'h</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+r[7]+'</td></tr>';});
+document.getElementById('prod').innerHTML=t;
+</script>
+</body>
+</html>

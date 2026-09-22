@@ -1,0 +1,382 @@
+{
+  "elapsed_s": 1105.8081278800964,
+  "n": 14400,
+  "summary": {
+    "Predictive": {
+      "calm": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.703544383972612,
+          "primary_pk": 0.703544383972612,
+          "decoy_pk": 0.02,
+          "median_primary_miss": 1.535078502862447,
+          "median_engaged_miss": 1.535078502862447,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.7066666666666667
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.6745278265600302,
+          "primary_pk": 0.6745278265600302,
+          "decoy_pk": 0.012628074245401598,
+          "median_primary_miss": 1.612288997676795,
+          "median_engaged_miss": 1.612288997676795,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.6755555555555556
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.2773114790120822,
+          "primary_pk": 0.42484421406062983,
+          "decoy_pk": 0.08178190827121003,
+          "median_primary_miss": 4.260905208838906,
+          "median_engaged_miss": 6.577954257805421,
+          "switches": 3.331111111111111,
+          "final_primary": 0.39111111111111113,
+          "kill_rate": 0.27555555555555555
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.4159604254194354,
+          "primary_pk": 0.638380179114643,
+          "decoy_pk": 0.0555135647946457,
+          "median_primary_miss": 1.8508605066763666,
+          "median_engaged_miss": 5.416489425860572,
+          "switches": 1.1866666666666668,
+          "final_primary": 0.5844444444444444,
+          "kill_rate": 0.4177777777777778
+        }
+      },
+      "cross10": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.049328539487594386,
+          "primary_pk": 0.049328539487594386,
+          "decoy_pk": 0.059575197488290356,
+          "median_primary_miss": 20.483672895616948,
+          "median_engaged_miss": 20.483672895616948,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.04666666666666667
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.03440892696485258,
+          "primary_pk": 0.03440892696485258,
+          "decoy_pk": 0.0749149613408636,
+          "median_primary_miss": 21.28505137873192,
+          "median_engaged_miss": 21.28505137873192,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.03777777777777778
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.0781970007887583,
+          "primary_pk": 0.08659035716554449,
+          "decoy_pk": 0.050497048920492456,
+          "median_primary_miss": 22.926873285028584,
+          "median_engaged_miss": 17.43631169780305,
+          "switches": 3.1955555555555555,
+          "final_primary": 0.5311111111111111,
+          "kill_rate": 0.07777777777777778
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.07735785644990942,
+          "primary_pk": 0.0849519086908734,
+          "decoy_pk": 0.04805192582356623,
+          "median_primary_miss": 18.978622819659137,
+          "median_engaged_miss": 14.29950245605044,
+          "switches": 1.5911111111111111,
+          "final_primary": 0.5888888888888889,
+          "kill_rate": 0.07333333333333333
+        }
+      }
+    },
+    "CrabPredictive airdata": {
+      "calm": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.8116962304464606,
+          "primary_pk": 0.8116962304464606,
+          "decoy_pk": 0.022222222222222223,
+          "median_primary_miss": 1.4351676990739675,
+          "median_engaged_miss": 1.4351676990739675,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.8155555555555556
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.8217970178471957,
+          "primary_pk": 0.8217970178471957,
+          "decoy_pk": 0.02693590598753332,
+          "median_primary_miss": 1.4068527769478965,
+          "median_engaged_miss": 1.4068527769478965,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.8222222222222222
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.4158322730583293,
+          "primary_pk": 0.5790110866367006,
+          "decoy_pk": 0.12536541958044864,
+          "median_primary_miss": 2.020063315511037,
+          "median_engaged_miss": 3.7621243828131354,
+          "switches": 3.2933333333333334,
+          "final_primary": 0.5133333333333333,
+          "kill_rate": 0.4111111111111111
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.5349140481882811,
+          "primary_pk": 0.7207730476636333,
+          "decoy_pk": 0.07929645353533939,
+          "median_primary_miss": 1.57211139785717,
+          "median_engaged_miss": 2.390164975639075,
+          "switches": 1.2177777777777778,
+          "final_primary": 0.6244444444444445,
+          "kill_rate": 0.5333333333333333
+        }
+      },
+      "cross10": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.7044869222614137,
+          "primary_pk": 0.7044869222614137,
+          "decoy_pk": 0.018153442714768184,
+          "median_primary_miss": 1.7078740321297508,
+          "median_engaged_miss": 1.7078740321297508,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.7022222222222222
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.7295453678176441,
+          "primary_pk": 0.7295453678176441,
+          "decoy_pk": 0.017241743922164023,
+          "median_primary_miss": 1.6872548104898988,
+          "median_engaged_miss": 1.6872548104898988,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.7333333333333333
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.2647304033335726,
+          "primary_pk": 0.3734197358557866,
+          "decoy_pk": 0.106681472508931,
+          "median_primary_miss": 3.650486142355095,
+          "median_engaged_miss": 4.575287642590379,
+          "switches": 3.071111111111111,
+          "final_primary": 0.42,
+          "kill_rate": 0.26
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.3934705814337224,
+          "primary_pk": 0.3962801446007602,
+          "decoy_pk": 0.14083296754903513,
+          "median_primary_miss": 3.7638963368099656,
+          "median_engaged_miss": 3.582385989861503,
+          "switches": 1.9977777777777779,
+          "final_primary": 0.5111111111111111,
+          "kill_rate": 0.4066666666666667
+        }
+      }
+    },
+    "CrabPredictive oracle": {
+      "calm": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.665649496050233,
+          "primary_pk": 0.665649496050233,
+          "decoy_pk": 0.008270558617241616,
+          "median_primary_miss": 1.6172529382122685,
+          "median_engaged_miss": 1.6172529382122685,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.6666666666666666
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.6394097605721383,
+          "primary_pk": 0.6394097605721383,
+          "decoy_pk": 0.012594855782595333,
+          "median_primary_miss": 1.8903608351121353,
+          "median_engaged_miss": 1.8903608351121353,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.64
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.2783987506016366,
+          "primary_pk": 0.4796711479366746,
+          "decoy_pk": 0.09009998684168213,
+          "median_primary_miss": 3.161042113533588,
+          "median_engaged_miss": 8.877223172212663,
+          "switches": 3.411111111111111,
+          "final_primary": 0.39555555555555555,
+          "kill_rate": 0.2777777777777778
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.41644593337329283,
+          "primary_pk": 0.6754075757854808,
+          "decoy_pk": 0.05514911751699775,
+          "median_primary_miss": 1.68737239190075,
+          "median_engaged_miss": 5.115176591124218,
+          "switches": 1.0777777777777777,
+          "final_primary": 0.5355555555555556,
+          "kill_rate": 0.4177777777777778
+        }
+      },
+      "cross10": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.4518664101842852,
+          "primary_pk": 0.4518664101842852,
+          "decoy_pk": 0.023127606653071064,
+          "median_primary_miss": 3.041429984729934,
+          "median_engaged_miss": 3.041429984729934,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.4533333333333333
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.4160676224091241,
+          "primary_pk": 0.4160676224091241,
+          "decoy_pk": 0.02055747115764307,
+          "median_primary_miss": 3.883008226374068,
+          "median_engaged_miss": 3.883008226374068,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.41333333333333333
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.1848066413160986,
+          "primary_pk": 0.22706509706610664,
+          "decoy_pk": 0.10166201924676226,
+          "median_primary_miss": 9.258977468174283,
+          "median_engaged_miss": 8.323911309241302,
+          "switches": 3.3222222222222224,
+          "final_primary": 0.4622222222222222,
+          "kill_rate": 0.18444444444444444
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.21464245962300413,
+          "primary_pk": 0.20098364536175903,
+          "decoy_pk": 0.14189875001212565,
+          "median_primary_miss": 10.640414655310519,
+          "median_engaged_miss": 8.212918465442558,
+          "switches": 1.9244444444444444,
+          "final_primary": 0.4577777777777778,
+          "kill_rate": 0.2111111111111111
+        }
+      }
+    },
+    "PN raw": {
+      "calm": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.6628322638687187,
+          "primary_pk": 0.6628322638687187,
+          "decoy_pk": 0.009787565416109801,
+          "median_primary_miss": 1.818062617083013,
+          "median_engaged_miss": 1.818062617083013,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.66
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.6541766752991198,
+          "primary_pk": 0.6541766752991198,
+          "decoy_pk": 0.006666666666666667,
+          "median_primary_miss": 1.826469635334374,
+          "median_engaged_miss": 1.826469635334374,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.6533333333333333
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.28406627172848137,
+          "primary_pk": 0.42522152463572815,
+          "decoy_pk": 0.06039080185702071,
+          "median_primary_miss": 4.948921919871347,
+          "median_engaged_miss": 9.048955312264251,
+          "switches": 3.1066666666666665,
+          "final_primary": 0.5888888888888889,
+          "kill_rate": 0.2866666666666667
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.3682302895400478,
+          "primary_pk": 0.6265461488308316,
+          "decoy_pk": 0.008957587272339595,
+          "median_primary_miss": 1.9076445148501253,
+          "median_engaged_miss": 6.197698430616505,
+          "switches": 0.8577777777777778,
+          "final_primary": 0.5888888888888889,
+          "kill_rate": 0.36666666666666664
+        }
+      },
+      "cross10": {
+        "fixed": {
+          "n": 450,
+          "engaged_pk": 0.26623565018813106,
+          "primary_pk": 0.26623565018813106,
+          "decoy_pk": 0.011111111111111112,
+          "median_primary_miss": 5.577764731770718,
+          "median_engaged_miss": 5.577764731770718,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.26222222222222225
+        },
+        "first": {
+          "n": 450,
+          "engaged_pk": 0.22886881321891736,
+          "primary_pk": 0.22886881321891736,
+          "decoy_pk": 0.026376137738686908,
+          "median_primary_miss": 6.055418728501961,
+          "median_engaged_miss": 6.055418728501961,
+          "switches": 0.0,
+          "final_primary": 1.0,
+          "kill_rate": 0.2222222222222222
+        },
+        "nearest": {
+          "n": 450,
+          "engaged_pk": 0.0886690019397643,
+          "primary_pk": 0.11776779265872378,
+          "decoy_pk": 0.05254785398327738,
+          "median_primary_miss": 12.54406783788733,
+          "median_engaged_miss": 12.509940533265038,
+          "switches": 3.2422222222222223,
+          "final_primary": 0.6755555555555556,
+          "kill_rate": 0.08888888888888889
+        },
+        "bestpk": {
+          "n": 450,
+          "engaged_pk": 0.15513901333757527,
+          "primary_pk": 0.14364233949009403,
+          "decoy_pk": 0.0705265872021045,
+          "median_primary_miss": 11.704851860592084,
+          "median_engaged_miss": 8.158287924444053,
+          "switches": 2.0844444444444443,
+          "final_primary": 0.45111111111111113,
+          "kill_rate": 0.1622222222222222
+        }
+      }
+    }
+  }
+}
